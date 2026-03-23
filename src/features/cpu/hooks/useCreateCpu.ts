@@ -30,4 +30,3 @@ export function useDeleteCpu() {
     onSuccess: () => qc.invalidateQueries({ queryKey: CPU_KEYS.all }),
   });
 }
-
