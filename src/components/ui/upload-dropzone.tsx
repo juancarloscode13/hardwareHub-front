@@ -19,8 +19,6 @@ type UploadDropzoneProps = {
   uploadOverride?: (
     ...args: Parameters<UploadHookControl<true>['upload']>
   ) => void;
-
-  // Add any additional props you need.
 };
 
 export function UploadDropzone({
@@ -50,45 +48,47 @@ export function UploadDropzone({
   return (
     <div
       className={cn(
-        'border-input text-foreground relative rounded-lg border border-dashed transition-colors',
-        {
-          'border-primary/80': isDragActive,
-        }
+        'border-hw-input-border text-hw-title rounded-lg border border-dashed transition-colors duration-200',
+        { 'border-hw-accent': isDragActive }
       )}
+      style={{ position: 'relative' }}
     >
       <label
         {...getRootProps()}
         className={cn(
-          'dark:bg-input/10 flex w-full min-w-72 cursor-pointer flex-col items-center justify-center rounded-lg bg-transparent px-2 py-6 transition-colors',
+          'bg-hw-input flex w-full cursor-pointer flex-col items-center justify-center rounded-lg transition-colors duration-200',
           {
-            'text-muted-foreground cursor-not-allowed': isPending,
-            'hover:bg-accent dark:hover:bg-accent/40': !isPending,
-            'opacity-0': isDragActive,
+            'text-hw-placeholder cursor-not-allowed': isPending,
+            'hover:bg-hw-accent/5': !isPending,
           }
         )}
+        style={{
+          padding: '2rem 1.5rem',
+          opacity: isDragActive ? 0 : 1,
+        }}
         htmlFor={_id || id}
       >
         <div className="my-2">
           {isPending ? (
-            <Loader2 className="size-6 animate-spin" />
+            <Loader2 className="size-6 text-hw-accent animate-spin" />
           ) : (
-            <Upload className="size-6" />
+            <Upload className="size-6 text-hw-accent" />
           )}
         </div>
 
         <div className="mt-3 space-y-1 text-center">
-          <p className="text-sm font-semibold">Drag and drop files here</p>
+          <p className="text-sm font-semibold text-hw-title">Arrastra tu archivo aquí</p>
 
-          <p className="text-muted-foreground max-w-64 text-xs">
+          <p className="text-hw-subtitle max-w-64 text-xs">
             {typeof description === 'string' ? (
               description
             ) : (
               <>
                 {description?.maxFiles &&
-                  `You can upload ${description.maxFiles} file${description.maxFiles !== 1 ? 's' : ''}.`}{' '}
+                  `Puedes subir ${description.maxFiles} archivo${description.maxFiles !== 1 ? 's' : ''}.`}{' '}
                 {description?.maxFileSize &&
-                  `${description.maxFiles !== 1 ? 'Each u' : 'U'}p to ${description.maxFileSize}.`}{' '}
-                {description?.fileTypes && `Accepted ${description.fileTypes}.`}
+                  `${description.maxFiles !== 1 ? 'Cada u' : 'H'}asta ${description.maxFileSize}.`}{' '}
+                {description?.fileTypes && `Formatos: ${description.fileTypes}.`}
               </>
             )}
           </p>
@@ -105,14 +105,23 @@ export function UploadDropzone({
       </label>
 
       {isDragActive && (
-        <div className="pointer-events-none absolute inset-0 rounded-lg">
-          <div className="dark:bg-accent/40 bg-accent flex size-full flex-col items-center justify-center rounded-lg">
-            <div className="my-2">
-              <Upload className="size-6" />
-            </div>
-
-            <p className="mt-3 text-sm font-semibold">Drop files here</p>
-          </div>
+        <div
+          className="pointer-events-none rounded-lg"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundColor: 'var(--hw-accent, rgba(0,255,255,0.1))',
+            opacity: 0.12,
+          }}
+        />
+      )}
+      {isDragActive && (
+        <div
+          className="pointer-events-none rounded-lg flex flex-col items-center justify-center"
+          style={{ position: 'absolute', inset: 0 }}
+        >
+          <Upload className="size-6 text-hw-accent" />
+          <p className="mt-3 text-sm font-semibold text-hw-title">Suelta el archivo aquí</p>
         </div>
       )}
     </div>

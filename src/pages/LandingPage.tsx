@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Cpu } from 'lucide-react';
-import MagnetizeButton from '@/components/magnetize-button.tsx';
+import MagnetizeButton from '@/components/ui/magnetize-button.tsx';
 
 export default function LandingPage() {
   const navigate = useNavigate();

@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import LoginPage from '@/pages/LoginPage';
+import RegisterPage from '@/pages/RegisterPage';
 import LandingPage from '@/pages/LandingPage';
 // import UsersPage from '@/pages/UsersPage';
 export default createBrowserRouter([
@@ -10,6 +11,10 @@ export default createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage />,
+  },
+  {
+    path: '/registro',
+    element: <RegisterPage />,
   },
   {
     path: '*',

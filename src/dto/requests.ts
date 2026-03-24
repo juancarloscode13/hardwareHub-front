@@ -193,3 +193,10 @@ export interface LoginRequestDto {
   password: string;
 }
 
+export interface RegisterRequestDto {
+  nombre: string;
+  email: string;
+  contrasena: string;
+  avatar?: File | null;
+}
+

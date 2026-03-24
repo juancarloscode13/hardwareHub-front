@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { motion, useAnimation } from "motion/react"
 
 import { cn } from "@/lib/utils.ts"
-import { Button } from "@/components/button"
+import { Button } from "@/components/ui/button"
 
 interface MagnetizeButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   particleCount?: number
