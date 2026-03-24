@@ -4,13 +4,14 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, LogIn, X, Loader2 } from 'lucide-react';
 
 import { useLogin } from '@/features/auth/hooks/useAuth.ts';
-import { Button } from '@/components/button.tsx';
-import { Input } from '@/components/input.tsx';
-import { Label } from '@/components/label.tsx';
+import { Button } from '@/components/ui/button.tsx';
+import { Input } from '@/components/ui/input.tsx';
+import { Label } from '@/components/ui/label.tsx';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [submitted, setSubmitted] = useState(false);
   const login = useLogin();
   const navigate = useNavigate();
 
@@ -21,8 +22,14 @@ export default function LoginPage() {
     }
   }, [login.isSuccess, navigate]);
 
+  // Validación reactiva: solo se muestra tras primer submit
+  const emailError = submitted && !email.trim() ? 'El email es obligatorio.' : null;
+  const passwordError = submitted && !password ? 'La contraseña es obligatoria.' : null;
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    setSubmitted(true);
+    if (!email.trim() || !password) return;
     login.mutate({ email, password });
   };
 
@@ -53,7 +60,7 @@ export default function LoginPage() {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-[1.25rem]">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-[1.25rem]" noValidate>
             {/* Email */}
             <div className="flex flex-col gap-[0.5rem]">
               <Label htmlFor="email" className="text-[0.875rem] text-hw-label gap-[0.4rem] transition-colors duration-300">
@@ -68,8 +75,12 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                className="h-[42px] bg-hw-input border-hw-input-border rounded-[8px] text-hw-input-text text-[0.875rem] px-[0.75rem] placeholder:text-hw-placeholder focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 transition-colors duration-300"
+                aria-invalid={!!emailError}
+                className={`h-[42px] bg-hw-input rounded-[8px] text-hw-input-text text-[0.875rem] px-[0.75rem] placeholder:text-hw-placeholder focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 transition-colors duration-300 ${emailError ? 'border-hw-error' : 'border-hw-input-border'}`}
               />
+              {emailError && (
+                <span className="text-hw-error text-[0.75rem]">{emailError}</span>
+              )}
             </div>
 
             {/* Password */}
@@ -86,11 +97,15 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
-                className="h-[42px] bg-hw-input border-hw-input-border rounded-[8px] text-hw-input-text text-[0.875rem] px-[0.75rem] placeholder:text-hw-placeholder focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 transition-colors duration-300"
+                aria-invalid={!!passwordError}
+                className={`h-[42px] bg-hw-input rounded-[8px] text-hw-input-text text-[0.875rem] px-[0.75rem] placeholder:text-hw-placeholder focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 transition-colors duration-300 ${passwordError ? 'border-hw-error' : 'border-hw-input-border'}`}
               />
+              {passwordError && (
+                <span className="text-hw-error text-[0.75rem]">{passwordError}</span>
+              )}
             </div>
 
-            {/* Mensaje de error */}
+            {/* Mensaje de error del servidor */}
             {login.isError && (
               <div className="px-[0.75rem] py-[0.5rem] rounded-[8px] border border-hw-error-border bg-hw-error-bg text-hw-error text-[0.875rem]">
                 Credenciales incorrectas. Inténtalo de nuevo.
