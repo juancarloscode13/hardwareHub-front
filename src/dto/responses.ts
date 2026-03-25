@@ -219,8 +219,7 @@ export interface UsuarioResponseDto {
 
 // ── Auth ──────────────────────────────────────────────────────────────────
 export interface LoginResponseDto {
-  token: string;
-  type: string;
-  email: string;
+  username: string;
+  role: UsuarioRol;
 }
 
