@@ -1,31 +1,62 @@
-import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { api } from './axios';
 
-// ── Request: attach JWT token ─────────────────────────────────────────────
-api.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error: unknown) => Promise.reject(error),
-);
+// ── Refresh-token queue (prevents race conditions) ───────────────────────
+let isRefreshing = false;
+let failedQueue: { resolve: () => void; reject: (err: unknown) => void }[] = [];
 
-// ── Response: centralised error handling ─────────────────────────────────
+function processQueue(error: unknown) {
+  failedQueue.forEach(({ resolve, reject }) => {
+    if (error) reject(error);
+    else resolve();
+  });
+  failedQueue = [];
+}
+
+// ── Paths excluded from automatic retry ──────────────────────────────────
+const EXCLUDED_PATHS = ['/auth/refresh', '/auth/login'];
+
+function isExcludedPath(url: string | undefined): boolean {
+  if (!url) return false;
+  return EXCLUDED_PATHS.some((path) => url.includes(path));
+}
+
+// ── Response interceptor: auto-refresh on 401 ───────────────────────────
 api.interceptors.response.use(
-  (response: AxiosResponse) => response,
-  (error: unknown) => {
+  (response) => response,
+  async (error: AxiosError) => {
+    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+
+    // Only attempt refresh for 401s on non-excluded paths that haven't been retried
     if (
-      typeof error === 'object' &&
-      error !== null &&
-      'response' in error &&
-      (error as { response?: { status?: number } }).response?.status === 401
+      error.response?.status !== 401 ||
+      !originalRequest ||
+      originalRequest._retry ||
+      isExcludedPath(originalRequest.url)
     ) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
+
+    // If a refresh is already in progress, queue this request
+    if (isRefreshing) {
+      return new Promise<void>((resolve, reject) => {
+        failedQueue.push({ resolve, reject });
+      }).then(() => api(originalRequest));
+    }
+
+    originalRequest._retry = true;
+    isRefreshing = true;
+
+    try {
+      await api.post('/auth/refresh');
+      processQueue(null);
+      return api(originalRequest);
+    } catch (refreshError) {
+      processQueue(refreshError);
+      window.location.href = '/login';
+      return Promise.reject(refreshError);
+    } finally {
+      isRefreshing = false;
+    }
   },
 );
