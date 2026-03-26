@@ -223,3 +223,13 @@ export interface LoginResponseDto {
   role: UsuarioRol;
 }
 
+// ── Noticias ──────────────────────────────────────────────────────────────
+export interface NoticiaResponseDto {
+  title:       string;              // Título de la noticia
+  description: string;              // Descripción breve
+  url:         string;              // URL original del artículo (identificador natural único)
+  image:       string;              // URL de la imagen de portada
+  publishedAt: LocalDateTimeString; // ISO 8601
+  sourceName:  string;              // Nombre de la fuente (ej: "Proceso")
+}
+
