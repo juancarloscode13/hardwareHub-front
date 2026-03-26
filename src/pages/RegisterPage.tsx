@@ -14,9 +14,15 @@ interface FormErrors {
   nombre?: string;
   email?: string;
   contrasena?: string;
+  terms?: string;
 }
 
-function validate(nombre: string, email: string, contrasena: string): FormErrors {
+function validate(
+  nombre: string,
+  email: string,
+  contrasena: string,
+  termsAccepted: boolean,
+): FormErrors {
   const errors: FormErrors = {};
   if (!nombre.trim()) errors.nombre = 'El nombre es obligatorio.';
   if (!email.trim()) {
@@ -29,6 +35,7 @@ function validate(nombre: string, email: string, contrasena: string): FormErrors
   } else if (contrasena.length < 6) {
     errors.contrasena = 'Mínimo 6 caracteres.';
   }
+  if (!termsAccepted) errors.terms = 'Debes aceptar los términos y condiciones.';
   return errors;
 }
 
@@ -40,6 +47,7 @@ export default function RegisterPage() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const register = useRegister();
   const navigate = useNavigate();
@@ -52,17 +60,18 @@ export default function RegisterPage() {
   }, [register.isSuccess, navigate]);
 
   // Validación reactiva: solo se muestra tras primer submit
-  const currentErrors = submitted ? validate(nombre, email, contrasena) : {};
+  const currentErrors = submitted ? validate(nombre, email, contrasena, termsAccepted) : {};
 
   const isFormValid =
     nombre.trim() !== '' &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) &&
-    contrasena.length >= 6;
+    contrasena.length >= 6 &&
+    termsAccepted;
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    const errors = validate(nombre, email, contrasena);
+    const errors = validate(nombre, email, contrasena, termsAccepted);
     if (Object.keys(errors).length > 0) return;
 
     register.mutate({
@@ -196,6 +205,32 @@ export default function RegisterPage() {
 
             {/* Divider */}
             <div className="border-t border-hw-divider my-[0.25rem] transition-colors duration-300" />
+
+            {/* Términos y condiciones */}
+            <div className="flex flex-col gap-[0.375rem]">
+              <label className="flex items-start gap-[0.625rem] cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={termsAccepted}
+                  onChange={(e) => setTermsAccepted(e.target.checked)}
+                  className="mt-[0.2rem] w-[16px] h-[16px] shrink-0 rounded-[4px] accent-hw-accent cursor-pointer"
+                />
+                <span className="text-[0.8125rem] text-hw-label leading-relaxed transition-colors duration-300">
+                  Acepto los{' '}
+                  <Link
+                    to="/terminos"
+                    className="text-hw-accent font-semibold underline-offset-2 hover:underline transition-colors duration-300"
+                  >
+                    términos y condiciones del servicio
+                  </Link>
+                </span>
+              </label>
+              {currentErrors.terms && (
+                <span className="text-hw-error text-[0.75rem] pl-[1.625rem]">
+                  {currentErrors.terms}
+                </span>
+              )}
+            </div>
 
             {/* Botón Registrarse */}
             <Button
