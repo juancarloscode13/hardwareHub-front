@@ -1,13 +1,20 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { UserPlus, User, Mail, Lock, Loader2, X } from 'lucide-react';
+import { UserPlus, User, Mail, Lock, Loader2, X, Shield, FileText } from 'lucide-react';
 
 import { useRegister } from '@/features/auth/hooks/useRegister.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { Label } from '@/components/ui/label.tsx';
 import { AvatarUploadDialog } from '@/components/ui/avatar-upload-dialog.tsx';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog.tsx';
+import { TERMS_SECTIONS } from '@/lib/terms-data';
 
 // ── Validaciones ─────────────────────────────────────────────────────────
 interface FormErrors {
@@ -48,6 +55,7 @@ export default function RegisterPage() {
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [termsOpen, setTermsOpen] = useState(false);
 
   const register = useRegister();
   const navigate = useNavigate();
@@ -207,7 +215,8 @@ export default function RegisterPage() {
             <div className="border-t border-hw-divider my-[0.25rem] transition-colors duration-300" />
 
             {/* Términos y condiciones */}
-            <div className="flex flex-col gap-[0.375rem]">
+            <div className="flex flex-col gap-[0.5rem]">
+              {/* Checkbox + label */}
               <label className="flex items-start gap-[0.625rem] cursor-pointer select-none">
                 <input
                   type="checkbox"
@@ -216,21 +225,86 @@ export default function RegisterPage() {
                   className="mt-[0.2rem] w-[16px] h-[16px] shrink-0 rounded-[4px] accent-hw-accent cursor-pointer"
                 />
                 <span className="text-[0.8125rem] text-hw-label leading-relaxed transition-colors duration-300">
-                  Acepto los{' '}
-                  <Link
-                    to="/terminos"
-                    className="text-hw-accent font-semibold underline-offset-2 hover:underline transition-colors duration-300"
-                  >
-                    términos y condiciones del servicio
-                  </Link>
+                  Acepto los términos y condiciones del servicio
                 </span>
               </label>
+
+              {/* Botón leer términos */}
+              <button
+                type="button"
+                onClick={() => setTermsOpen(true)}
+                className="self-start ml-[1.625rem] inline-flex items-center gap-[0.375rem] text-[0.75rem] text-hw-accent border border-hw-accent/30 bg-hw-accent/5 hover:bg-hw-accent/10 hover:border-hw-accent/60 rounded-[6px] px-[0.625rem] py-[0.3rem] transition-colors duration-200 cursor-pointer"
+              >
+                <FileText className="w-[11px] h-[11px]" />
+                Leer política de privacidad
+              </button>
+
               {currentErrors.terms && (
                 <span className="text-hw-error text-[0.75rem] pl-[1.625rem]">
                   {currentErrors.terms}
                 </span>
               )}
             </div>
+
+            {/* Dialog de términos y condiciones */}
+            <Dialog open={termsOpen} onOpenChange={setTermsOpen}>
+              <DialogContent
+                className="w-[min(42rem,calc(100vw-2rem))] max-h-[80vh] flex flex-col p-0 gap-0"
+                showCloseButton={false}
+              >
+                {/* Cabecera fija */}
+                <DialogHeader className="flex-row items-center gap-[0.75rem] px-[1.5rem] pt-[1.25rem] pb-[1rem] border-b border-hw-divider shrink-0">
+                  <div className="inline-flex items-center justify-center w-[36px] h-[36px] rounded-[10px] border border-hw-icon-border bg-hw-icon-bg shrink-0 transition-colors duration-300">
+                    <Shield className="w-[18px] h-[18px] text-hw-accent" />
+                  </div>
+                  <DialogTitle className="text-[1rem] font-bold font-heading text-hw-title">
+                    Política de Privacidad — HardwareHub
+                  </DialogTitle>
+                </DialogHeader>
+
+                {/* Contenido scrollable */}
+                <div className="overflow-y-auto px-[1.5rem] py-[1.25rem] flex flex-col gap-[1.25rem]">
+                  <p className="text-[0.875rem] text-hw-label leading-relaxed">
+                    El responsable del tratamiento de los datos personales recogidos a través de esta
+                    aplicación es el autor del proyecto. A continuación se detallan los términos que
+                    rigen el uso de la plataforma y el tratamiento de tus datos.
+                  </p>
+                  <div className="border-t border-hw-divider" />
+
+                  {TERMS_SECTIONS.map((section) => (
+                    <section key={section.title} className="flex flex-col gap-[0.5rem]">
+                      <h3 className="font-heading text-[0.9375rem] font-semibold text-hw-title">
+                        {section.title}
+                      </h3>
+                      {section.text && (
+                        <p className="text-[0.8125rem] text-hw-label leading-relaxed">{section.text}</p>
+                      )}
+                      {section.items && (
+                        <ul className="flex flex-col gap-[0.25rem]">
+                          {section.items.map((item) => (
+                            <li key={item} className="flex items-start gap-[0.5rem] text-[0.8125rem] text-hw-label leading-relaxed">
+                              <span className="mt-[0.45rem] w-[4px] h-[4px] rounded-full bg-hw-accent shrink-0" />
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </section>
+                  ))}
+                </div>
+
+                {/* Footer */}
+                <div className="shrink-0 border-t border-hw-divider px-[1.5rem] py-[1rem] flex justify-end">
+                  <Button
+                    type="button"
+                    onClick={() => setTermsOpen(false)}
+                    className="bg-hw-accent text-hw-accent-fg font-semibold rounded-[8px] hover:opacity-80 transition-opacity"
+                  >
+                    Entendido
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
 
             {/* Botón Registrarse */}
             <Button
