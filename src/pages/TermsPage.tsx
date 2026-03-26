@@ -16,7 +16,7 @@ const SECTIONS: Section[] = [
     items: [
       'Nombre: Juan Carlos (autor del TFG)',
       'Proyecto: Trabajo de Fin de Grado (TFG)',
-      'Email de contacto: [email de contacto]',
+      'Email de contacto: soporte.hardwarehub@gmail.com',
     ],
   },
   {
@@ -93,7 +93,7 @@ const SECTIONS: Section[] = [
   {
     title: '11. Contacto',
     text: 'Para cualquier duda relacionada con esta política de privacidad:',
-    items: ['Email: [email de contacto]'],
+    items: ['Email: soporte.hardwarehub@gmail.com'],
   },
 ];
 
