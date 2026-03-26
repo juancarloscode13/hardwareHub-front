@@ -3,7 +3,6 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
 import LandingPage from '@/pages/LandingPage';
-import TermsPage from '@/pages/TermsPage';
 import DashboardPage from '@/pages/DashboardPage';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
@@ -66,11 +65,6 @@ export default createBrowserRouter([
         <AdminPage />
       </ProtectedRoute>
     ),
-  },
-  // Pública: términos y condiciones (accesible sin autenticación, abre en nueva pestaña desde registro)
-  {
-    path: '/terminos',
-    element: <TermsPage />,
   },
   {
     path: '*',
