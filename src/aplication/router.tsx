@@ -4,15 +4,10 @@ import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
 import LandingPage from '@/pages/LandingPage';
 import DashboardPage from '@/pages/DashboardPage';
+import AdminPage from '@/pages/AdminPage';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 
-// ── Stub temporal ─────────────────────────────────────────────────────────
-const AdminPage = () => (
-  <div className="flex min-h-screen items-center justify-center bg-hw-page">
-    <p className="font-heading text-2xl text-hw-title">Admin (en construcción)</p>
-  </div>
-);
 
 // ── Guard inverso ─────────────────────────────────────────────────────────
 // Redirige a /dashboard si el usuario ya está autenticado.
