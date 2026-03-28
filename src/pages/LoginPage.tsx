@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, LogIn, X, Loader2 } from 'lucide-react';
@@ -15,13 +15,6 @@ export default function LoginPage() {
   const login = useLogin();
   const navigate = useNavigate();
 
-  // Redirigir tras login exitoso
-  useEffect(() => {
-    if (login.isSuccess) {
-      navigate('/', { replace: true });
-    }
-  }, [login.isSuccess, navigate]);
-
   // Validación reactiva: solo se muestra tras primer submit
   const emailError = submitted && !email.trim() ? 'El email es obligatorio.' : null;
   const passwordError = submitted && !password ? 'La contraseña es obligatoria.' : null;
@@ -30,7 +23,18 @@ export default function LoginPage() {
     e.preventDefault();
     setSubmitted(true);
     if (!email.trim() || !password) return;
-    login.mutate({ email, password });
+
+    // La navegación va en el onSuccess del mutate (call-site), NO en un useEffect.
+    // Motivo: tras login exitoso, invalidateQueries hace que PublicOnlyRoute
+    // desmonte LoginPage (isLoading→true→null) antes de que cualquier
+    // useEffect pueda ejecutarse. El callback onSuccess sí se ejecuta
+    // sincrónicamente con la resolución de la mutación, antes del re-render.
+    login.mutate({ email, password }, {
+      onSuccess: (data) => {
+        if (data.role === 'ROL_ADMIN') navigate('/admin', { replace: true });
+        else navigate('/dashboard', { replace: true });
+      },
+    });
   };
 
   const handleCancel = () => {
