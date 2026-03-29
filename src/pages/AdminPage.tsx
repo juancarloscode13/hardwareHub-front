@@ -5,6 +5,7 @@ import { LogOut, Plus, Pencil, Trash2 } from 'lucide-react';
 import { Button }           from '@/components/ui/button';
 import { AdminTable }       from '@/components/admin/AdminTable';
 import { EntityFormDialog } from '@/components/admin/EntityFormDialog';
+import { ThemeToggle }      from '@/components/ui/theme-toggle';
 import { useLogout }        from '@/features/auth/hooks/useAuth';
 import { useAdminEntity }   from '@/features/admin/useAdminEntity';
 import { entityConfigs }    from '@/features/admin/entityConfig';
@@ -72,21 +73,25 @@ export default function AdminPage() {
       <div className="fixed w-[600px] h-[600px] rounded-full bg-hw-glow blur-[120px] top-0 right-0 pointer-events-none transition-colors duration-300" />
 
       {/* Header */}
-      <header className="relative z-10 flex items-center justify-between px-[2rem] py-[1.25rem] border-b border-hw-divider transition-colors duration-300">
+      <header className="relative z-10 flex items-center px-[2rem] py-[1.25rem] border-b border-hw-divider transition-colors duration-300">
         <span className="font-heading text-[1.125rem] font-bold tracking-[-0.02em] text-hw-title transition-colors duration-300">
           HardwareHub
         </span>
+      </header>
 
+      {/* Botones fixed top-right: [logout] [theme] */}
+      <div className="fixed top-[1rem] right-[1rem] z-50 flex items-center gap-[0.625rem]">
         <Button
           variant="outline"
           onClick={handleLogout}
           disabled={logout.isPending}
-          className="bg-transparent border-hw-muted-border text-hw-muted rounded-[8px] gap-[0.5rem] hover:border-hw-error/40 hover:bg-hw-error-bg hover:text-hw-error transition-colors duration-300 disabled:opacity-50"
+          className="h-[40px] px-[0.875rem] bg-hw-card border-hw-card-border text-hw-muted rounded-[10px] gap-[0.5rem] [box-shadow:var(--hw-card-shadow)] hover:border-hw-error/40 hover:bg-hw-error-bg hover:text-hw-error transition-colors duration-300 disabled:opacity-50 text-sm"
         >
           <LogOut className="w-[15px] h-[15px]" />
-          {logout.isPending ? 'Cerrando sesión…' : 'Cerrar sesión'}
+          {logout.isPending ? 'Cerrando…' : 'Cerrar sesión'}
         </Button>
-      </header>
+        <ThemeToggle fixed={false} />
+      </div>
 
       {/* Main */}
       <main className="relative z-10 max-w-[1200px] mx-auto px-[2rem] py-[2.5rem] flex flex-col gap-[1.75rem]">
@@ -96,7 +101,7 @@ export default function AdminPage() {
             Panel de Control
           </h1>
           <p className="mt-[0.25rem] text-[0.875rem] text-hw-subtitle transition-colors duration-300">
-            Gestiona el catálogo de hardware desde aquí.
+            Gestiona las entidades de la plataforma desde aquí.
           </p>
         </div>
 
@@ -138,33 +143,37 @@ export default function AdminPage() {
 
         {/* Botones de acción */}
         <div className="flex gap-[0.75rem] justify-end">
-          {/* Añadir */}
-          <Button
-            onClick={() => setDialogMode('create')}
-            disabled={!selectedEntity}
-            className="h-[42px] bg-hw-accent text-hw-accent-fg font-semibold rounded-[8px] gap-[0.5rem] transition-colors duration-300 hover:opacity-80 disabled:opacity-40"
-          >
-            <Plus className="w-[16px] h-[16px]" />
-            Añadir
-          </Button>
+          {/* Añadir (solo si la entidad soporta creación) */}
+          {entity.hasCreate && (
+            <Button
+              onClick={() => setDialogMode('create')}
+              disabled={!selectedEntity}
+              className="h-[42px] px-[1rem] bg-hw-accent text-hw-accent-fg font-semibold rounded-[8px] gap-[0.5rem] transition-colors duration-300 hover:opacity-80 disabled:opacity-40"
+            >
+              <Plus className="w-[16px] h-[16px]" />
+              Añadir
+            </Button>
+          )}
 
-          {/* Modificar */}
-          <Button
-            variant="outline"
-            onClick={() => setDialogMode('edit')}
-            disabled={!selectedRowId}
-            className="h-[42px] bg-transparent border-hw-muted-border text-hw-muted rounded-[8px] gap-[0.5rem] transition-colors duration-300 hover:border-hw-accent/40 hover:bg-hw-accent/5 hover:text-hw-title disabled:opacity-40"
-          >
-            <Pencil className="w-[16px] h-[16px]" />
-            Modificar
-          </Button>
+          {/* Modificar (solo si la entidad soporta edición) */}
+          {entity.hasUpdate && (
+            <Button
+              variant="outline"
+              onClick={() => setDialogMode('edit')}
+              disabled={!selectedRowId}
+              className="h-[42px] px-[1rem] bg-transparent border-hw-muted-border text-hw-muted rounded-[8px] gap-[0.5rem] transition-colors duration-300 hover:border-hw-accent/40 hover:bg-hw-accent/5 hover:text-hw-title disabled:opacity-40"
+            >
+              <Pencil className="w-[16px] h-[16px]" />
+              Modificar
+            </Button>
+          )}
 
           {/* Eliminar */}
           <Button
             variant="outline"
             onClick={handleDelete}
             disabled={!selectedRowId || entity.remove.isPending}
-            className="h-[42px] bg-transparent border-hw-muted-border text-hw-muted rounded-[8px] gap-[0.5rem] transition-colors duration-300 hover:border-hw-error/40 hover:bg-hw-error-bg hover:text-hw-error disabled:opacity-40"
+            className="h-[42px] px-[1rem] bg-transparent border-hw-muted-border text-hw-muted rounded-[8px] gap-[0.5rem] transition-colors duration-300 hover:border-hw-error/40 hover:bg-hw-error-bg hover:text-hw-error disabled:opacity-40"
           >
             <Trash2 className="w-[16px] h-[16px]" />
             {entity.remove.isPending ? 'Eliminando…' : 'Eliminar'}
@@ -172,8 +181,8 @@ export default function AdminPage() {
         </div>
       </main>
 
-      {/* Dialog CRUD */}
-      {selectedEntity && dialogMode !== null && (
+      {/* Dialog CRUD (solo para entidades con formulario) */}
+      {selectedEntity && selectedEntity.fields && dialogMode !== null && (
         <EntityFormDialog
           key={`${dialogMode}-${selectedRowId ?? 'new'}`}
           open={true}

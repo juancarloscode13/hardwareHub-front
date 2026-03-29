@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { LogOut, Construction } from 'lucide-react';
 import { Button } from '@/components/ui/button.tsx';
+import { ThemeToggle } from '@/components/ui/theme-toggle.tsx';
 import { useLogout } from '@/features/auth/hooks/useAuth';
 
 export default function DashboardPage() {
@@ -19,21 +20,25 @@ export default function DashboardPage() {
       <div className="fixed w-[600px] h-[600px] rounded-full bg-hw-glow blur-[120px] top-0 right-0 pointer-events-none transition-colors duration-300" />
 
       {/* Header */}
-      <header className="relative z-10 flex items-center justify-between px-[2rem] py-[1.25rem] border-b border-hw-divider transition-colors duration-300">
+      <header className="relative z-10 flex items-center px-[2rem] py-[1.25rem] border-b border-hw-divider transition-colors duration-300">
         <span className="font-heading text-[1.125rem] font-bold tracking-[-0.02em] text-hw-title transition-colors duration-300">
           HardwareHub
         </span>
+      </header>
 
+      {/* Botones fixed top-right: [logout] [theme] */}
+      <div className="fixed top-[1rem] right-[1rem] z-50 flex items-center gap-[0.625rem]">
         <Button
           variant="outline"
           onClick={handleLogout}
           disabled={logout.isPending}
-          className="bg-transparent border-hw-muted-border text-hw-muted rounded-[8px] gap-[0.5rem] hover:border-hw-error/40 hover:bg-hw-error-bg hover:text-hw-error transition-colors duration-300 disabled:opacity-50"
+          className="h-[40px] px-[0.875rem] bg-hw-card border-hw-card-border text-hw-muted rounded-[10px] gap-[0.5rem] [box-shadow:var(--hw-card-shadow)] hover:border-hw-error/40 hover:bg-hw-error-bg hover:text-hw-error transition-colors duration-300 disabled:opacity-50 text-sm"
         >
           <LogOut className="w-[15px] h-[15px]" />
-          {logout.isPending ? 'Cerrando sesión…' : 'Cerrar sesión'}
+          {logout.isPending ? 'Cerrando…' : 'Cerrar sesión'}
         </Button>
-      </header>
+        <ThemeToggle fixed={false} />
+      </div>
 
       {/* Contenido */}
       <main className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-68px)] gap-[1rem]">
@@ -50,4 +55,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-

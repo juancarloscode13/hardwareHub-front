@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { Label } from '@/components/ui/label.tsx';
 import { AvatarUploadDialog } from '@/components/ui/avatar-upload-dialog.tsx';
+import { ThemeToggle } from '@/components/ui/theme-toggle.tsx';
 import {
   Dialog,
   DialogContent,
@@ -106,6 +107,7 @@ export default function RegisterPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-hw-page p-[1rem] relative overflow-hidden transition-colors duration-300">
+      <ThemeToggle />
       {/* Glow */}
       <div className="absolute w-[420px] h-[420px] rounded-full bg-hw-glow blur-[80px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-300" />
 

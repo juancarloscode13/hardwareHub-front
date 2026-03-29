@@ -1,12 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import { Cpu } from 'lucide-react';
 import MagnetizeButton from '@/components/ui/magnetize-button.tsx';
+import { ThemeToggle } from '@/components/ui/theme-toggle.tsx';
 
 export default function LandingPage() {
   const navigate = useNavigate();
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-hw-page px-4 relative overflow-hidden transition-colors duration-300">
+      <ThemeToggle />
       {/* Glow */}
       <div className="absolute w-[600px] h-[600px] rounded-full bg-hw-glow blur-[120px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-300" />
 

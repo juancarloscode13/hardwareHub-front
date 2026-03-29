@@ -1,12 +1,16 @@
 import { almacenamientoApi } from '@/api/endpoints/almacenamiento.api';
 import { cajaApi }            from '@/api/endpoints/caja.api';
+import { comentarioApi }      from '@/api/endpoints/comentario.api';
 import { cpuApi }             from '@/api/endpoints/cpu.api';
 import { fabricanteApi }      from '@/api/endpoints/fabricante.api';
 import { gpuApi }             from '@/api/endpoints/gpu.api';
+import { montajeApi }         from '@/api/endpoints/montaje.api';
 import { placaBaseApi }       from '@/api/endpoints/placa-base.api';
 import { psuApi }             from '@/api/endpoints/psu.api';
+import { publicacionApi }     from '@/api/endpoints/publicacion.api';
 import { ramApi }             from '@/api/endpoints/ram.api';
 import { refrigeracionApi }   from '@/api/endpoints/refrigeracion.api';
+import { usuarioApi }         from '@/api/endpoints/usuario.api';
 import type { PageResponse, PaginationParams } from '@/api/types';
 
 // ── Tipos públicos ─────────────────────────────────────────────────────────
@@ -23,11 +27,11 @@ export interface EntityConfig {
   key:       string;
   label:     string;
   queryFn:   (params?: PaginationParams) => Promise<PageResponse<Record<string, unknown>>>;
-  createFn:  (data: Record<string, unknown>) => Promise<Record<string, unknown>>;
-  updateFn:  (id: number, data: Record<string, unknown>) => Promise<Record<string, unknown>>;
+  createFn?: (data: Record<string, unknown>) => Promise<Record<string, unknown>>;
+  updateFn?: (id: number, data: Record<string, unknown>) => Promise<Record<string, unknown>>;
   deleteFn:  (id: number) => Promise<void>;
   columns:   { key: string; header: string }[];
-  fields:    FieldDef[];
+  fields?:   FieldDef[];
 }
 
 // ── Helper de cast ─────────────────────────────────────────────────────────
@@ -207,6 +211,11 @@ const PLACA_BASE_WIFI_OPTIONS = [
 const REFRIGERACION_TIPO_OPTIONS = [
   { value: 'REFRIGERACION_TIPO_LIQUIDA', label: 'Líquida' },
   { value: 'REFRIGERACION_TIPO_AIRE',    label: 'Aire' },
+];
+
+const USUARIO_ROL_OPTIONS = [
+  { value: 'ROL_USUARIO', label: 'Usuario' },
+  { value: 'ROL_ADMIN',   label: 'Administrador' },
 ];
 
 // ── Configuraciones de entidades ───────────────────────────────────────────
@@ -475,6 +484,82 @@ export const entityConfigs: EntityConfig[] = [
       { name: 'socketCompatible',  label: 'Socket Compatible',   type: 'select', required: true, options: CPU_SOCKET_OPTIONS },
       { name: 'tipo',              label: 'Tipo',                type: 'select', required: true, options: REFRIGERACION_TIPO_OPTIONS },
       { name: 'atributos',         label: 'Atributos (JSON)',     type: 'json',   required: true },
+    ],
+  },
+
+  // ── Usuarios ───────────────────────────────────────────────────────────
+  {
+    key:      'usuarios',
+    label:    'Usuarios',
+    queryFn:  castQuery(usuarioApi.getAll),
+    createFn: castCreate(usuarioApi.create),
+    updateFn: castUpdate(usuarioApi.update),
+    deleteFn: castDelete(usuarioApi.deleteById),
+    columns: [
+      { key: 'id',             header: 'ID' },
+      { key: 'nombre',         header: 'Nombre' },
+      { key: 'email',          header: 'Email' },
+      { key: 'rol',            header: 'Rol' },
+      { key: 'followersCount', header: 'Seguidores' },
+      { key: 'followingCount', header: 'Siguiendo' },
+    ],
+    fields: [
+      { name: 'nombre',     label: 'Nombre',     type: 'text',   required: true },
+      { name: 'email',      label: 'Email',       type: 'text',   required: true },
+      { name: 'contrasena', label: 'Contraseña',  type: 'text',   required: true },
+      { name: 'rol',        label: 'Rol',         type: 'select', required: true, options: USUARIO_ROL_OPTIONS },
+    ],
+  },
+
+  // ── Publicaciones (solo eliminar) ──────────────────────────────────────
+  {
+    key:      'publicaciones',
+    label:    'Publicaciones',
+    queryFn:  castQuery(publicacionApi.getAll),
+    deleteFn: castDelete(publicacionApi.deleteById),
+    columns: [
+      { key: 'id',             header: 'ID' },
+      { key: 'contenidoTexto', header: 'Contenido' },
+      { key: 'montajeId',      header: 'Montaje ID' },
+      { key: 'usuarioId',      header: 'Usuario ID' },
+      { key: 'fecha',          header: 'Fecha' },
+      { key: 'likesCount',     header: 'Likes' },
+    ],
+  },
+
+  // ── Montajes (solo eliminar) ───────────────────────────────────────────
+  {
+    key:      'montajes',
+    label:    'Montajes',
+    queryFn:  castQuery(montajeApi.getAll),
+    deleteFn: castDelete(montajeApi.deleteById),
+    columns: [
+      { key: 'id',                header: 'ID' },
+      { key: 'usuarioId',         header: 'Usuario ID' },
+      { key: 'cpuId',             header: 'CPU ID' },
+      { key: 'gpuId',             header: 'GPU ID' },
+      { key: 'ramId',             header: 'RAM ID' },
+      { key: 'placaBaseId',       header: 'Placa Base ID' },
+      { key: 'psuId',             header: 'PSU ID' },
+      { key: 'cajaId',            header: 'Caja ID' },
+      { key: 'refrigeracionId',   header: 'Refrigeración ID' },
+      { key: 'almacenamientoId',  header: 'Almacenamiento ID' },
+    ],
+  },
+
+  // ── Comentarios (solo eliminar) ────────────────────────────────────────
+  {
+    key:      'comentarios',
+    label:    'Comentarios',
+    queryFn:  castQuery(comentarioApi.getAll),
+    deleteFn: castDelete(comentarioApi.deleteById),
+    columns: [
+      { key: 'id',              header: 'ID' },
+      { key: 'textoContenido',  header: 'Contenido' },
+      { key: 'likes',           header: 'Likes' },
+      { key: 'fecha',           header: 'Fecha' },
+      { key: 'usuarioId',       header: 'Usuario ID' },
+      { key: 'publicacionId',   header: 'Publicación ID' },
     ],
   },
 ];
