@@ -25,7 +25,7 @@ export function useAdminEntity(config: EntityConfig | null) {
   // ── Mutations ──────────────────────────────────────────────────────────
   const create = useMutation<Record<string, unknown>, Error, Record<string, unknown>>({
     mutationFn: (data) => {
-      if (!config) return Promise.reject(new Error('No entity selected'));
+      if (!config?.createFn) return Promise.reject(new Error('Create not supported'));
       return config.createFn(data);
     },
     onSuccess: () => {
@@ -39,7 +39,7 @@ export function useAdminEntity(config: EntityConfig | null) {
     { id: number; data: Record<string, unknown> }
   >({
     mutationFn: ({ id, data }) => {
-      if (!config) return Promise.reject(new Error('No entity selected'));
+      if (!config?.updateFn) return Promise.reject(new Error('Update not supported'));
       return config.updateFn(id, data);
     },
     onSuccess: () => {
@@ -60,6 +60,8 @@ export function useAdminEntity(config: EntityConfig | null) {
   return {
     data:      query.data,
     isLoading: query.isLoading,
+    hasCreate: !!config?.createFn,
+    hasUpdate: !!config?.updateFn,
     create,
     update,
     remove,
