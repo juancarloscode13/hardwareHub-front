@@ -3,8 +3,8 @@ import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 import './index.css'
 import '@/api/interceptors'
-import { AppProviders } from './aplication/providers.tsx'
-import router from './aplication/router.tsx'
+import { AppProviders } from '@/application/providers.tsx'
+import router from '@/application/router.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

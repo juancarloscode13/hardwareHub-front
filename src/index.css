@@ -250,6 +250,20 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
+   LAYOUT FIXES — sidebar + header
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/*
+ * El sidebar container usa position:fixed desde shadcn/ui.
+ * Lo forzamos a empezar siempre debajo del header (68px).
+ * Esta regla gana sobre cualquier clase de Tailwind.
+ */
+[data-slot="sidebar-container"] {
+  top: 68px !important;
+  height: calc(100svh - 68px) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
    GLOBAL BASE STYLES
    ═══════════════════════════════════════════════════════════════════════ */
 #root {
