@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import {
   Cpu,
@@ -11,7 +11,6 @@ import {
 
 import AppSidebar from '@/components/AppSidebar';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,10 +26,7 @@ import { useLogout } from '@/features/auth/hooks/useAuth';
 
 // ── Constantes ────────────────────────────────────────────────────────────
 
-const SIDEBAR_WIDTH_KEY = 'hw-sidebar-width';
-const DEFAULT_WIDTH = 256;
-const MIN_WIDTH = 180;
-const MAX_WIDTH = 400;
+const SIDEBAR_WIDTH = 256;
 
 // ── Helpers ───────────────────────────────────────────────────────────────
 
@@ -41,6 +37,14 @@ function getUserInitials(nombre: string | undefined): string {
   return nombre.slice(0, 2).toUpperCase();
 }
 
+function getAvatarSrc(iconoPerfil: string | null | undefined): string | undefined {
+  if (!iconoPerfil) return undefined;
+  // Si ya es una data-URL completa, úsala tal cual
+  if (iconoPerfil.startsWith('data:')) return iconoPerfil;
+  // Si es base64 puro, añade el prefijo
+  return `data:image/png;base64,${iconoPerfil}`;
+}
+
 // ── Layout ────────────────────────────────────────────────────────────────
 
 export default function DashboardLayout() {
@@ -48,57 +52,7 @@ export default function DashboardLayout() {
   const { user } = useCurrentUser();
   const logout = useLogout();
 
-  // Estado del sidebar
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [sidebarWidth, setSidebarWidth] = useState<number>(() => {
-    const stored = localStorage.getItem(SIDEBAR_WIDTH_KEY);
-    return stored ? Number(stored) : DEFAULT_WIDTH;
-  });
-
-  // Refs para drag-to-resize
-  const sidebarRef = useRef<HTMLElement>(null);
-  const isDragging = useRef(false);
-  const startX = useRef(0);
-  const startWidth = useRef(0);
-
-  const handleResizeStart = useCallback(
-    (e: React.MouseEvent) => {
-      e.preventDefault();
-      const sidebar = sidebarRef.current;
-      if (!sidebar) return;
-
-      startX.current = e.clientX;
-      startWidth.current = sidebarWidth;
-      isDragging.current = true;
-      document.body.style.cursor = 'col-resize';
-      document.body.style.userSelect = 'none';
-
-      function onMouseMove(ev: MouseEvent) {
-        if (!isDragging.current || !sidebar) return;
-        const newW = Math.max(
-          MIN_WIDTH,
-          Math.min(MAX_WIDTH, startWidth.current + (ev.clientX - startX.current)),
-        );
-        // Mutación directa → cero re-renders durante el drag
-        sidebar.style.width = `${newW}px`;
-      }
-
-      function onMouseUp() {
-        isDragging.current = false;
-        document.body.style.cursor = '';
-        document.body.style.userSelect = '';
-        const finalW = sidebar?.offsetWidth ?? sidebarWidth;
-        setSidebarWidth(finalW);
-        localStorage.setItem(SIDEBAR_WIDTH_KEY, String(finalW));
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-      }
-
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
-    },
-    [sidebarWidth],
-  );
 
   const handleLogout = () => {
     logout.mutate(undefined, {
@@ -108,17 +62,14 @@ export default function DashboardLayout() {
 
   const userName = user?.nombre ?? 'Usuario';
   const userEmail = user?.email ?? '';
+  const avatarSrc = getAvatarSrc(user?.iconoPerfil);
 
   return (
-    /*
-     * Contenedor raíz: columna flex que ocupa exactamente el viewport.
-     * NO usa position:fixed — el header y el sidebar viven en flujo normal.
-     */
     <div className="flex h-svh flex-col overflow-hidden bg-hw-page transition-colors duration-300">
       {/* ── Header ─────────────────────────────────────────────────────── */}
-      <header className="relative z-40 flex h-[68px] shrink-0 items-center justify-between border-b border-border/40 bg-hw-page px-6 transition-colors duration-300">
+      <header className="relative z-40 flex h-[68px] shrink-0 items-center justify-between border-b border-border/40 bg-hw-page px-8 transition-colors duration-300">
         {/* Izquierda: marca */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3">
           <Cpu className="w-5 h-5 text-hw-accent shrink-0" />
           <span className="font-heading text-[1.1rem] font-bold tracking-[-0.02em] text-hw-title transition-colors duration-300">
             HardwareHub
@@ -126,18 +77,43 @@ export default function DashboardLayout() {
         </div>
 
         {/* Derecha: avatar + theme toggle */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-5">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
-                className="cursor-pointer rounded-full outline-none focus-visible:ring-2 focus-visible:ring-hw-accent"
                 aria-label="Opciones de usuario"
+                style={{
+                  width: 32,
+                  height: 32,
+                  flexShrink: 0,
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  border: '1px solid var(--hw-card-border)',
+                  background: 'var(--muted)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  outline: 'none',
+                  padding: 0,
+                }}
               >
-                <Avatar size="default">
-                  <AvatarFallback className="text-xs">
+                {avatarSrc ? (
+                  <img
+                    src={avatarSrc}
+                    alt={userName}
+                    style={{
+                      display: 'block',
+                      width: 32,
+                      height: 32,
+                      objectFit: 'cover',
+                    }}
+                  />
+                ) : (
+                  <span style={{ fontSize: 11, color: 'var(--muted-foreground)', lineHeight: 1 }}>
                     {getUserInitials(user?.nombre)}
-                  </AvatarFallback>
-                </Avatar>
+                  </span>
+                )}
               </button>
             </DropdownMenuTrigger>
 
@@ -183,36 +159,22 @@ export default function DashboardLayout() {
       <div className="relative flex flex-1 overflow-hidden">
         {/* Sidebar */}
         <aside
-          ref={sidebarRef}
           className="relative flex shrink-0 flex-col overflow-hidden border-r border-sidebar-border bg-sidebar transition-[width] duration-200 ease-linear"
-          style={{ width: sidebarOpen ? sidebarWidth : 0 }}
+          style={{ width: sidebarOpen ? SIDEBAR_WIDTH : 0 }}
         >
-          {/*
-           * Wrapper interior con ancho fijo: evita que el contenido
-           * se comprima mientras la transición reduce el aside a 0.
-           */}
           <div
             className="flex h-full flex-col overflow-y-auto overflow-x-hidden"
-            style={{ width: sidebarWidth, minWidth: sidebarWidth }}
+            style={{ width: SIDEBAR_WIDTH, minWidth: SIDEBAR_WIDTH }}
           >
             <AppSidebar />
           </div>
-
-          {/* Resize handle */}
-          <div
-            onMouseDown={handleResizeStart}
-            className="absolute inset-y-0 right-0 w-1 cursor-col-resize hover:bg-hw-accent/40 transition-colors z-10"
-          />
         </aside>
 
-        {/* Botón toggle — pegado al borde derecho del sidebar */}
+        {/* Botón toggle — pegado al borde del sidebar, parte inferior */}
         <button
           onClick={() => setSidebarOpen((o) => !o)}
-          className="absolute bottom-5 z-50 flex h-7 w-7 items-center justify-center rounded-md border border-hw-card-border bg-hw-card text-hw-accent shadow-md hover:bg-hw-icon-bg cursor-pointer"
-          style={{
-            left: sidebarOpen ? sidebarWidth - 14 : 0,
-            transition: 'left 200ms ease-linear',
-          }}
+          className="absolute bottom-5 z-50 flex h-7 w-7 items-center justify-center rounded-md border border-hw-card-border bg-hw-card text-hw-accent shadow-md cursor-pointer transition-[left] duration-200 ease-linear hover:border-hw-accent hover:text-hw-accent"
+          style={{ left: sidebarOpen ? SIDEBAR_WIDTH - 14 : 6 }}
           aria-label={sidebarOpen ? 'Minimizar sidebar' : 'Expandir sidebar'}
         >
           {sidebarOpen ? (

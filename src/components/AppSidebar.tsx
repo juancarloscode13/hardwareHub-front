@@ -1,3 +1,4 @@
+import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   MessageSquare,
@@ -23,11 +24,17 @@ const SUPPORT_ITEMS = [
 // ── Clases de nav link ────────────────────────────────────────────────────
 
 const linkBase =
-  'flex items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors';
+  'flex items-center rounded-lg text-sm transition-colors';
 const linkActive =
   'bg-sidebar-accent text-sidebar-accent-foreground font-medium';
 const linkInactive =
   'text-sidebar-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground';
+
+// Estilos inline para garantizar el espaciado independientemente de la caché de Tailwind
+const linkStyle: React.CSSProperties = {
+  gap: '12px',
+  padding: '12px 16px',
+};
 
 // ── Componente ────────────────────────────────────────────────────────────
 
@@ -40,39 +47,43 @@ export default function AppSidebar() {
   }
 
   return (
-    <div className="flex flex-col gap-1 p-2 pt-4">
+    <div style={{ display: 'flex', flexDirection: 'column', padding: '24px 12px 16px', gap: '4px' }}>
       {/* Navegación */}
-      <p className="px-2 py-1 text-xs font-medium text-sidebar-foreground/70">
+      <p style={{ margin: '0 0 8px', padding: '0 8px', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', opacity: 0.4 }}
+         className="text-sidebar-foreground">
         Navegación
       </p>
-      <nav className="flex flex-col gap-0.5">
+      <nav style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
         {NAV_ITEMS.map((item) => (
           <NavLink
             key={item.href}
             to={item.href}
             end={item.href === '/dashboard'}
             className={`${linkBase} ${isActive(item.href) ? linkActive : linkInactive}`}
+            style={linkStyle}
           >
-            <item.icon className="h-4 w-4 shrink-0" />
+            <item.icon className="h-[18px] w-[18px] shrink-0" />
             <span className="truncate">{item.label}</span>
           </NavLink>
         ))}
       </nav>
 
-      <div className="my-2 h-px bg-sidebar-border" />
+      <div style={{ margin: '16px 0', height: '1px' }} className="bg-sidebar-border" />
 
       {/* Soporte */}
-      <p className="px-2 py-1 text-xs font-medium text-sidebar-foreground/70">
+      <p style={{ margin: '0 0 8px', padding: '0 8px', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', opacity: 0.4 }}
+         className="text-sidebar-foreground">
         Soporte
       </p>
-      <nav className="flex flex-col gap-0.5">
+      <nav style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
         {SUPPORT_ITEMS.map((item) => (
           <NavLink
             key={item.href}
             to={item.href}
             className={`${linkBase} ${isActive(item.href) ? linkActive : linkInactive}`}
+            style={linkStyle}
           >
-            <item.icon className="h-4 w-4 shrink-0" />
+            <item.icon className="h-[18px] w-[18px] shrink-0" />
             <span className="truncate">{item.label}</span>
           </NavLink>
         ))}
