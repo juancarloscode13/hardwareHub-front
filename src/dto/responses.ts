@@ -215,6 +215,7 @@ export interface UsuarioResponseDto {
   rol: UsuarioRol;
   followersCount: number;
   followingCount: number;
+  iconoPerfil?: string | null;
 }
 
 // ── Auth ──────────────────────────────────────────────────────────────────
