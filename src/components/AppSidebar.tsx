@@ -49,7 +49,7 @@ export default function AppSidebar() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', padding: '24px 12px 16px', gap: '4px' }}>
       {/* Navegación */}
-      <p style={{ margin: '0 0 8px', padding: '0 8px', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', opacity: 0.4 }}
+      <p style={{ margin: '0 0 1rem', padding: '0 1rem', fontSize: '15px', fontWeight: 600, letterSpacing: '0.1rem', textTransform: 'uppercase', opacity: 0.8 }}
          className="text-sidebar-foreground">
         Navegación
       </p>
@@ -71,7 +71,7 @@ export default function AppSidebar() {
       <div style={{ margin: '16px 0', height: '1px' }} className="bg-sidebar-border" />
 
       {/* Soporte */}
-      <p style={{ margin: '0 0 8px', padding: '0 8px', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', opacity: 0.4 }}
+      <p style={{ margin: '0 0 1rem', padding: '0 1rem', fontSize: '15px', fontWeight: 600, letterSpacing: '0.1rem', textTransform: 'uppercase', opacity: 0.8 }}
          className="text-sidebar-foreground">
         Soporte
       </p>
