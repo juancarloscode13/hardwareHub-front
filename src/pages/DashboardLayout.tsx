@@ -67,7 +67,7 @@ export default function DashboardLayout() {
   return (
     <div className="flex h-svh flex-col overflow-hidden bg-hw-page transition-colors duration-300">
       {/* ── Header ─────────────────────────────────────────────────────── */}
-      <header className="relative z-40 flex h-[68px] shrink-0 items-center justify-between border-b border-border/40 bg-hw-page px-8 transition-colors duration-300">
+      <header data-slot="app-header" className="relative z-40 flex h-[68px] shrink-0 items-center justify-between border-b border-border/40 bg-hw-page px-8 transition-colors duration-300">
         {/* Izquierda: marca */}
         <div className="flex items-center gap-3">
           <Cpu className="w-5 h-5 text-hw-accent shrink-0" />
@@ -77,7 +77,7 @@ export default function DashboardLayout() {
         </div>
 
         {/* Derecha: avatar + theme toggle */}
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-8">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
@@ -118,7 +118,7 @@ export default function DashboardLayout() {
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel className="flex flex-col gap-0.5">
+              <DropdownMenuLabel className="flex flex-col gap-1">
                 <span className="text-sm font-semibold truncate">{userName}</span>
                 <span className="text-xs text-muted-foreground truncate">{userEmail}</span>
               </DropdownMenuLabel>
@@ -174,7 +174,7 @@ export default function DashboardLayout() {
         <button
           onClick={() => setSidebarOpen((o) => !o)}
           className="absolute bottom-5 z-50 flex h-7 w-7 items-center justify-center rounded-md border border-hw-card-border bg-hw-card text-hw-accent shadow-md cursor-pointer transition-[left] duration-200 ease-linear hover:border-hw-accent hover:text-hw-accent"
-          style={{ left: sidebarOpen ? SIDEBAR_WIDTH - 14 : 6 }}
+          style={{ left: sidebarOpen ? SIDEBAR_WIDTH - 20 : 8 }}
           aria-label={sidebarOpen ? 'Minimizar sidebar' : 'Expandir sidebar'}
         >
           {sidebarOpen ? (
@@ -188,7 +188,10 @@ export default function DashboardLayout() {
         <main className="relative flex-1 overflow-auto bg-hw-page transition-colors duration-300">
           {/* Glow decorativo */}
           <div className="pointer-events-none fixed right-0 top-0 h-[600px] w-[600px] rounded-full bg-hw-glow blur-[120px] transition-colors duration-300" />
-          <div className="relative z-10">
+          <div
+            className="relative z-10 w-full"
+            style={{ maxWidth: 1680, margin: '0 auto', padding: '24px 28px 32px' }}
+          >
             <Outlet />
           </div>
         </main>

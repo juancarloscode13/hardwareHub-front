@@ -181,6 +181,13 @@
    TAILWIND THEME — map CSS vars → Tailwind tokens
    ═══════════════════════════════════════════════════════════════════════ */
 @theme inline {
+  /* ── Breakpoints (Tailwind v4 defaults — necesarios para sm:, md:, lg:…) ── */
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
+
   --font-sans: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
   --font-heading: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
@@ -319,3 +326,45 @@ body {
     background: var(--code-bg);
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HEADER — Espaciado
+   ═══════════════════════════════════════════════════════════════════════ */
+
+[data-slot="app-header"] {
+  padding-left: 48px !important;
+  padding-right: 48px !important;
+}
+
+/* Grupo izquierdo: icono + texto "HardwareHub" */
+[data-slot="app-header"] > div:first-child {
+  gap: 10px !important;
+}
+
+/* Grupo derecho: avatar + theme toggle */
+[data-slot="app-header"] > div:last-child {
+  gap: 24px !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DROPDOWN MENU — Espaciado
+   ═══════════════════════════════════════════════════════════════════════ */
+
+[data-slot="dropdown-menu-content"] {
+  padding: 8px !important;
+}
+
+[data-slot="dropdown-menu-label"] {
+  padding: 8px 12px !important;
+}
+
+[data-slot="dropdown-menu-item"] {
+  padding: 8px 12px !important;
+  gap: 10px !important;
+}
+
+[data-slot="dropdown-menu-separator"] {
+  margin-top: 6px !important;
+  margin-bottom: 6px !important;
+}
+
