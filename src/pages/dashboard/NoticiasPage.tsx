@@ -1,6 +1,6 @@
 import { Newspaper, AlertCircle } from 'lucide-react';
 import { useNoticias } from '@/features/noticias/hooks/useNoticias';
-import NewsGrid, { NewsGridSkeleton } from '@/components/NewsGrid';
+import NewsGrid, { NewsGridSkeleton } from '@/components/ui/NewsGrid';
 
 export default function NoticiasPage() {
   const { data: noticias, isLoading, isError } = useNoticias();
@@ -15,9 +15,6 @@ export default function NoticiasPage() {
     >
       {/* ── Cabecera ─────────────────────────────────────────────────── */}
       <div className="flex items-center gap-3 pr-2">
-        <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-hw-icon-border bg-hw-icon-bg">
-          <Newspaper className="w-5 h-5 text-hw-accent" />
-        </div>
         <div>
           <h1 className="font-heading text-xl font-bold tracking-tight text-hw-title sm:text-2xl">
             Noticias

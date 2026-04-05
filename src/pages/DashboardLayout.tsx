@@ -9,7 +9,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 
-import AppSidebar from '@/components/AppSidebar';
+import AppSidebar from '@/components/ui/AppSidebar';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import {
   DropdownMenu,
@@ -126,7 +126,7 @@ export default function DashboardLayout() {
               <DropdownMenuGroup>
                 <DropdownMenuItem
                   className="cursor-pointer"
-                  onClick={() => navigate('/dashboard/perfil')}
+                  onClick={() => navigate(`/dashboard/usuario/${user?.id}`)}
                 >
                   <User className="w-4 h-4" />
                   Ver perfil

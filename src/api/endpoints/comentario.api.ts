@@ -19,6 +19,10 @@ export const comentarioApi = {
 
   deleteById: (id: number) =>
     api.delete<void>(`${BASE}/${id}`).then(({ data }) => data),
+
+  // ── By Publicacion (dynamic filter) ───────────────────────────────────
+  getByPublicacionId: (publicacionId: number, params?: PaginationParams) =>
+    api.get<PageResponse<ComentarioResponseDto>>(BASE, {
+      params: { ...params, filter: `publicacionId==${publicacionId}`, sort: 'fecha:desc' },
+    }).then(({ data }) => data),
 };
-
-

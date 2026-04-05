@@ -22,8 +22,9 @@ export default function NewsCard({ news }: NewsCardProps) {
       className="group block min-w-0 overflow-hidden rounded-2xl ring-1 ring-hw-card-border bg-hw-card cursor-pointer
                  transition-all duration-300 ease-out hover:shadow-[0_8px_40px_rgba(0,255,255,0.12)] hover:scale-[1.02]
                  hover:ring-hw-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hw-accent"
+      style={{ margin: 10 }}
     >
-      <div className="relative overflow-hidden" style={{ height: 220 }}>
+      <div className="relative overflow-hidden" style={{ height: 220}}>
         <img
           src={imgSrc}
           alt={news.title}
@@ -47,7 +48,10 @@ export default function NewsCard({ news }: NewsCardProps) {
 
       </div>
 
-      <div className="flex flex-col gap-3.5 px-6 pb-6 pt-5">
+      <div
+        className="flex flex-col gap-4"
+        style={{ paddingTop: 20, paddingRight: 24, paddingBottom: 24, paddingLeft: 24, boxSizing: 'border-box' }}
+      >
         <h3 className="line-clamp-2 font-heading text-[0.9rem] font-semibold leading-snug text-hw-title">
           {news.title}
         </h3>

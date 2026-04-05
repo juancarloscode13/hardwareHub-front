@@ -23,3 +23,10 @@ export function useComentario(id: number) {
   });
 }
 
+export function useComentariosByPublicacion(publicacionId: number) {
+  return useQuery({
+    queryKey: [...COMENTARIO_KEYS.all, 'byPublicacion', publicacionId] as const,
+    queryFn: () => comentarioApi.getByPublicacionId(publicacionId),
+    enabled: publicacionId > 0,
+  });
+}
