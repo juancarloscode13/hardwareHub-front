@@ -6,19 +6,22 @@ import {
   Newspaper,
   GraduationCap,
   HelpCircle,
+    PcCaseIcon
 } from 'lucide-react';
 
 // ── Nav items ─────────────────────────────────────────────────────────────
 
 const NAV_ITEMS = [
-  { label: 'Foro',     href: '/dashboard',           icon: MessageSquare },
-  { label: 'Comparar', href: '/dashboard/comparar',  icon: GitCompare },
-  { label: 'Noticias', href: '/dashboard/noticias',  icon: Newspaper },
-  { label: 'Aprender', href: '/dashboard/aprender',  icon: GraduationCap },
+    {label: 'Foro', href: '/dashboard', icon: MessageSquare},
+    {label: 'Montajes', href: '/dashboard/montajes', icon: PcCaseIcon},
+    {label: 'Comparar', href: '/dashboard/comparar', icon: GitCompare},
+    {label: 'Noticias', href: '/dashboard/noticias', icon: Newspaper},
+
 ] as const;
 
 const SUPPORT_ITEMS = [
-  { label: 'Ayuda', href: '/dashboard/ayuda', icon: HelpCircle },
+    {label: 'Ayuda', href: '/dashboard/ayuda', icon: HelpCircle},
+    {label: 'Aprender', href: '/dashboard/aprender', icon: GraduationCap},
 ] as const;
 
 // ── Clases de nav link ────────────────────────────────────────────────────

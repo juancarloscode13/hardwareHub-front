@@ -32,3 +32,23 @@ export function useReaccionesPublicacion(id: number) {
   });
 }
 
+export function usePublicacionesByUsuario(usuarioId: number) {
+  return useQuery({
+    queryKey: [...PUBLICACION_KEYS.all, 'byUsuario', usuarioId] as const,
+    queryFn: () => publicacionApi.getByUsuarioId(usuarioId),
+    enabled: usuarioId > 0,
+  });
+}
+
+export function usePublicacionesByTexto(texto: string) {
+  return useQuery({
+    queryKey: [...PUBLICACION_KEYS.all, 'byTexto', texto] as const,
+    queryFn: () =>
+      publicacionApi.getAll({
+        filter: `contenidoTexto=ilike=*${texto}*`,
+        sort: 'fecha:desc',
+        size: 50,
+      }),
+    enabled: texto.trim().length > 0,
+  });
+}

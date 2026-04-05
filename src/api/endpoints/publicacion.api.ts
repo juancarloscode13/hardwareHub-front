@@ -34,6 +34,10 @@ export const publicacionApi = {
 
   getReacciones: (id: number) =>
     api.get<ReaccionConteoDto>(`${BASE}/${id}/reacciones`).then(({ data }) => data),
+
+  // ── By User (dynamic filter) ──────────────────────────────────────────
+  getByUsuarioId: (usuarioId: number, params?: PaginationParams) =>
+    api.get<PageResponse<PublicacionResponseDto>>(BASE, {
+      params: { ...params, filter: `usuarioId==${usuarioId}`, sort: 'fecha:desc' },
+    }).then(({ data }) => data),
 };
-
-

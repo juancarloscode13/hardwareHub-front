@@ -15,6 +15,7 @@ import AyudaPage from '@/pages/dashboard/AyudaPage';
 import CompararPage from '@/pages/dashboard/CompararPage';
 import NoticiasPage from '@/pages/dashboard/NoticiasPage';
 import AprenderPage from '@/pages/dashboard/AprenderPage';
+import UsuarioDetallePage from '@/pages/dashboard/UsuarioDetallePage';
 
 
 // ── Guard inverso ─────────────────────────────────────────────────────────
@@ -66,6 +67,7 @@ export default createBrowserRouter([
       { path: 'comparar',     element: <CompararPage /> },
       { path: 'noticias',     element: <NoticiasPage /> },
       { path: 'aprender',     element: <AprenderPage /> },
+      { path: 'usuario/:id',  element: <UsuarioDetallePage /> },
     ],
   },
   // Protegida: solo ROL_ADMIN
