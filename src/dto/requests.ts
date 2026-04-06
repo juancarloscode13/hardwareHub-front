@@ -60,7 +60,7 @@ export interface ComentarioRequestDto {
   textoContenido: string;
   likes: number;
   usuarioId: number;
-  comentarioId: number;
+  comentarioId: number | null;
   publicacionId: number;
 }
 
@@ -149,8 +149,8 @@ export interface PsuRequestDto {
 
 export interface PublicacionRequestDto {
   contenidoTexto: string;
-  multimedia: ByteArrayBase64;
-  montajeId: number;
+  multimedia: ByteArrayBase64 | null;
+  montajeId: number | null;
   usuarioId: number;
 }
 

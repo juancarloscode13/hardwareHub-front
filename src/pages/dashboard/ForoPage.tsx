@@ -30,6 +30,10 @@ function avatarSrc(iconoPerfil: string | null | undefined): string | undefined {
   return `data:image/png;base64,${iconoPerfil}`;
 }
 
+function sanitizeDslValue(value: string): string {
+  return value.trim().replace(/[;~]/g, ' ');
+}
+
 // ── UsuarioSearchCard (inline) ────────────────────────────────────────────
 
 function UsuarioSearchCard({ usuario }: { usuario: UsuarioResponseDto }) {
@@ -150,7 +154,7 @@ export default function ForoPage() {
 
   const { data: usersData, isLoading: usersLoading, isError: usersError } = useUsuarios(
     searchMode === 'usuarios' && activeQuery.trim().length > 0
-      ? { filter: `nombre=ilike=*${activeQuery}*`, size: 50 }
+      ? { filter: `nombre~${sanitizeDslValue(activeQuery)}`, size: 50 }
       : undefined,
   );
 

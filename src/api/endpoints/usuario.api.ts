@@ -4,6 +4,15 @@ import type { UsuarioRequestDto, UsuarioResponseDto } from '@/dto';
 
 const BASE = '/api/usuarios';
 
+/** Payload parcial para actualizar perfil propio (nombre + avatar opcionales) */
+export interface UpdateProfilePayload {
+  nombre: string;
+  email: string;
+  contrasena: string;
+  rol: string;
+  iconoPerfil?: string | null; // base64 puro (sin prefijo data:…)
+}
+
 export const usuarioApi = {
   getAll: (params?: PaginationParams) =>
     api.get<PageResponse<UsuarioResponseDto>>(BASE, { params }).then(({ data }) => data),
@@ -15,6 +24,10 @@ export const usuarioApi = {
     api.post<UsuarioResponseDto>(BASE, data).then(({ data }) => data),
 
   update: (id: number, data: UsuarioRequestDto) =>
+    api.put<UsuarioResponseDto>(`${BASE}/${id}`, data).then(({ data }) => data),
+
+  /** PUT que incluye iconoPerfil para actualizar perfil propio */
+  updateProfile: (id: number, data: UpdateProfilePayload) =>
     api.put<UsuarioResponseDto>(`${BASE}/${id}`, data).then(({ data }) => data),
 
   deleteById: (id: number) =>

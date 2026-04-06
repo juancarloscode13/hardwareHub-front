@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { usuarioApi } from '@/api/endpoints/usuario.api';
+import { usuarioApi, type UpdateProfilePayload } from '@/api/endpoints/usuario.api';
 import type { UsuarioRequestDto } from '@/dto';
 import { USUARIO_KEYS } from './useUsuario';
+import { AUTH_KEYS } from '@/features/auth/hooks/useAuth';
 
 export function useCreateUsuario() {
   const qc = useQueryClient();
@@ -57,6 +58,22 @@ export function useUnfollowUsuario() {
       void qc.invalidateQueries({ queryKey: USUARIO_KEYS.detail(targetId) });
       void qc.invalidateQueries({ queryKey: USUARIO_KEYS.followers(targetId) });
       void qc.invalidateQueries({ queryKey: USUARIO_KEYS.following(id) });
+    },
+  });
+}
+
+// ── Profile update ────────────────────────────────────────────────────────
+
+export function useUpdateProfile() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, data }: { id: number; data: UpdateProfilePayload }) =>
+      usuarioApi.updateProfile(id, data),
+    onSuccess: (_res, { id }) => {
+      // Refresca la info del usuario actual (header, sidebar, etc.)
+      void qc.invalidateQueries({ queryKey: AUTH_KEYS.me });
+      void qc.invalidateQueries({ queryKey: USUARIO_KEYS.detail(id) });
+      void qc.invalidateQueries({ queryKey: USUARIO_KEYS.all });
     },
   });
 }

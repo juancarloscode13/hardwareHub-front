@@ -2,6 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import { publicacionApi } from '@/api/endpoints/publicacion.api';
 import type { PaginationParams } from '@/api/types';
 
+function sanitizeDslValue(value: string): string {
+  return value.trim().replace(/[;~]/g, ' ');
+}
+
 export const PUBLICACION_KEYS = {
   all: ['publicaciones'] as const,
   list: (params?: PaginationParams) => [...PUBLICACION_KEYS.all, 'list', params] as const,
@@ -45,7 +49,7 @@ export function usePublicacionesByTexto(texto: string) {
     queryKey: [...PUBLICACION_KEYS.all, 'byTexto', texto] as const,
     queryFn: () =>
       publicacionApi.getAll({
-        filter: `contenidoTexto=ilike=*${texto}*`,
+        filter: `contenidoTexto~${sanitizeDslValue(texto)}`,
         sort: 'fecha:desc',
         size: 50,
       }),

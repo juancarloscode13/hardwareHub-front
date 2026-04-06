@@ -93,6 +93,7 @@ export default function ReactionDropdown(props: ReactionDropdownProps) {
       <DropdownMenuContent
         align="start"
         sideOffset={6}
+        className="w-auto! min-w-max! overflow-visible"
         style={{ display: 'flex', gap: 0, padding: '6px 4px', minWidth: 'auto' }}
       >
         {REACTIONS.map(({ tipo, icon: Icon }) => {

@@ -28,6 +28,7 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
 
   const [contenidoTexto, setContenidoTexto] = useState('');
   const [multimedia, setMultimedia] = useState('');
+  const [multimediaMime, setMultimediaMime] = useState('image/jpeg');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // ── Handlers ──────────────────────────────────────────────────────────
@@ -36,24 +37,48 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
     const file = e.target.files?.[0];
     if (!file) return;
 
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+    const fileExtension = file.name.split('.').pop()?.toLowerCase();
+    if (!fileExtension || !allowedExtensions.includes(fileExtension)) {
+      toast.error('Extensión no permitida. Usa: .jpg, .jpeg, .png, .webp o .gif.');
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      toast.error('Solo se permiten archivos de imagen.');
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+
+    const maxBytes = 16 * 1024 * 1024;
+    if (file.size > maxBytes) {
+      toast.error('La imagen debe pesar menos de 16MB.');
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result as string;
       // Quitar el prefijo "data:...;base64,"
       const base64 = result.split(',')[1] ?? '';
       setMultimedia(base64);
+      setMultimediaMime(file.type || 'image/jpeg');
     };
     reader.readAsDataURL(file);
   };
 
   const clearImage = () => {
     setMultimedia('');
+    setMultimediaMime('image/jpeg');
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const resetForm = () => {
     setContenidoTexto('');
     setMultimedia('');
+    setMultimediaMime('image/jpeg');
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
@@ -64,8 +89,8 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
     createMutation.mutate(
       {
         contenidoTexto,
-        multimedia,
-        montajeId: 0,
+          multimedia: multimedia || null,
+          montajeId: null,
         usuarioId: user.id,
       },
       {
@@ -110,7 +135,7 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
           {multimedia && (
             <div style={{ position: 'relative', display: 'inline-block' }}>
               <img
-                src={`data:image/jpeg;base64,${multimedia}`}
+                src={`data:${multimediaMime};base64,${multimedia}`}
                 alt="Preview"
                 style={{ maxHeight: 200, objectFit: 'cover', borderRadius: 8, width: '100%' }}
               />

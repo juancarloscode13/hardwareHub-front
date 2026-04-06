@@ -6,7 +6,8 @@ import {
   Newspaper,
   GraduationCap,
   HelpCircle,
-    PcCaseIcon
+  PcCaseIcon,
+  Mail,
 } from 'lucide-react';
 
 // ── Nav items ─────────────────────────────────────────────────────────────
@@ -16,7 +17,7 @@ const NAV_ITEMS = [
     {label: 'Montajes', href: '/dashboard/montajes', icon: PcCaseIcon},
     {label: 'Comparar', href: '/dashboard/comparar', icon: GitCompare},
     {label: 'Noticias', href: '/dashboard/noticias', icon: Newspaper},
-
+    {label: 'Mensajes', href: '/dashboard/mensajes', icon: Mail},
 ] as const;
 
 const SUPPORT_ITEMS = [

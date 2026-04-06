@@ -288,6 +288,8 @@ body {
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
+    line-height: 1.5;
+    letter-spacing: normal;
   }
   html {
     @apply font-sans;
