@@ -1,11 +1,12 @@
-import { useParams } from 'react-router-dom';
-import { User, AlertCircle, FileText, Users } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { User, AlertCircle, FileText, Users, MessageSquare } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 import { useUsuario, useFollowers } from '@/features/usuario/hooks/useUsuario';
 import { useFollowUsuario, useUnfollowUsuario } from '@/features/usuario/hooks/useCreateUsuario';
+import { useCreateConversation } from '@/features/chat/hooks/useConversations';
 import { usePublicacionesByUsuario } from '@/features/publicacion/hooks/usePublicacion';
 import PublicacionCard from '@/components/publicacion/PublicacionCard';
 
@@ -53,6 +54,7 @@ function StatChip({ label, value }: { label: string; value: number | undefined }
 
 export default function UsuarioDetallePage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const usuarioId = Number(id);
 
   const { user: currentUser } = useCurrentUser();
@@ -62,6 +64,7 @@ export default function UsuarioDetallePage() {
 
   const followMutation = useFollowUsuario();
   const unfollowMutation = useUnfollowUsuario();
+  const createConversation = useCreateConversation();
 
   const isSelf = currentUser?.id === usuarioId;
   const isFollowing = followers?.some((f) => f.id === currentUser?.id) ?? false;
@@ -76,6 +79,14 @@ export default function UsuarioDetallePage() {
   const handleUnfollow = () => {
     if (!currentUser) return;
     unfollowMutation.mutate({ id: currentUser.id, targetId: usuarioId });
+  };
+
+  const handleChat = () => {
+    createConversation.mutate(usuarioId, {
+      onSuccess: (conv) => {
+        navigate('/dashboard/mensajes', { state: { initialConversation: conv } });
+      },
+    });
   };
 
   // ── Error state ─────────────────────────────────────────────────────────
@@ -156,9 +167,11 @@ export default function UsuarioDetallePage() {
                 >
                   {usuario?.nombre}
                 </h2>
-                <p className="text-hw-subtitle" style={{ fontSize: '0.8rem', margin: '2px 0 0' }}>
-                  {usuario?.email}
-                </p>
+                {isSelf && (
+                  <p className="text-hw-subtitle" style={{ fontSize: '0.8rem', margin: '2px 0 0' }}>
+                    {usuario?.email}
+                  </p>
+                )}
               </div>
 
               {/* Stats */}
@@ -168,9 +181,9 @@ export default function UsuarioDetallePage() {
                 <StatChip label="Publicaciones" value={pubsList.length} />
               </div>
 
-              {/* Follow / Unfollow */}
+              {/* Follow / Unfollow + Chat */}
               {!isSelf && currentUser && (
-                <div style={{ marginTop: 4 }}>
+                <div style={{ marginTop: 4, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   {isFollowing ? (
                     <Button
                       variant="outline"
@@ -198,6 +211,22 @@ export default function UsuarioDetallePage() {
                       Seguir
                     </Button>
                   )}
+
+                  <Button
+                    variant="outline"
+                    onClick={handleChat}
+                    disabled={createConversation.isPending}
+                    className="cursor-pointer"
+                    style={{
+                      fontSize: '0.8rem',
+                      padding: '8px 20px',
+                      borderRadius: 10,
+                      borderColor: 'var(--hw-card-border)',
+                    }}
+                  >
+                    <MessageSquare className="h-4 w-4" style={{ marginRight: 6 }} />
+                    Mensaje
+                  </Button>
                 </div>
               )}
             </>

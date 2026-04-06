@@ -24,7 +24,7 @@ export default function CommentInput({ publicacionId, onSent }: CommentInputProp
         publicacionId,
         usuarioId: user.id,
         likes: 0,
-        comentarioId: 0,
+        comentarioId: null,
       },
       {
         onSuccess: () => {

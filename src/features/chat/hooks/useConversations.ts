@@ -1,0 +1,43 @@
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import { chatApi } from '@/api/endpoints/chat.api';
+
+// ── Query keys ──────────────────────────────────────────────────────────────
+
+export const CONVERSATION_KEYS = {
+  all: ['conversations'] as const,
+  list: () => [...CONVERSATION_KEYS.all, 'list'] as const,
+};
+
+// ── useConversations ────────────────────────────────────────────────────────
+
+export function useConversations() {
+  return useQuery({
+    queryKey: CONVERSATION_KEYS.list(),
+    queryFn: () => chatApi.getConversations(),
+  });
+}
+
+// ── useCreateConversation ───────────────────────────────────────────────────
+
+export function useCreateConversation() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (targetUserId: number) => chatApi.createConversation(targetUserId),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: CONVERSATION_KEYS.all });
+    },
+  });
+}
+
+// ── useMarkAsRead ───────────────────────────────────────────────────────────
+
+export function useMarkAsRead() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (conversationId: number) => chatApi.markAsRead(conversationId),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: CONVERSATION_KEYS.all });
+    },
+  });
+}
+

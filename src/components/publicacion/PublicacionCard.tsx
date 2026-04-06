@@ -106,6 +106,7 @@ export default function PublicacionCard({ publicacion, autor }: PublicacionCardP
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingTop: 4 }}>
         <ReactionDropdown
           publicacionId={publicacion.id}
+          autorId={publicacion.usuarioId}
           likesCount={publicacion.likesCount}
           dislikesCount={publicacion.dislikesCount}
           loveCount={publicacion.loveCount}
