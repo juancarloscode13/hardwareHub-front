@@ -44,7 +44,8 @@ export default function MessageInput({ onSend, disabled = false }: MessageInputP
             'h-10 w-10 shrink-0 rounded-full bg-hw-accent text-hw-accent-fg shadow-sm transition-all duration-200 ease-out hover:scale-105 hover:bg-hw-accent/90 active:scale-95',
             !hasText && 'opacity-75'
           )}
-          style={{ marginLeft: '12px' }}
+          // Forzamos un pequeño margen a la derecha para separar el botón del borde del layout
+          style={{ marginLeft: '12px', marginRight: '10px' }}
           aria-label="Enviar mensaje"
         >
           <SendHorizontal className="h-4 w-4" />

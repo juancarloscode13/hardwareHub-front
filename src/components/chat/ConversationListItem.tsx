@@ -64,6 +64,19 @@ export default function ConversationListItem({
     </Avatar>
   );
 
+  // Avatar específico para la vista colapsada: forzamos marginLeft inline
+  const avatarCollapsed = (
+    <Avatar size="default" className="shrink-0" style={{ marginLeft: '8px' }}>
+      {avatarSrc(conversation.otherUserIconoPerfil) ? (
+        <AvatarImage
+          src={avatarSrc(conversation.otherUserIconoPerfil)!}
+          alt={conversation.otherUserNombre}
+        />
+      ) : null}
+      <AvatarFallback>{getInitials(conversation.otherUserNombre)}</AvatarFallback>
+    </Avatar>
+  );
+
   /* ── Vista colapsada: solo avatar con tooltip ─────────────────────── */
   if (collapsed) {
     return (
@@ -73,13 +86,16 @@ export default function ConversationListItem({
             <button
               onClick={onClick}
               className={cn(
-                'relative flex w-full items-center justify-center rounded-xl p-2 transition-colors cursor-pointer',
+                // Cambiamos a justify-start para controlar el espaciado interno desde la izquierda
+                'relative flex w-full items-center justify-start rounded-xl p-2 transition-colors cursor-pointer',
                 isActive
                   ? 'bg-(--hw-accent)/10 ring-1 ring-(--hw-accent)/30'
                   : 'hover:bg-muted/60',
               )}
+              // Forzamos padding interno a la izquierda para separar el avatar del borde
+              style={{ paddingLeft: '10px' }}
             >
-              {avatar}
+              {avatarCollapsed}
               {conversation.unreadCount > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-hw-accent px-1 text-[0.55rem] font-bold text-hw-accent-fg">
                   {conversation.unreadCount > 99 ? '99+' : conversation.unreadCount}
@@ -117,7 +133,9 @@ export default function ConversationListItem({
       {avatar}
 
       {/* Info */}
-      <div className="flex min-w-0 flex-1 flex-col" style={{ minWidth: 0 }}>
+      {/* Forzamos un pequeño margen izquierdo en el contenedor de texto para separar el avatar
+          aunque las utilidades de gap no surtan efecto en algún contexto */}
+      <div className="flex min-w-0 flex-1 flex-col" style={{ minWidth: 0, marginLeft: '8px' }}>
         <div className="flex items-center justify-between gap-2">
           <span
             className="truncate text-sm font-semibold text-hw-title min-w-0 flex-1"
