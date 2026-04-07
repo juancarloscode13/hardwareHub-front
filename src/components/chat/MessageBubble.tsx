@@ -43,15 +43,36 @@ export default function MessageBubble({ message, isOwn, showDateLabel }: Message
       <div className={cn('flex w-full px-6', isOwn ? 'justify-end' : 'justify-start')}>
         <div
           className={cn(
-            'min-w-[10rem] max-w-[min(84%,48rem)] rounded-2xl px-6 py-4 leading-relaxed shadow-sm',
+            // base visual del bubble
+            'max-w-[min(84%,48rem)] rounded-2xl py-4 leading-relaxed shadow-sm',
             isOwn
-              ? 'rounded-br-md bg-hw-accent text-hw-accent-fg'
-              : 'rounded-bl-md border border-hw-card-border bg-hw-card text-hw-title',
+              ? 'bg-hw-accent text-hw-accent-fg'
+              : 'border border-hw-card-border bg-hw-card text-hw-title',
           )}
+          // forzamos padding y forma via inline styles; menos alargado (minWidth reducido) y radios más suaves
+          style={
+            isOwn
+              ? { paddingLeft: 20, paddingRight: 20, minWidth: '10rem', borderRadius: 20, borderBottomRightRadius: 6 }
+              : { paddingLeft: 20, paddingRight: 20, minWidth: '10rem', borderRadius: 20, borderBottomLeftRadius: 6 }
+          }
         >
-          {!isOwn && <p className="mb-0.5 text-xs font-semibold opacity-70">{message.senderNombre}</p>}
+          {!isOwn && (
+            // forzamos estilo inline para garantizar negrita y color, evitando overrides globales
+            <p
+              className="mb-0.5 text-xs"
+              style={{ fontWeight: 700, color: 'var(--hw-title)', opacity: 0.95 }}
+            >
+              {message.senderNombre}
+            </p>
+          )}
 
-          <p className="whitespace-pre-wrap wrap-break-word text-sm">{message.content}</p>
+          {/* si es mensaje recibido, forzamos color más oscuro inline para evitar overrides */}
+          <p
+            className="whitespace-pre-wrap wrap-break-word text-sm"
+            style={!isOwn ? { color: 'var(--hw-title)', opacity: 0.95 } : undefined}
+          >
+            {message.content}
+          </p>
 
           <div
             className={cn(

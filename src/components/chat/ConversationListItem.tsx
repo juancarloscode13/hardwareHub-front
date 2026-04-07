@@ -105,18 +105,25 @@ export default function ConversationListItem({
     <button
       onClick={onClick}
       className={cn(
-        'flex w-full items-center gap-3 rounded-xl px-6 py-2.5 text-left transition-colors cursor-pointer',
+        // añadir min-w-0 para permitir que los hijos flexibles se encojan y el texto se trunque
+        'flex w-full items-center gap-3 min-w-0 rounded-xl px-6 py-2.5 text-left transition-colors cursor-pointer',
         isActive
           ? 'bg-(--hw-accent)/10 ring-1 ring-(--hw-accent)/30'
           : 'hover:bg-muted/60',
       )}
+      // forzamos inline para evitar overrides que rompan el comportamiento
+      style={{ minWidth: 0, overflow: 'hidden' }}
     >
       {avatar}
 
       {/* Info */}
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col" style={{ minWidth: 0 }}>
         <div className="flex items-center justify-between gap-2">
-          <span className="truncate text-sm font-semibold text-hw-title">
+          <span
+            className="truncate text-sm font-semibold text-hw-title min-w-0 flex-1"
+            // forzamos inline styles críticos para garantizar truncado incluso si hay overrides globales
+            style={{ flex: '1 1 0%', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+          >
             {conversation.otherUserNombre}
           </span>
           <span className="shrink-0 text-[0.65rem] text-muted-foreground">
@@ -124,7 +131,11 @@ export default function ConversationListItem({
           </span>
         </div>
         <div className="flex items-center justify-between gap-2">
-          <span className="truncate text-xs text-muted-foreground">
+          <span
+            className="truncate text-xs text-muted-foreground min-w-0 flex-1"
+            // forzamos truncado y además acotamos preview para que no sea excesivamente largo
+            style={{ flex: '1 1 0%', minWidth: 0, maxWidth: '20ch', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+          >
             {conversation.lastMessageContent ?? 'Sin mensajes'}
           </span>
           {conversation.unreadCount > 0 && (

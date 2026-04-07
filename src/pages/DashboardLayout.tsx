@@ -9,7 +9,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 
-import AppSidebar from '@/components/AppSidebar';
+import AppSidebar from '@/components/ui/AppSidebar';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import {
   DropdownMenu,

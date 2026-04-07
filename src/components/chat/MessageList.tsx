@@ -65,10 +65,10 @@ export default function MessageList({
     isNearBottomRef.current = distanceToBottom < 80;
   };
 
-  if (isLoading) {
+    if (isLoading) {
     const skeletonWidths = ['44%', '62%', '51%', '68%', '47%', '58%'];
     return (
-      <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-6 py-5">
+      <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-8 py-5" style={{ paddingLeft: '6px', paddingRight: '6px' }}>
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className={`flex ${i % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
             <Skeleton className="h-12 rounded-2xl" style={{ width: skeletonWidths[i] }} />
@@ -86,15 +86,17 @@ export default function MessageList({
     );
   }
 
-  return (
+    return (
     <div
       ref={containerRef}
       onScroll={handleScroll}
-      className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto overscroll-contain px-5 py-5"
+        // padding horizontal aumentado y FORZADO para evitar que los mensajes queden pegados al borde
+              className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto overscroll-contain px-8 py-5" style={{ paddingLeft: '12px', paddingRight: '12px' }}
     >
       {/* Botón cargar más mensajes (historial) */}
       {hasNextPage && (
-        <div className="mb-2 flex justify-center">
+        // forzamos margen inferior inline para separar claramente del primer date-label
+        <div className="flex justify-center" style={{ marginBottom: '16px' }}>
           <Button
             variant="ghost"
             size="sm"
@@ -115,12 +117,19 @@ export default function MessageList({
           idx === 0 || isDifferentDay(messages[idx - 1].sentAt, msg.sentAt);
 
         return (
-          <div key={msg.id} className="mb-4 last:mb-0">
+          <div key={msg.id} className="mb-0">
             <MessageBubble
               message={msg}
               isOwn={msg.senderId === currentUserId}
               showDateLabel={showDateLabel}
             />
+            {/* separador invisible entre mensajes: forzamos estilo inline para evitar que sea pisado */}
+            {idx < messages.length - 1 && (
+              <div
+                aria-hidden
+                style={{ height: '12px', width: '100%', display: 'block', pointerEvents: 'none' }}
+              />
+            )}
           </div>
         );
       })}
