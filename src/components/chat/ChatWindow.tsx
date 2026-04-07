@@ -70,15 +70,18 @@ function ActiveChatWindow({ conversation, currentUserId }: ActiveChatWindowProps
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
       {/* Header del chat */}
       <div className="flex shrink-0 items-center gap-3 border-b border-hw-card-border bg-hw-card px-5 py-3.5">
-        <Avatar size="default">
-          {avatarSrc(conversation.otherUserIconoPerfil) ? (
-            <AvatarImage
-              src={avatarSrc(conversation.otherUserIconoPerfil)!}
-              alt={conversation.otherUserNombre}
-            />
-          ) : null}
-          <AvatarFallback>{getInitials(conversation.otherUserNombre)}</AvatarFallback>
-        </Avatar>
+        {/* Forzamos separación entre avatar y nombre con un wrapper inline */}
+        <div style={{ marginRight: '10px', marginLeft: '6px' }}>
+          <Avatar size="default">
+            {avatarSrc(conversation.otherUserIconoPerfil) ? (
+              <AvatarImage
+                src={avatarSrc(conversation.otherUserIconoPerfil)!}
+                alt={conversation.otherUserNombre}
+              />
+            ) : null}
+            <AvatarFallback>{getInitials(conversation.otherUserNombre)}</AvatarFallback>
+          </Avatar>
+        </div>
         <div>
           <p className="text-sm font-semibold text-hw-title">{conversation.otherUserNombre}</p>
         </div>
