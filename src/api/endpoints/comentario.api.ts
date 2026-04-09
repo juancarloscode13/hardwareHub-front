@@ -23,6 +23,12 @@ export const comentarioApi = {
   // ── By Publicacion (dynamic filter) ───────────────────────────────────
   getByPublicacionId: (publicacionId: number, params?: PaginationParams) =>
     api.get<PageResponse<ComentarioResponseDto>>(BASE, {
-      params: { ...params, filter: `publicacionId==${publicacionId}`, sort: 'fecha:desc' },
+      params: { ...params, filter: `publicacionId==${publicacionId}`, sort: 'fecha:asc' },
+    }).then(({ data }) => data),
+
+  // ── By Comentario padre (respuestas) ───────────────────────────────────
+  getByComentarioId: (comentarioId: number, params?: PaginationParams) =>
+    api.get<PageResponse<ComentarioResponseDto>>(BASE, {
+      params: { ...params, filter: `comentarioId==${comentarioId}`, sort: 'fecha:asc' },
     }).then(({ data }) => data),
 };

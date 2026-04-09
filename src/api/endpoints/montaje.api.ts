@@ -19,6 +19,11 @@ export const montajeApi = {
 
   deleteById: (id: number) =>
     api.delete<void>(`${BASE}/${id}`).then(({ data }) => data),
+
+  getByUsuarioId: (usuarioId: number, params?: PaginationParams) =>
+    api.get<PageResponse<MontajeResponseDto>>(BASE, {
+      params: { ...params, filter: `usuarioId==${usuarioId}`, sort: 'id:desc' },
+    }).then(({ data }) => data),
 };
 
 

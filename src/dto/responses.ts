@@ -132,6 +132,18 @@ export interface MontajeResponseDto {
   usuarioId: number;
 }
 
+/** Montaje con datos completos de cada componente resueltos en frontend */
+export interface MontajeEnrichedDto extends MontajeResponseDto {
+  cpu?: CpuResponseDto;
+  gpu?: GpuResponseDto;
+  ram?: RamResponseDto;
+  refrigeracion?: RefrigeracionResponseDto;
+  caja?: CajaResponseDto;
+  placaBase?: PlacaBaseResponseDto;
+  psu?: PsuResponseDto;
+  almacenamiento?: AlmacenamientoResponseDto;
+}
+
 export interface PlacaBaseResponseDto {
   id: number;
   modelo: string;

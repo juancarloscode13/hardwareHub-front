@@ -7,6 +7,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import ReactionDropdown from './ReactionDropdown';
 import CommentsDialog from './CommentsDialog';
+import MontajePreviewCard from '@/components/montaje/MontajePreviewCard';
 
 // ── Helpers ───────────────────────────────────────────────────────────────
 
@@ -102,11 +103,15 @@ export default function PublicacionCard({ publicacion, autor }: PublicacionCardP
         />
       )}
 
+      {/* ── Montaje adjunto (opcional) ────────────────────────────── */}
+      {publicacion.montajeId > 0 && (
+        <MontajePreviewCard montajeId={publicacion.montajeId} />
+      )}
+
       {/* ── Actions ───────────────────────────────────────────────────── */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingTop: 4 }}>
         <ReactionDropdown
           publicacionId={publicacion.id}
-          autorId={publicacion.usuarioId}
           likesCount={publicacion.likesCount}
           dislikesCount={publicacion.dislikesCount}
           loveCount={publicacion.loveCount}
