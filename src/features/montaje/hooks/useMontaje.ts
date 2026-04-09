@@ -6,6 +6,7 @@ export const MONTAJE_KEYS = {
   all: ['montajes'] as const,
   list: (params?: PaginationParams) => [...MONTAJE_KEYS.all, 'list', params] as const,
   detail: (id: number) => [...MONTAJE_KEYS.all, 'detail', id] as const,
+  byUsuario: (usuarioId: number) => [...MONTAJE_KEYS.all, 'byUsuario', usuarioId] as const,
 };
 
 export function useMontajes(params?: PaginationParams) {
@@ -20,6 +21,14 @@ export function useMontaje(id: number) {
     queryKey: MONTAJE_KEYS.detail(id),
     queryFn: () => montajeApi.getById(id),
     enabled: id > 0,
+  });
+}
+
+export function useMontajesByUsuario(usuarioId: number) {
+  return useQuery({
+    queryKey: MONTAJE_KEYS.byUsuario(usuarioId),
+    queryFn: () => montajeApi.getByUsuarioId(usuarioId),
+    enabled: usuarioId > 0,
   });
 }
 

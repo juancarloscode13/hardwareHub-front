@@ -7,6 +7,7 @@ export function useCreateComentario() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (data: ComentarioRequestDto) => comentarioApi.create(data),
+    // Invalidar todos los comentarios (byPublicacion y byComentario incluidos)
     onSuccess: () => qc.invalidateQueries({ queryKey: COMENTARIO_KEYS.all }),
   });
 }
@@ -30,4 +31,6 @@ export function useDeleteComentario() {
     onSuccess: () => qc.invalidateQueries({ queryKey: COMENTARIO_KEYS.all }),
   });
 }
+
+
 

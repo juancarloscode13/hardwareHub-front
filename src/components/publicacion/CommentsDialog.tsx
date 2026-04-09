@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { MessageSquare } from 'lucide-react';
 import {
   Dialog,
@@ -9,6 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useComentariosByPublicacion } from '@/features/comentario/hooks/useComentario';
 import CommentItem from './CommentItem';
 import CommentInput from './CommentInput';
+import type { ComentarioResponseDto } from '@/dto';
 
 interface CommentsDialogProps {
   publicacionId: number;
@@ -18,7 +20,27 @@ interface CommentsDialogProps {
 
 export default function CommentsDialog({ publicacionId, open, onOpenChange }: CommentsDialogProps) {
   const { data, isLoading } = useComentariosByPublicacion(open ? publicacionId : 0);
-  const comentarios = data?.content ?? [];
+
+  // ── Separar top-level de respuestas ──────────────────────────────────
+  const { topLevel, repliesMap } = useMemo(() => {
+    const todos = data?.content ?? [];
+    const top: ComentarioResponseDto[] = [];
+    const map = new Map<number, ComentarioResponseDto[]>();
+
+    for (const c of todos) {
+      if (!c.comentarioId || c.comentarioId === 0) {
+        top.push(c);
+      } else {
+        const bucket = map.get(c.comentarioId) ?? [];
+        bucket.push(c);
+        map.set(c.comentarioId, bucket);
+      }
+    }
+
+    return { topLevel: top, repliesMap: map };
+  }, [data]);
+
+  const topLevelCount = topLevel.length;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -31,7 +53,7 @@ export default function CommentsDialog({ publicacionId, open, onOpenChange }: Co
         <DialogHeader style={{ padding: '20px 24px 0' }}>
           <DialogTitle style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <MessageSquare className="h-5 w-5 text-hw-accent" />
-            Comentarios{!isLoading && ` (${comentarios.length})`}
+            Comentarios{!isLoading && ` (${topLevelCount})`}
           </DialogTitle>
         </DialogHeader>
 
@@ -43,10 +65,11 @@ export default function CommentsDialog({ publicacionId, open, onOpenChange }: Co
             padding: '16px 24px',
             display: 'flex',
             flexDirection: 'column',
-            gap: 16,
+            gap: 20,
             maxHeight: '50vh',
           }}
         >
+          {/* Loading skeletons */}
           {isLoading &&
             Array.from({ length: 3 }).map((_, i) => (
               <div key={i} style={{ display: 'flex', gap: 12 }}>
@@ -58,17 +81,29 @@ export default function CommentsDialog({ publicacionId, open, onOpenChange }: Co
               </div>
             ))}
 
-          {!isLoading && comentarios.length === 0 && (
-            <p className="text-hw-subtitle" style={{ textAlign: 'center', padding: '32px 0', fontSize: '0.85rem' }}>
+          {/* Empty */}
+          {!isLoading && topLevel.length === 0 && (
+            <p
+              className="text-hw-subtitle"
+              style={{ textAlign: 'center', padding: '32px 0', fontSize: '0.85rem' }}
+            >
               Sé el primero en comentar.
             </p>
           )}
 
+          {/* Comentarios con replies anidadas */}
           {!isLoading &&
-            comentarios.map((c) => <CommentItem key={c.id} comentario={c} />)}
+            topLevel.map((c) => (
+              <CommentItem
+                key={c.id}
+                comentario={c}
+                replies={repliesMap.get(c.id) ?? []}
+                publicacionId={publicacionId}
+              />
+            ))}
         </div>
 
-        {/* Input */}
+        {/* Input principal */}
         <div style={{ padding: '0 24px 20px' }}>
           <CommentInput publicacionId={publicacionId} />
         </div>
@@ -76,4 +111,7 @@ export default function CommentsDialog({ publicacionId, open, onOpenChange }: Co
     </Dialog>
   );
 }
+
+
+
 

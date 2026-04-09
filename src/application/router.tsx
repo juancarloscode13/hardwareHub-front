@@ -18,6 +18,7 @@ import AprenderPage from '@/pages/dashboard/AprenderPage';
 import UsuarioDetallePage from '@/pages/dashboard/UsuarioDetallePage';
 import MensajesPage from '@/pages/dashboard/MensajesPage';
 import MontajesPage from '@/pages/dashboard/MontajesPage';
+import CreateMontajePage from '@/pages/dashboard/CreateMontajePage';
 
 
 // ── Guard inverso ─────────────────────────────────────────────────────────
@@ -71,7 +72,8 @@ export default createBrowserRouter([
       { path: 'aprender',     element: <AprenderPage /> },
       { path: 'usuario/:id',  element: <UsuarioDetallePage /> },
       { path: 'mensajes',     element: <MensajesPage /> },
-      { path: 'montajes',     element: <MontajesPage /> },
+      { path: 'montajes',       element: <MontajesPage /> },
+      { path: 'montajes/crear',  element: <CreateMontajePage /> },
     ],
   },
   // Protegida: solo ROL_ADMIN
