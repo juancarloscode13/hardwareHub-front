@@ -97,7 +97,25 @@ export default function ConversationListItem({
             >
               {avatarCollapsed}
               {conversation.unreadCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-hw-accent px-1 text-[0.55rem] font-bold text-hw-accent-fg">
+                <span
+                  className="flex items-center justify-center rounded-full bg-hw-accent text-hw-accent-fg font-bold"
+                  // Forzamos posicionamiento y tamaño desde estilo inline para evitar que el badge se corte
+                  style={{
+                    position: 'absolute',
+                    top: 6,
+                    right: 6,
+                    height: 18,
+                    minWidth: 18,
+                    paddingLeft: 6,
+                    paddingRight: 6,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '0.65rem',
+                    lineHeight: '18px',
+                    zIndex: 2,
+                  }}
+                >
                   {conversation.unreadCount > 99 ? '99+' : conversation.unreadCount}
                 </span>
               )}
@@ -157,7 +175,10 @@ export default function ConversationListItem({
             {conversation.lastMessageContent ?? 'Sin mensajes'}
           </span>
           {conversation.unreadCount > 0 && (
-            <span className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-hw-accent px-1.5 text-[0.6rem] font-bold text-hw-accent-fg">
+            <span
+              className="flex items-center justify-center rounded-full bg-hw-accent text-hw-accent-fg font-bold"
+              style={{ height: 20, minWidth: 20, paddingLeft: 6, paddingRight: 6, fontSize: '0.65rem', marginRight: 6 }}
+            >
               {conversation.unreadCount > 99 ? '99+' : conversation.unreadCount}
             </span>
           )}

@@ -208,19 +208,24 @@ export default function ForoPage() {
           </div>
         </div>
 
-        <Button onClick={() => setDialogOpen(true)} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+        <Button
+          onClick={() => setDialogOpen(true)}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 10, paddingLeft: '0.75rem', paddingRight: '0.75rem' }}
+        >
           <Plus className="h-4 w-4" />
           Nueva publicación
         </Button>
       </div>
 
       {/* ── Sección 2: Barra de búsqueda ─────────────────────────────── */}
-      <div style={{ maxWidth: 640, margin: '0 auto', width: '100%', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+      <div style={{ maxWidth: 690, margin: '0 auto', width: '100%', display: 'flex', gap: 8, flexWrap: 'nowrap', alignItems: 'center', overflowX: 'auto' }}>
         <Input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Buscar personas o publicaciones…"
-          style={{ flex: 1, minWidth: 180 }}
+          /* Hago que el input tenga una base más ancha para que el placeholder se vea completo
+             y que pueda encogerse en pantallas pequeñas. */
+          style={{ flex: '1 1 auto', minWidth: 240, paddingLeft: '1rem', paddingRight: '0.75rem', maxWidth: '100%' }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') handleSearchPublicaciones();
           }}
@@ -230,7 +235,7 @@ export default function ForoPage() {
           variant="outline"
           size="sm"
           onClick={handleSearchUsuarios}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, paddingLeft: '0.6rem', paddingRight: '0.6rem' }}
         >
           <Users className="h-4 w-4" />
           Personas
@@ -240,7 +245,7 @@ export default function ForoPage() {
           variant="outline"
           size="sm"
           onClick={handleSearchPublicaciones}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, paddingLeft: '0.6rem', paddingRight: '0.6rem' }}
         >
           <Search className="h-4 w-4" />
           Publicaciones
