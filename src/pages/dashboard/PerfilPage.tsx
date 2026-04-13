@@ -70,22 +70,14 @@ function rolLabel(rol: string | undefined): string {
 function StatChip({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: number }) {
   return (
     <div
-      className="bg-hw-icon-bg ring-1 ring-hw-icon-border"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 12,
-        padding: '14px 20px',
-        borderRadius: 14,
-        minWidth: 160,
-      }}
+      className="bg-hw-icon-bg ring-1 ring-hw-icon-border hw-stat-chip-row"
     >
       <Icon className="h-4 w-4 text-hw-accent shrink-0" />
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <span className="text-hw-title font-heading" style={{ fontSize: '1.1rem', fontWeight: 700 }}>
+      <div className="hw-stat-chip-row-inner">
+        <span className="text-hw-title font-heading hw-stat-chip-row-value">
           {value}
         </span>
-        <span className="text-hw-subtitle" style={{ fontSize: '0.72rem' }}>
+        <span className="text-hw-subtitle hw-stat-chip-row-label">
           {label}
         </span>
       </div>
@@ -98,21 +90,14 @@ function StatChip({ icon: Icon, label, value }: { icon: React.ElementType; label
 function InfoRow({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) {
   return (
     <div
-      className="bg-hw-icon-bg ring-1 ring-hw-icon-border"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 12,
-        padding: '12px 18px',
-        borderRadius: 12,
-      }}
+      className="bg-hw-icon-bg ring-1 ring-hw-icon-border hw-info-row"
     >
       <Icon className="h-4 w-4 text-hw-accent shrink-0" />
-      <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-        <span className="text-hw-subtitle" style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+      <div className="hw-profile-field">
+        <span className="text-hw-subtitle hw-profile-field-label">
           {label}
         </span>
-        <span className="text-hw-title truncate" style={{ fontSize: '0.88rem', fontWeight: 500 }}>
+        <span className="text-hw-title truncate hw-profile-field-value">
           {value}
         </span>
       </div>
@@ -229,7 +214,6 @@ export default function PerfilPage() {
     isSuccess: false,
     isError: false,
     error: null,
-    reset: () => {},
   };
 
   // ── Loading skeleton ──────────────────────────────────────────────────
@@ -237,8 +221,7 @@ export default function PerfilPage() {
   if (isLoading) {
     return (
       <section
-        className="flex flex-col gap-10"
-        style={{ paddingLeft: 8, paddingRight: 8, paddingTop: 4, paddingBottom: 8 }}
+        className="flex flex-col gap-10 hw-page-section"
       >
         <div className="flex items-center gap-3 pr-2">
           <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-hw-icon-border bg-hw-icon-bg">
@@ -250,13 +233,13 @@ export default function PerfilPage() {
           </div>
         </div>
 
-        <div className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl" style={{ padding: 28 }}>
-          <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-            <Skeleton className="shrink-0 rounded-full" style={{ width: 96, height: 96 }} />
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <div className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl hw-card-section">
+          <div className="flex gap-6 items-start flex-wrap">
+            <Skeleton className="shrink-0 rounded-full w-24 h-24" />
+            <div className="flex-1 flex flex-col gap-3.5">
               <Skeleton className="h-6 w-48 rounded" />
               <Skeleton className="h-4 w-32 rounded" />
-              <div style={{ display: 'flex', gap: 10 }}>
+              <div className="flex gap-2.5">
                 <Skeleton className="h-16 w-40 rounded-xl" />
                 <Skeleton className="h-16 w-40 rounded-xl" />
                 <Skeleton className="h-16 w-40 rounded-xl" />
@@ -265,8 +248,8 @@ export default function PerfilPage() {
           </div>
         </div>
 
-        <div className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl" style={{ padding: 28 }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl hw-card-section">
+          <div className="flex flex-col gap-4">
             <Skeleton className="h-10 w-full rounded-lg" />
             <Skeleton className="h-10 w-full rounded-lg" />
           </div>

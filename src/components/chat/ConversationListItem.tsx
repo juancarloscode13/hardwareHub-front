@@ -64,9 +64,8 @@ export default function ConversationListItem({
     </Avatar>
   );
 
-  // Avatar específico para la vista colapsada: forzamos marginLeft inline
   const avatarCollapsed = (
-    <Avatar size="default" className="shrink-0" style={{ marginLeft: '8px' }}>
+    <Avatar size="default" className="shrink-0 ml-2">
       {avatarSrc(conversation.otherUserIconoPerfil) ? (
         <AvatarImage
           src={avatarSrc(conversation.otherUserIconoPerfil)!}
@@ -86,36 +85,15 @@ export default function ConversationListItem({
             <button
               onClick={onClick}
               className={cn(
-                // Cambiamos a justify-start para controlar el espaciado interno desde la izquierda
-                'relative flex w-full items-center justify-start rounded-xl p-2 transition-colors cursor-pointer',
+                'relative flex w-full items-center justify-start rounded-xl p-2 pl-2.5 transition-colors cursor-pointer',
                 isActive
                   ? 'bg-(--hw-accent)/10 ring-1 ring-(--hw-accent)/30'
                   : 'hover:bg-muted/60',
               )}
-              // Forzamos padding interno a la izquierda para separar el avatar del borde
-              style={{ paddingLeft: '10px' }}
             >
               {avatarCollapsed}
               {conversation.unreadCount > 0 && (
-                <span
-                  className="flex items-center justify-center rounded-full bg-hw-accent text-hw-accent-fg font-bold"
-                  // Forzamos posicionamiento y tamaño desde estilo inline para evitar que el badge se corte
-                  style={{
-                    position: 'absolute',
-                    top: 6,
-                    right: 6,
-                    height: 18,
-                    minWidth: 18,
-                    paddingLeft: 6,
-                    paddingRight: 6,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '0.65rem',
-                    lineHeight: '18px',
-                    zIndex: 2,
-                  }}
-                >
+                <span className="hw-unread-badge hw-unread-badge-collapsed bg-hw-accent text-hw-accent-fg">
                   {conversation.unreadCount > 99 ? '99+' : conversation.unreadCount}
                 </span>
               )}
@@ -139,27 +117,18 @@ export default function ConversationListItem({
     <button
       onClick={onClick}
       className={cn(
-        // añadir min-w-0 para permitir que los hijos flexibles se encojan y el texto se trunque
-        'flex w-full items-center gap-3 min-w-0 rounded-xl px-6 py-2.5 text-left transition-colors cursor-pointer',
+        'flex w-full items-center gap-3 min-w-0 rounded-xl px-6 py-2.5 text-left transition-colors cursor-pointer overflow-hidden',
         isActive
           ? 'bg-(--hw-accent)/10 ring-1 ring-(--hw-accent)/30'
           : 'hover:bg-muted/60',
       )}
-      // forzamos inline para evitar overrides que rompan el comportamiento
-      style={{ minWidth: 0, overflow: 'hidden' }}
     >
       {avatar}
 
       {/* Info */}
-      {/* Forzamos un pequeño margen izquierdo en el contenedor de texto para separar el avatar
-          aunque las utilidades de gap no surtan efecto en algún contexto */}
-      <div className="flex min-w-0 flex-1 flex-col" style={{ minWidth: 0, marginLeft: '8px' }}>
+      <div className="flex min-w-0 flex-1 flex-col ml-2">
         <div className="flex items-center justify-between gap-2">
-          <span
-            className="truncate text-sm font-semibold text-hw-title min-w-0 flex-1"
-            // forzamos inline styles críticos para garantizar truncado incluso si hay overrides globales
-            style={{ flex: '1 1 0%', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
-          >
+          <span className="truncate text-sm font-semibold text-hw-title min-w-0 flex-1">
             {conversation.otherUserNombre}
           </span>
           <span className="shrink-0 text-[0.65rem] text-muted-foreground">
@@ -167,18 +136,11 @@ export default function ConversationListItem({
           </span>
         </div>
         <div className="flex items-center justify-between gap-2">
-          <span
-            className="truncate text-xs text-muted-foreground min-w-0 flex-1"
-            // forzamos truncado y además acotamos preview para que no sea excesivamente largo
-            style={{ flex: '1 1 0%', minWidth: 0, maxWidth: '20ch', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
-          >
+          <span className="truncate text-xs text-muted-foreground min-w-0 flex-1 max-w-[20ch]">
             {conversation.lastMessageContent ?? 'Sin mensajes'}
           </span>
           {conversation.unreadCount > 0 && (
-            <span
-              className="flex items-center justify-center rounded-full bg-hw-accent text-hw-accent-fg font-bold"
-              style={{ height: 20, minWidth: 20, paddingLeft: 6, paddingRight: 6, fontSize: '0.65rem', marginRight: 6 }}
-            >
+            <span className="hw-unread-badge hw-unread-badge-expanded bg-hw-accent text-hw-accent-fg">
               {conversation.unreadCount > 99 ? '99+' : conversation.unreadCount}
             </span>
           )}
@@ -187,4 +149,3 @@ export default function ConversationListItem({
     </button>
   );
 }
-

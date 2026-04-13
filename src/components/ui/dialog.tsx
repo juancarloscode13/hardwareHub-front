@@ -59,10 +59,9 @@ function DialogContent({
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          "fixed top-1/2 left-1/2 z-50 w-[min(28rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 flex flex-col gap-4 rounded-xl bg-hw-card border border-hw-card-border text-sm text-hw-title [box-shadow:var(--hw-card-shadow)] duration-200 outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 transition-colors",
+          "fixed top-1/2 left-1/2 z-50 w-[min(28rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 flex flex-col gap-4 rounded-xl bg-hw-card border border-hw-card-border text-sm text-hw-title [box-shadow:var(--hw-card-shadow)] duration-200 outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 transition-colors hw-dialog-padded",
           className
         )}
-        style={{ padding: '1.25rem 1.5rem' }}
         {...props}
       >
         {showCloseButton && (

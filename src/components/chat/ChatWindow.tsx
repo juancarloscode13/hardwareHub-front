@@ -71,7 +71,7 @@ function ActiveChatWindow({ conversation, currentUserId }: ActiveChatWindowProps
       {/* Header del chat */}
       <div className="flex shrink-0 items-center gap-3 border-b border-hw-card-border bg-hw-card px-5 py-3.5">
         {/* Forzamos separación entre avatar y nombre con un wrapper inline */}
-        <div style={{ marginRight: '10px', marginLeft: '6px' }}>
+        <div className="hw-chat-avatar-spacing">
           <Avatar size="default">
             {avatarSrc(conversation.otherUserIconoPerfil) ? (
               <AvatarImage

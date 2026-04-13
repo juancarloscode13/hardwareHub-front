@@ -10,8 +10,7 @@ export default function NoticiasPage() {
 
   return (
     <section
-      className="flex flex-col gap-10"
-      style={{ paddingLeft: 8, paddingRight: 8, paddingTop: 4, paddingBottom: 8 }}
+      className="flex flex-col gap-10 hw-page-section"
     >
       {/* ── Cabecera ─────────────────────────────────────────────────── */}
       <div className="flex items-center gap-3 pr-2">

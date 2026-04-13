@@ -32,9 +32,9 @@ function ReplyItem({ comentario }: { comentario: ComentarioResponseDto }) {
 
   if (isLoading) {
     return (
-      <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+      <div className="hw-comment-row-sm">
         <Skeleton className="h-6 w-6 rounded-full shrink-0" />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flex: 1 }}>
+        <div className="flex flex-col gap-1 flex-1">
           <Skeleton className="h-2.5 w-20 rounded" />
           <Skeleton className="h-2.5 w-full rounded" />
         </div>
@@ -43,11 +43,10 @@ function ReplyItem({ comentario }: { comentario: ComentarioResponseDto }) {
   }
 
   return (
-    <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+    <div className="hw-comment-row-sm">
       <button
         onClick={() => navigate(`/dashboard/usuario/${comentario.usuarioId}`)}
-        className="shrink-0 cursor-pointer"
-        style={{ background: 'none', border: 'none', padding: 0 }}
+        className="shrink-0 cursor-pointer hw-btn-reset"
       >
         <Avatar size="sm">
           {avatarSrc(autor?.iconoPerfil) ? (
@@ -57,23 +56,19 @@ function ReplyItem({ comentario }: { comentario: ComentarioResponseDto }) {
         </Avatar>
       </button>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0, flex: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+      <div className="hw-comment-body">
+        <div className="hw-comment-meta">
           <button
             onClick={() => navigate(`/dashboard/usuario/${comentario.usuarioId}`)}
-            className="text-hw-title font-heading cursor-pointer hover:underline"
-            style={{ background: 'none', border: 'none', padding: 0, fontSize: '0.76rem', fontWeight: 600 }}
+            className="text-hw-title font-heading cursor-pointer hover:underline hw-comment-name-sm"
           >
             {autor?.nombre ?? 'Usuario'}
           </button>
-          <span className="text-hw-subtitle" style={{ fontSize: '0.67rem' }}>
+          <span className="text-hw-subtitle text-[0.67rem]">
             {timeAgo(comentario.fecha)}
           </span>
         </div>
-        <p
-          className="text-hw-title/80"
-          style={{ fontSize: '0.78rem', lineHeight: 1.5, margin: 0, wordBreak: 'break-word' }}
-        >
+        <p className="text-hw-title/80 hw-comment-text-sm">
           {comentario.textoContenido}
         </p>
       </div>
@@ -99,9 +94,9 @@ export default function CommentItem({ comentario, replies = [], publicacionId }:
 
   if (isLoading) {
     return (
-      <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+      <div className="hw-comment-row">
         <Skeleton className="h-8 w-8 rounded-full shrink-0" />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flex: 1 }}>
+        <div className="flex flex-col gap-1.5 flex-1">
           <Skeleton className="h-3 w-24 rounded" />
           <Skeleton className="h-3 w-full rounded" />
         </div>
@@ -110,14 +105,13 @@ export default function CommentItem({ comentario, replies = [], publicacionId }:
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+    <div className="flex flex-col">
       {/* ── Comentario principal ────────────────────────────────────── */}
-      <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+      <div className="hw-comment-row">
         {/* Avatar */}
         <button
           onClick={() => navigate(`/dashboard/usuario/${comentario.usuarioId}`)}
-          className="shrink-0 cursor-pointer"
-          style={{ background: 'none', border: 'none', padding: 0 }}
+          className="shrink-0 cursor-pointer hw-btn-reset"
           aria-label={`Ver perfil de ${autor?.nombre ?? 'usuario'}`}
         >
           <Avatar size="default">
@@ -129,23 +123,19 @@ export default function CommentItem({ comentario, replies = [], publicacionId }:
         </button>
 
         {/* Content */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0, flex: 1 }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+        <div className="hw-comment-body">
+          <div className="hw-comment-meta">
             <button
               onClick={() => navigate(`/dashboard/usuario/${comentario.usuarioId}`)}
-              className="text-hw-title font-heading cursor-pointer hover:underline"
-              style={{ background: 'none', border: 'none', padding: 0, fontSize: '0.8rem', fontWeight: 600 }}
+              className="text-hw-title font-heading cursor-pointer hover:underline hw-comment-name"
             >
               {autor?.nombre ?? 'Usuario'}
             </button>
-            <span className="text-hw-subtitle" style={{ fontSize: '0.7rem' }}>
+            <span className="text-hw-subtitle text-[0.7rem]">
               {timeAgo(comentario.fecha)}
             </span>
           </div>
-          <p
-            className="text-hw-title"
-            style={{ fontSize: '0.82rem', lineHeight: 1.5, margin: 0, wordBreak: 'break-word' }}
-          >
+          <p className="text-hw-title hw-comment-text">
             {comentario.textoContenido}
           </p>
 
@@ -154,8 +144,7 @@ export default function CommentItem({ comentario, replies = [], publicacionId }:
             variant="ghost"
             size="xs"
             onClick={() => setReplyOpen((v) => !v)}
-            className="self-start text-hw-subtitle hover:text-hw-accent"
-            style={{ marginTop: 2, padding: '2px 6px', height: 'auto', gap: 4 }}
+            className="self-start text-hw-subtitle hover:text-hw-accent hw-reply-btn"
           >
             <CornerDownRight className="h-3 w-3" />
             {replyOpen ? 'Cancelar' : `Responder${replies.length > 0 ? ` (${replies.length})` : ''}`}
@@ -165,17 +154,7 @@ export default function CommentItem({ comentario, replies = [], publicacionId }:
 
       {/* ── Respuestas anidadas ─────────────────────────────────────── */}
       {replies.length > 0 && (
-        <div
-          style={{
-            marginLeft: 44,
-            marginTop: 8,
-            paddingLeft: 12,
-            borderLeft: '2px solid var(--hw-divider)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 10,
-          }}
-        >
+        <div className="hw-reply-thread">
           {replies.map((r) => (
             <ReplyItem key={r.id} comentario={r} />
           ))}
@@ -184,7 +163,7 @@ export default function CommentItem({ comentario, replies = [], publicacionId }:
 
       {/* ── Input inline de respuesta ───────────────────────────────── */}
       {replyOpen && (
-        <div style={{ marginLeft: 44, marginTop: 8 }}>
+        <div className="hw-reply-input-wrap">
           <CommentInput
             publicacionId={publicacionId}
             comentarioId={comentario.id}
@@ -196,6 +175,4 @@ export default function CommentItem({ comentario, replies = [], publicacionId }:
     </div>
   );
 }
-
-
 

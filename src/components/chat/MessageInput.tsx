@@ -32,8 +32,7 @@ export default function MessageInput({ onSend, disabled = false }: MessageInputP
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder="Escribe un mensaje..."
-          className="flex-1 h-11 rounded-full pl-4 pr-4 text-sm"
-          style={{ paddingLeft: '14px', textIndent: '2px' }}
+          className="flex-1 h-11 rounded-full pl-3.5 pr-4 text-sm indent-px"
           disabled={disabled}
         />
         <Button
@@ -41,11 +40,9 @@ export default function MessageInput({ onSend, disabled = false }: MessageInputP
           size="icon"
           disabled={disabled}
           className={cn(
-            'h-10 w-10 shrink-0 rounded-full bg-hw-accent text-hw-accent-fg shadow-sm transition-all duration-200 ease-out hover:scale-105 hover:bg-hw-accent/90 active:scale-95',
+            'h-10 w-10 shrink-0 rounded-full bg-hw-accent text-hw-accent-fg shadow-sm transition-all duration-200 ease-out hover:scale-105 hover:bg-hw-accent/90 active:scale-95 ml-3 mr-2.5',
             !hasText && 'opacity-75'
           )}
-          // Forzamos un pequeño margen a la derecha para separar el botón del borde del layout
-          style={{ marginLeft: '12px', marginRight: '10px' }}
           aria-label="Enviar mensaje"
         >
           <SendHorizontal className="h-4 w-4" />

@@ -19,12 +19,11 @@ export default function NewsCard({ news }: NewsCardProps) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`Leer noticia: ${news.title}`}
-      className="group block min-w-0 overflow-hidden rounded-2xl ring-1 ring-hw-card-border bg-hw-card cursor-pointer
+      className="group block min-w-0 overflow-hidden rounded-2xl ring-1 ring-hw-card-border bg-hw-card cursor-pointer hw-news-card
                  transition-all duration-300 ease-out hover:shadow-[0_8px_40px_rgba(0,255,255,0.12)] hover:scale-[1.02]
                  hover:ring-hw-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hw-accent"
-      style={{ margin: 10 }}
     >
-      <div className="relative overflow-hidden" style={{ height: 220}}>
+      <div className="relative overflow-hidden hw-news-card-img-wrap">
         <img
           src={imgSrc}
           alt={news.title}
@@ -32,15 +31,7 @@ export default function NewsCard({ news }: NewsCardProps) {
           onError={(e) => {
             (e.currentTarget as HTMLImageElement).src = PLACEHOLDER_IMG;
           }}
-          className="transition-transform duration-500 ease-out group-hover:scale-[1.08]"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            display: 'block',
-            objectFit: 'cover',
-          }}
+          className="absolute inset-0 w-full h-full block object-cover transition-transform duration-500 ease-out group-hover:scale-[1.08]"
         />
 
         {/* Overlay degradado */}
@@ -48,10 +39,7 @@ export default function NewsCard({ news }: NewsCardProps) {
 
       </div>
 
-      <div
-        className="flex flex-col gap-4"
-        style={{ paddingTop: 20, paddingRight: 24, paddingBottom: 24, paddingLeft: 24, boxSizing: 'border-box' }}
-      >
+      <div className="flex flex-col gap-4 hw-news-card-body">
         <h3 className="line-clamp-2 font-heading text-[0.9rem] font-semibold leading-snug text-hw-title">
           {news.title}
         </h3>

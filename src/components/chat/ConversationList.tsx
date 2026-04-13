@@ -50,10 +50,7 @@ export default function ConversationList({
       >
         {!collapsed && (
           // Forzamos un pequeño margen izquierdo en la cabecera "Mensajes"
-          <h2
-            className="m-0 pl-4 font-heading text-base font-bold text-hw-title"
-            style={{ marginLeft: '8px' }}
-          >
+          <h2 className="m-0 pl-4 ml-2 font-heading text-base font-bold text-hw-title">
             Mensajes
           </h2>
         )}

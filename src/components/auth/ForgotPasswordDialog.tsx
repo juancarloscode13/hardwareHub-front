@@ -49,7 +49,7 @@ export default function ForgotPasswordDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            <span className="inline-flex items-center gap-3" style={{ gap: '0.75rem' }}>
+            <span className="hw-dialog-title-icon">
               <Mail className="h-5 w-5 text-hw-accent" />
               Recuperar contraseña
             </span>
@@ -89,8 +89,7 @@ export default function ForgotPasswordDialog({
                 autoComplete="email"
                 autoFocus
                 aria-invalid={!!emailError}
-                className="h-[42px] bg-hw-input rounded-[8px] text-hw-input-text text-[0.875rem] pl-[1rem] pr-[0.75rem] placeholder:text-hw-placeholder focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 transition-colors duration-300"
-                style={{ paddingLeft: '1rem', paddingRight: '0.75rem' }}
+                className="h-[42px] bg-hw-input rounded-[8px] text-hw-input-text text-[0.875rem] pl-4 pr-3 placeholder:text-hw-placeholder focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 transition-colors duration-300"
               />
               {emailError && (
                 <span className="text-hw-error text-[0.75rem]">{emailError}</span>
@@ -104,8 +103,7 @@ export default function ForgotPasswordDialog({
             <Button
               type="submit"
               disabled={forgotPassword.isPending}
-              className="h-[42px] w-full bg-hw-accent text-hw-accent-fg font-semibold rounded-[8px] cursor-pointer border-transparent gap-[0.75rem] px-[0.75rem] transition-colors duration-300 hover:opacity-80"
-              style={{ marginTop: '0.75rem', paddingLeft: '0.75rem', paddingRight: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: '0.75rem' }}
+              className="h-[42px] w-full mt-3 bg-hw-accent text-hw-accent-fg font-semibold rounded-[8px] cursor-pointer border-transparent gap-[0.75rem] px-[0.75rem] inline-flex items-center transition-colors duration-300 hover:opacity-80"
             >
               {forgotPassword.isPending ? (
                 <>
