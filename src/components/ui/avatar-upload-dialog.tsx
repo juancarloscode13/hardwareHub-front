@@ -82,7 +82,6 @@ export function AvatarUploadDialog({
     isSuccess: false,
     isError: false,
     error: null,
-    reset: () => {},
   };
 
   const handleRemove = () => {
@@ -91,7 +90,7 @@ export function AvatarUploadDialog({
   };
 
   return (
-    <div className="flex flex-col items-center" style={{ gap: '0.5rem' }}>
+    <div className="flex flex-col items-center gap-2">
       {/* Preview con botón de eliminar al lado (hover) */}
       {preview ? (
         <div
@@ -146,7 +145,7 @@ export function AvatarUploadDialog({
             </DialogDescription>
           </DialogHeader>
 
-          <div style={{ marginTop: '1.5rem' }}>
+          <div className="mt-6">
             <UploadDropzone
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               control={control as any}

@@ -102,7 +102,7 @@ export default function StartChatDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            <span className="hw-dialog-title-icon">
               <MessageCirclePlus className="h-5 w-5 text-hw-accent" />
               Nuevo mensaje
             </span>
@@ -121,13 +121,10 @@ export default function StartChatDialog({
         />
 
         {/* Resultados */}
-        <div style={{ minHeight: 120, display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <div className="hw-search-results">
           {/* Estado vacío: query muy corta */}
           {debouncedQuery.length < 2 && (
-            <p
-              className="text-hw-subtitle text-center"
-              style={{ paddingTop: 32, fontSize: '0.85rem' }}
-            >
+            <p className="text-hw-subtitle text-center pt-8 text-[0.85rem]">
               Escribe al menos 2 caracteres para buscar.
             </p>
           )}
@@ -135,10 +132,7 @@ export default function StartChatDialog({
           {/* Cargando */}
           {debouncedQuery.length >= 2 && usersLoading &&
             Array.from({ length: 3 }).map((_, i) => (
-              <div
-                key={i}
-                style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 4px' }}
-              >
+              <div key={i} className="hw-skeleton-list-row">
                 <Skeleton className="h-8 w-8 rounded-full" />
                 <Skeleton className="h-4 w-40" />
               </div>
@@ -146,10 +140,7 @@ export default function StartChatDialog({
 
           {/* Sin resultados */}
           {debouncedQuery.length >= 2 && !usersLoading && results.length === 0 && (
-            <p
-              className="text-hw-subtitle text-center"
-              style={{ paddingTop: 32, fontSize: '0.85rem' }}
-            >
+            <p className="text-hw-subtitle text-center pt-8 text-[0.85rem]">
               No se encontraron usuarios con ese nombre.
             </p>
           )}
@@ -160,19 +151,7 @@ export default function StartChatDialog({
               key={u.id}
               onClick={() => handleSelect(u)}
               disabled={createConversation.isPending}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-                padding: '8px 10px',
-                borderRadius: 10,
-                cursor: createConversation.isPending ? 'not-allowed' : 'pointer',
-                width: '100%',
-                background: 'none',
-                border: 'none',
-                textAlign: 'left',
-              }}
-              className="hover:bg-hw-icon-bg transition-colors"
+              className="hw-user-result-btn hover:bg-hw-icon-bg transition-colors"
             >
               <Avatar size="sm">
                 {avatarSrc(u.iconoPerfil) ? (
@@ -180,7 +159,7 @@ export default function StartChatDialog({
                 ) : null}
                 <AvatarFallback>{getInitials(u.nombre)}</AvatarFallback>
               </Avatar>
-              <span className="text-hw-title" style={{ fontSize: '0.88rem', fontWeight: 500 }}>
+              <span className="text-hw-title text-[0.88rem] font-medium">
                 {u.nombre}
               </span>
             </button>
@@ -190,6 +169,5 @@ export default function StartChatDialog({
     </Dialog>
   );
 }
-
 
 

@@ -67,9 +67,11 @@ export default function ShareMontajeDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent showCloseButton className="w-[min(36rem,calc(100vw-2rem))]">
         <DialogHeader>
-          <DialogTitle style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Share2 className="h-5 w-5 text-hw-accent" />
-            Compartir montaje en el foro
+          <DialogTitle>
+            <span className="hw-dialog-title-icon">
+              <Share2 className="h-5 w-5 text-hw-accent" />
+              Compartir montaje en el foro
+            </span>
           </DialogTitle>
           <DialogDescription>
             Se creará una publicación en el foro con tu montaje adjunto.
@@ -78,8 +80,7 @@ export default function ShareMontajeDialog({
 
         {/* Montaje preview */}
         <div
-          className="bg-muted/50 rounded-lg"
-          style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 4 }}
+          className="bg-muted/50 rounded-lg py-3 px-4 flex flex-col gap-1"
         >
           <span className="text-xs text-muted-foreground font-medium">Montaje seleccionado</span>
           <span className="text-sm text-hw-title font-semibold">
@@ -88,7 +89,7 @@ export default function ShareMontajeDialog({
         </div>
 
         {/* Textarea */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div className="flex flex-col gap-3">
           <Textarea
             value={contenidoTexto}
             onChange={(e) => setContenidoTexto(e.target.value)}

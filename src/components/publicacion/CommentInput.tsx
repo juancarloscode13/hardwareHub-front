@@ -59,16 +59,7 @@ export default function CommentInput({
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        gap: 8,
-        alignItems: 'flex-end',
-        borderTop: onCancel ? 'none' : '1px solid var(--hw-divider)',
-        paddingTop: onCancel ? 0 : 14,
-        marginTop: onCancel ? 0 : 4,
-      }}
-    >
+    <div className={`hw-comment-input-wrap ${onCancel ? '' : 'hw-comment-input-wrap--border'}`}>
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
@@ -76,27 +67,14 @@ export default function CommentInput({
         placeholder={placeholder}
         rows={1}
         autoFocus={!!onCancel}
-        className="text-hw-input-text placeholder:text-hw-placeholder"
-        style={{
-          flex: 1,
-          resize: 'none',
-          background: 'var(--hw-input)',
-          border: '1px solid var(--hw-input-border)',
-          borderRadius: 10,
-          padding: '8px 12px',
-          fontSize: '0.8rem',
-          lineHeight: 1.5,
-          fontFamily: 'inherit',
-          outline: 'none',
-        }}
+        className="text-hw-input-text placeholder:text-hw-placeholder hw-comment-textarea"
       />
       {onCancel && (
         <Button
           size="icon"
           variant="ghost"
           onClick={onCancel}
-          className="shrink-0"
-          style={{ width: 32, height: 32, borderRadius: '50%' }}
+          className="shrink-0 hw-comment-send-btn"
           aria-label="Cancelar respuesta"
         >
           <X className="h-3.5 w-3.5" />
@@ -106,8 +84,7 @@ export default function CommentInput({
         size="icon"
         disabled={!canSend}
         onClick={handleSend}
-        className="shrink-0 bg-hw-accent text-hw-accent-fg hover:bg-hw-accent/90 disabled:opacity-40"
-        style={{ width: 32, height: 32, borderRadius: '50%' }}
+        className="shrink-0 bg-hw-accent text-hw-accent-fg hover:bg-hw-accent/90 disabled:opacity-40 hw-comment-send-btn"
         aria-label="Enviar comentario"
       >
         <Send className="h-3.5 w-3.5" />
@@ -115,6 +92,3 @@ export default function CommentInput({
     </div>
   );
 }
-
-
-

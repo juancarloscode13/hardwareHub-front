@@ -82,35 +82,15 @@ export default function DashboardLayout() {
             <DropdownMenuTrigger asChild>
               <button
                 aria-label="Opciones de usuario"
-                style={{
-                  width: 32,
-                  height: 32,
-                  flexShrink: 0,
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                  cursor: 'pointer',
-                  border: '1px solid var(--hw-card-border)',
-                  background: 'var(--muted)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  outline: 'none',
-                  padding: 0,
-                }}
+                className="hw-header-avatar"
               >
                 {avatarSrc ? (
                   <img
                     src={avatarSrc}
                     alt={userName}
-                    style={{
-                      display: 'block',
-                      width: 32,
-                      height: 32,
-                      objectFit: 'cover',
-                    }}
                   />
                 ) : (
-                  <span style={{ fontSize: 11, color: 'var(--muted-foreground)', lineHeight: 1 }}>
+                  <span className="hw-header-avatar-initials">
                     {getUserInitials(user?.nombre)}
                   </span>
                 )}
@@ -188,10 +168,7 @@ export default function DashboardLayout() {
         <main className="relative flex-1 overflow-auto bg-hw-page transition-colors duration-300">
           {/* Glow decorativo */}
           <div className="pointer-events-none fixed right-0 top-0 h-[600px] w-[600px] rounded-full bg-hw-glow blur-[120px] transition-colors duration-300" />
-          <div
-            className="relative z-10 w-full"
-            style={{ maxWidth: 1680, margin: '0 auto', padding: '24px 28px 32px' }}
-          >
+          <div className="relative z-10 w-full hw-dashboard-content">
             <Outlet />
           </div>
         </main>

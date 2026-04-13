@@ -54,8 +54,7 @@ export default function ResetPasswordPage() {
               </p>
               <Button
                 onClick={() => navigate('/login')}
-                className="mt-2 h-[42px] bg-hw-accent text-hw-accent-fg font-semibold rounded-[8px] cursor-pointer border-transparent gap-[0.75rem] px-[0.75rem] transition-colors duration-300 hover:opacity-80"
-                style={{ paddingLeft: '0.75rem', paddingRight: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: '0.75rem' }}
+                className="mt-2 h-[42px] bg-hw-accent text-hw-accent-fg font-semibold rounded-[8px] cursor-pointer border-transparent gap-[0.75rem] px-[0.75rem] inline-flex items-center transition-colors duration-300 hover:opacity-80"
               >
                 Ir a Iniciar sesión
               </Button>
@@ -100,8 +99,7 @@ export default function ResetPasswordPage() {
                 required
                 autoComplete="new-password"
                 aria-invalid={!!passwordError}
-                className="h-[42px] bg-hw-input rounded-[8px] text-hw-input-text text-[0.875rem] pl-[1rem] pr-[0.75rem] placeholder:text-hw-placeholder focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 transition-colors duration-300"
-                style={{ paddingLeft: '1rem', paddingRight: '0.75rem' }}
+                className="h-[42px] bg-hw-input rounded-[8px] text-hw-input-text text-[0.875rem] pl-4 pr-3 placeholder:text-hw-placeholder focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 transition-colors duration-300"
               />
               {passwordError && (
                 <span className="text-hw-error text-[0.75rem]">{passwordError}</span>
@@ -122,8 +120,7 @@ export default function ResetPasswordPage() {
                 required
                 autoComplete="new-password"
                 aria-invalid={!!confirmError}
-                className="h-[42px] bg-hw-input rounded-[8px] text-hw-input-text text-[0.875rem] pl-[1rem] pr-[0.75rem] placeholder:text-hw-placeholder focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 transition-colors duration-300"
-                style={{ paddingLeft: '1rem', paddingRight: '0.75rem' }}
+                className="h-[42px] bg-hw-input rounded-[8px] text-hw-input-text text-[0.875rem] pl-4 pr-3 placeholder:text-hw-placeholder focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 transition-colors duration-300"
               />
               {confirmError && (
                 <span className="text-hw-error text-[0.75rem]">{confirmError}</span>
@@ -141,8 +138,7 @@ export default function ResetPasswordPage() {
             <Button
               type="submit"
               disabled={resetPassword.isPending}
-              className="h-[42px] w-full bg-hw-accent text-hw-accent-fg font-semibold rounded-[8px] cursor-pointer border-transparent gap-[0.75rem] px-[0.75rem] transition-colors duration-300 hover:opacity-80"
-              style={{ paddingLeft: '0.75rem', paddingRight: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: '0.75rem' }}
+              className="h-[42px] w-full bg-hw-accent text-hw-accent-fg font-semibold rounded-[8px] cursor-pointer border-transparent gap-[0.75rem] px-[0.75rem] inline-flex items-center transition-colors duration-300 hover:opacity-80"
             >
               {resetPassword.isPending ? (
                 <>

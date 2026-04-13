@@ -29,21 +29,11 @@ function avatarSrc(iconoPerfil: string | null | undefined): string | undefined {
 
 function StatChip({ label, value }: { label: string; value: number | undefined }) {
   return (
-    <div
-      className="bg-hw-icon-bg ring-1 ring-hw-icon-border"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '10px 20px',
-        borderRadius: 14,
-        minWidth: 90,
-      }}
-    >
-      <span className="text-hw-title font-heading" style={{ fontSize: '1.15rem', fontWeight: 700 }}>
+    <div className="bg-hw-icon-bg ring-1 ring-hw-icon-border hw-stat-chip">
+      <span className="text-hw-title font-heading text-[1.15rem] font-bold">
         {value ?? 0}
       </span>
-      <span className="text-hw-subtitle" style={{ fontSize: '0.72rem' }}>
+      <span className="text-hw-subtitle text-[0.72rem]">
         {label}
       </span>
     </div>
@@ -92,10 +82,7 @@ export default function UsuarioDetallePage() {
   // ── Error state ─────────────────────────────────────────────────────────
   if (errorUser) {
     return (
-      <section
-        className="flex flex-col gap-10"
-        style={{ paddingLeft: 8, paddingRight: 8, paddingTop: 4, paddingBottom: 8 }}
-      >
+      <section className="flex flex-col gap-10 hw-page-section">
         <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
           <AlertCircle className="h-10 w-10 text-hw-error" />
           <p className="text-hw-subtitle">No se pudo cargar el perfil del usuario.</p>
@@ -105,11 +92,8 @@ export default function UsuarioDetallePage() {
   }
 
   return (
-    <section
-      className="flex flex-col gap-10"
-      style={{ paddingLeft: 8, paddingRight: 8, paddingTop: 4, paddingBottom: 8 }}
-    >
-      {/* ── Page heading (consistent with NoticiasPage) ──────────────── */}
+    <section className="flex flex-col gap-10 hw-page-section">
+      {/* ── Page heading ──────────────────────────────────────────────── */}
       <div className="flex items-center gap-3 pr-2">
         <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-hw-icon-border bg-hw-icon-bg">
           <User className="w-5 h-5 text-hw-accent" />
@@ -125,34 +109,28 @@ export default function UsuarioDetallePage() {
       </div>
 
       {/* ── Profile header ───────────────────────────────────────────── */}
-      <div
-        className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl"
-        style={{ padding: 28, display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' }}
-      >
+      <div className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl hw-profile-card">
         {/* Avatar */}
         {loadingUser ? (
-          <Skeleton className="shrink-0 rounded-full" style={{ width: 96, height: 96 }} />
+          <Skeleton className="shrink-0 rounded-full w-24 h-24" />
         ) : (
-          <Avatar
-            className="shrink-0"
-            style={{ width: 96, height: 96, fontSize: '2rem' }}
-          >
+          <Avatar className="shrink-0 hw-profile-avatar">
             {avatarSrc(usuario?.iconoPerfil) ? (
               <AvatarImage src={avatarSrc(usuario?.iconoPerfil)} alt={usuario?.nombre ?? ''} />
             ) : null}
-            <AvatarFallback style={{ fontSize: '1.6rem' }}>
+            <AvatarFallback className="hw-profile-avatar-fallback">
               {getInitials(usuario?.nombre)}
             </AvatarFallback>
           </Avatar>
         )}
 
         {/* Info */}
-        <div style={{ flex: 1, minWidth: 200, display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div className="hw-profile-info">
           {loadingUser ? (
             <>
               <Skeleton className="h-6 w-48 rounded" />
               <Skeleton className="h-4 w-32 rounded" />
-              <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
+              <div className="flex gap-2.5 mt-1">
                 <Skeleton className="h-14 w-24 rounded-xl" />
                 <Skeleton className="h-14 w-24 rounded-xl" />
                 <Skeleton className="h-14 w-24 rounded-xl" />
@@ -161,21 +139,18 @@ export default function UsuarioDetallePage() {
           ) : (
             <>
               <div>
-                <h2
-                  className="font-heading text-hw-title"
-                  style={{ fontSize: '1.35rem', fontWeight: 700, margin: 0, lineHeight: 1.3 }}
-                >
+                <h2 className="font-heading text-hw-title text-[1.35rem] font-bold m-0 leading-snug">
                   {usuario?.nombre}
                 </h2>
                 {isSelf && (
-                  <p className="text-hw-subtitle" style={{ fontSize: '0.8rem', margin: '2px 0 0' }}>
+                  <p className="text-hw-subtitle text-[0.8rem] mt-0.5">
                     {usuario?.email}
                   </p>
                 )}
               </div>
 
               {/* Stats */}
-              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+              <div className="hw-profile-stats">
                 <StatChip label="Seguidores" value={usuario?.followersCount} />
                 <StatChip label="Siguiendo" value={usuario?.followingCount} />
                 <StatChip label="Publicaciones" value={pubsList.length} />
@@ -183,31 +158,24 @@ export default function UsuarioDetallePage() {
 
               {/* Follow / Unfollow + Chat */}
               {!isSelf && currentUser && (
-                <div style={{ marginTop: 4, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <div className="hw-profile-actions">
                   {isFollowing ? (
                     <Button
                       variant="outline"
                       onClick={handleUnfollow}
                       disabled={unfollowMutation.isPending}
-                      className="cursor-pointer"
-                      style={{
-                        fontSize: '0.8rem',
-                        padding: '8px 20px',
-                        borderRadius: 10,
-                        borderColor: 'var(--hw-card-border)',
-                      }}
+                      className="cursor-pointer hw-action-btn hw-action-btn-outline"
                     >
-                      <Users className="h-4 w-4" style={{ marginRight: 6 }} />
+                      <Users className="h-4 w-4 mr-1.5" />
                       Dejar de seguir
                     </Button>
                   ) : (
                     <Button
                       onClick={handleFollow}
                       disabled={followMutation.isPending}
-                      className="cursor-pointer bg-hw-accent text-hw-accent-fg hover:bg-hw-accent/90"
-                      style={{ fontSize: '0.8rem', padding: '8px 20px', borderRadius: 10 }}
+                      className="cursor-pointer bg-hw-accent text-hw-accent-fg hover:bg-hw-accent/90 hw-action-btn"
                     >
-                      <Users className="h-4 w-4" style={{ marginRight: 6 }} />
+                      <Users className="h-4 w-4 mr-1.5" />
                       Seguir
                     </Button>
                   )}
@@ -216,15 +184,9 @@ export default function UsuarioDetallePage() {
                     variant="outline"
                     onClick={handleChat}
                     disabled={createConversation.isPending}
-                    className="cursor-pointer"
-                    style={{
-                      fontSize: '0.8rem',
-                      padding: '8px 20px',
-                      borderRadius: 10,
-                      borderColor: 'var(--hw-card-border)',
-                    }}
+                    className="cursor-pointer hw-action-btn hw-action-btn-outline"
                   >
-                    <MessageSquare className="h-4 w-4" style={{ marginRight: 6 }} />
+                    <MessageSquare className="h-4 w-4 mr-1.5" />
                     Mensaje
                   </Button>
                 </div>
@@ -235,13 +197,13 @@ export default function UsuarioDetallePage() {
       </div>
 
       {/* ── Separator ────────────────────────────────────────────────── */}
-      <div className="bg-hw-divider" style={{ height: 1 }} />
+      <div className="bg-hw-divider h-px" />
 
       {/* ── Publications list ────────────────────────────────────────── */}
       {loadingPubs && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div className="flex flex-col gap-5">
           {Array.from({ length: 3 }).map((_, i) => (
-            <Skeleton key={i} className="rounded-2xl" style={{ height: 200, width: '100%' }} />
+            <Skeleton key={i} className="rounded-2xl h-[200px] w-full" />
           ))}
         </div>
       )}
@@ -254,7 +216,7 @@ export default function UsuarioDetallePage() {
       )}
 
       {!loadingPubs && pubsList.length > 0 && usuario && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div className="flex flex-col gap-5">
           {pubsList.map((pub) => (
             <PublicacionCard key={pub.id} publicacion={pub} autor={usuario} />
           ))}

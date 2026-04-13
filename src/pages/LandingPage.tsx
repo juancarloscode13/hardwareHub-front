@@ -30,7 +30,7 @@ export default function LandingPage() {
         </p>
 
         {/* Espaciador */}
-        <div style={{ height: '1rem' }} />
+        <div className="h-4" />
 
         {/* Botón Magnetize */}
         <MagnetizeButton

@@ -39,14 +39,10 @@ function sanitizeDslValue(value: string): string {
 function UsuarioSearchCard({ usuario }: { usuario: UsuarioResponseDto }) {
   const navigate = useNavigate();
   return (
-    <div
-      className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl"
-      style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 12 }}
-    >
+    <div className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl flex items-center gap-3 px-4 py-3">
       <button
         onClick={() => navigate(`/dashboard/usuario/${usuario.id}`)}
-        className="shrink-0 cursor-pointer"
-        style={{ background: 'none', border: 'none', padding: 0 }}
+        className="shrink-0 cursor-pointer hw-btn-reset"
         aria-label={`Ver perfil de ${usuario.nombre}`}
       >
         <Avatar size="default">
@@ -56,10 +52,7 @@ function UsuarioSearchCard({ usuario }: { usuario: UsuarioResponseDto }) {
           <AvatarFallback>{getInitials(usuario.nombre)}</AvatarFallback>
         </Avatar>
       </button>
-      <span
-        className="text-hw-title font-heading"
-        style={{ flex: 1, fontWeight: 600, fontSize: '0.88rem' }}
-      >
+      <span className="text-hw-title font-heading flex-1 font-semibold text-[0.88rem]">
         {usuario.nombre}
       </span>
       <Button
@@ -99,37 +92,18 @@ function UserSkeletons() {
 
 function EmptyState({ icon: Icon, message }: { icon: React.ElementType; message: string }) {
   return (
-    <div
-      className="text-hw-subtitle"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 12,
-        padding: '48px 16px',
-        textAlign: 'center',
-      }}
-    >
+    <div className="text-hw-subtitle hw-empty-state">
       <Icon className="h-10 w-10 opacity-40" />
-      <p style={{ fontSize: '0.9rem', margin: 0 }}>{message}</p>
+      <p className="text-[0.9rem]">{message}</p>
     </div>
   );
 }
 
 function ErrorState({ message }: { message: string }) {
   return (
-    <div
-      className="text-destructive"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 8,
-        padding: '48px 16px',
-      }}
-    >
+    <div className="text-destructive hw-error-state">
       <AlertCircle className="h-5 w-5" />
-      <p style={{ fontSize: '0.9rem', margin: 0 }}>{message}</p>
+      <p className="text-[0.9rem]">{message}</p>
     </div>
   );
 }
@@ -193,16 +167,16 @@ export default function ForoPage() {
   // ── JSX ─────────────────────────────────────────────────────────────────
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, padding: '24px 0' }}>
+    <div className="hw-page-flow">
       {/* ── Sección 1: Cabecera ──────────────────────────────────────── */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div className="flex justify-between items-start">
+        <div className="flex items-center gap-3">
           <MessageSquare className="h-7 w-7 text-hw-accent shrink-0" />
           <div>
-            <h1 className="text-hw-title font-heading" style={{ fontSize: '1.4rem', fontWeight: 700, margin: 0 }}>
+            <h1 className="text-hw-title font-heading text-[1.4rem] font-bold m-0">
               Foro
             </h1>
-            <p className="text-hw-subtitle" style={{ fontSize: '0.85rem', margin: '4px 0 0' }}>
+            <p className="text-hw-subtitle text-[0.85rem] mt-1">
               Comparte tus builds, opiniones y preguntas con la comunidad.
             </p>
           </div>
@@ -210,7 +184,7 @@ export default function ForoPage() {
 
         <Button
           onClick={() => setDialogOpen(true)}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 10, paddingLeft: '0.75rem', paddingRight: '0.75rem' }}
+          className="inline-flex items-center gap-2.5 px-3"
         >
           <Plus className="h-4 w-4" />
           Nueva publicación
@@ -218,14 +192,12 @@ export default function ForoPage() {
       </div>
 
       {/* ── Sección 2: Barra de búsqueda ─────────────────────────────── */}
-      <div style={{ maxWidth: 690, margin: '0 auto', width: '100%', display: 'flex', gap: 8, flexWrap: 'nowrap', alignItems: 'center', overflowX: 'auto' }}>
+      <div className="hw-search-bar">
         <Input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Buscar personas o publicaciones…"
-          /* Hago que el input tenga una base más ancha para que el placeholder se vea completo
-             y que pueda encogerse en pantallas pequeñas. */
-          style={{ flex: '1 1 auto', minWidth: 240, paddingLeft: '1rem', paddingRight: '0.75rem', maxWidth: '100%' }}
+          className="flex-auto min-w-[240px] max-w-full pl-4 pr-3"
           onKeyDown={(e) => {
             if (e.key === 'Enter') handleSearchPublicaciones();
           }}
@@ -235,7 +207,7 @@ export default function ForoPage() {
           variant="outline"
           size="sm"
           onClick={handleSearchUsuarios}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, paddingLeft: '0.6rem', paddingRight: '0.6rem' }}
+          className="inline-flex items-center gap-2 px-2.5"
         >
           <Users className="h-4 w-4" />
           Personas
@@ -245,7 +217,7 @@ export default function ForoPage() {
           variant="outline"
           size="sm"
           onClick={handleSearchPublicaciones}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, paddingLeft: '0.6rem', paddingRight: '0.6rem' }}
+          className="inline-flex items-center gap-2 px-2.5"
         >
           <Search className="h-4 w-4" />
           Publicaciones
@@ -267,7 +239,7 @@ export default function ForoPage() {
 
       {/* Modo feed */}
       {searchMode === 'feed' && (
-        <div style={{ maxWidth: 680, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div className="hw-feed-container">
           {feedLoading && <FeedSkeletons />}
           {feedError && <ErrorState message="Error al cargar publicaciones." />}
           {!feedLoading && !feedError && feedContent.length === 0 && (
@@ -284,7 +256,7 @@ export default function ForoPage() {
 
       {/* Modo búsqueda publicaciones */}
       {searchMode === 'publicaciones' && (
-        <div style={{ maxWidth: 680, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div className="hw-feed-container">
           {textLoading && <FeedSkeletons />}
           {textError && <ErrorState message="Error al buscar publicaciones." />}
           {!textLoading && !textError && textContent.length === 0 && (
@@ -301,7 +273,7 @@ export default function ForoPage() {
 
       {/* Modo búsqueda usuarios */}
       {searchMode === 'usuarios' && (
-        <div style={{ maxWidth: 680, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div className="hw-users-container">
           {usersLoading && <UserSkeletons />}
           {usersError && <ErrorState message="Error al buscar usuarios." />}
           {!usersLoading && !usersError && usersContent.length === 0 && (

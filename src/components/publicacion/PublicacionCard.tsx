@@ -46,16 +46,12 @@ export default function PublicacionCard({ publicacion, autor }: PublicacionCardP
   const imgSrc = multimediaSrc(publicacion.multimedia);
 
   return (
-    <article
-      className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl"
-      style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}
-    >
+    <article className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl hw-card-body">
       {/* ── Header: avatar + name + date ──────────────────────────────── */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div className="hw-card-header">
         <button
           onClick={() => navigate(`/dashboard/usuario/${autor.id}`)}
-          className="shrink-0 cursor-pointer"
-          style={{ background: 'none', border: 'none', padding: 0 }}
+          className="shrink-0 cursor-pointer hw-btn-reset"
           aria-label={`Ver perfil de ${autor.nombre}`}
         >
           <Avatar size="lg">
@@ -66,25 +62,21 @@ export default function PublicacionCard({ publicacion, autor }: PublicacionCardP
           </Avatar>
         </button>
 
-        <div style={{ flex: 1, minWidth: 0 }}>
+        <div className="flex-1 min-w-0">
           <button
             onClick={() => navigate(`/dashboard/usuario/${autor.id}`)}
-            className="text-hw-title font-heading cursor-pointer hover:underline"
-            style={{ background: 'none', border: 'none', padding: 0, fontSize: '0.88rem', fontWeight: 600, display: 'block' }}
+            className="text-hw-title font-heading cursor-pointer hover:underline hw-name-link"
           >
             {autor.nombre}
           </button>
-          <span className="text-hw-subtitle" style={{ fontSize: '0.72rem' }}>
+          <span className="text-hw-subtitle text-[0.72rem]">
             {timeAgo(publicacion.fecha)}
           </span>
         </div>
       </div>
 
       {/* ── Content ───────────────────────────────────────────────────── */}
-      <p
-        className="text-hw-title"
-        style={{ fontSize: '0.85rem', lineHeight: 1.6, margin: 0, wordBreak: 'break-word' }}
-      >
+      <p className="text-hw-title text-[0.85rem] leading-relaxed break-words">
         {publicacion.contenidoTexto}
       </p>
 
@@ -94,12 +86,7 @@ export default function PublicacionCard({ publicacion, autor }: PublicacionCardP
           src={imgSrc}
           alt="Contenido multimedia"
           loading="lazy"
-          style={{
-            width: '100%',
-            maxHeight: 420,
-            objectFit: 'cover',
-            borderRadius: 12,
-          }}
+          className="hw-card-img"
         />
       )}
 
@@ -109,7 +96,7 @@ export default function PublicacionCard({ publicacion, autor }: PublicacionCardP
       )}
 
       {/* ── Actions ───────────────────────────────────────────────────── */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingTop: 4 }}>
+      <div className="hw-card-actions">
         <ReactionDropdown
           publicacionId={publicacion.id}
           likesCount={publicacion.likesCount}
@@ -121,16 +108,7 @@ export default function PublicacionCard({ publicacion, autor }: PublicacionCardP
 
         <Button
           variant="ghost"
-          className="text-hw-subtitle hover:text-hw-title hover:bg-hw-accent/10 cursor-pointer"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 6,
-            fontSize: '0.78rem',
-            padding: '6px 12px',
-            borderRadius: 10,
-            border: '1px solid var(--hw-card-border)',
-          }}
+          className="text-hw-subtitle hover:text-hw-title hover:bg-hw-accent/10 cursor-pointer hw-comment-btn"
           onClick={() => setCommentsOpen(true)}
         >
           <MessageSquare className="h-4 w-4" />
@@ -147,4 +125,3 @@ export default function PublicacionCard({ publicacion, autor }: PublicacionCardP
     </article>
   );
 }
-

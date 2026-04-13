@@ -8,12 +8,9 @@ interface NewsGridProps {
 
 export default function NewsGrid({ newsList }: NewsGridProps) {
   return (
-    <div
-      className="grid min-w-0 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-      style={{ columnGap: 8, rowGap: 8 }}
-    >
+    <div className="grid min-w-0 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 hw-news-grid">
       {newsList.map((item) => (
-        <div key={item.url} style={{ padding: 10 }}>
+        <div key={item.url} className="hw-news-grid-item">
           <NewsCard news={item} />
         </div>
       ))}
@@ -24,12 +21,9 @@ export default function NewsGrid({ newsList }: NewsGridProps) {
 /** Grid de skeletons para el estado de carga */
 export function NewsGridSkeleton({ count = 6 }: { count?: number }) {
   return (
-    <div
-      className="grid min-w-0 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-      style={{ columnGap: 8, rowGap: 8 }}
-    >
+    <div className="grid min-w-0 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 hw-news-grid">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} style={{ padding: 10 }}>
+        <div key={i} className="hw-news-grid-item">
           <NewsCardSkeleton />
         </div>
       ))}

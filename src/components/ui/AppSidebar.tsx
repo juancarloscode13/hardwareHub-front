@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   MessageSquare,
@@ -34,12 +33,6 @@ const linkActive =
 const linkInactive =
   'text-sidebar-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground';
 
-// Estilos inline para garantizar el espaciado independientemente de la caché de Tailwind
-const linkStyle: React.CSSProperties = {
-  gap: '12px',
-  padding: '12px 16px',
-};
-
 // ── Componente ────────────────────────────────────────────────────────────
 
 export default function AppSidebar() {
@@ -51,20 +44,18 @@ export default function AppSidebar() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', padding: '24px 12px 16px', gap: '4px' }}>
+    <div className="hw-sidebar-container">
       {/* Navegación */}
-      <p style={{ margin: '0 0 1rem', padding: '0 1rem', fontSize: '15px', fontWeight: 600, letterSpacing: '0.1rem', textTransform: 'uppercase', opacity: 0.8 }}
-         className="text-sidebar-foreground">
+      <p className="hw-sidebar-section-title text-sidebar-foreground">
         Navegación
       </p>
-      <nav style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+      <nav className="hw-sidebar-nav">
         {NAV_ITEMS.map((item) => (
           <NavLink
             key={item.href}
             to={item.href}
             end={item.href === '/dashboard'}
-            className={`${linkBase} ${isActive(item.href) ? linkActive : linkInactive}`}
-            style={linkStyle}
+            className={`${linkBase} hw-sidebar-link ${isActive(item.href) ? linkActive : linkInactive}`}
           >
             <item.icon className="h-[18px] w-[18px] shrink-0" />
             <span className="truncate">{item.label}</span>
@@ -72,20 +63,18 @@ export default function AppSidebar() {
         ))}
       </nav>
 
-      <div style={{ margin: '16px 0', height: '1px' }} className="bg-sidebar-border" />
+      <div className="hw-sidebar-divider bg-sidebar-border" />
 
       {/* Soporte */}
-      <p style={{ margin: '0 0 1rem', padding: '0 1rem', fontSize: '15px', fontWeight: 600, letterSpacing: '0.1rem', textTransform: 'uppercase', opacity: 0.8 }}
-         className="text-sidebar-foreground">
+      <p className="hw-sidebar-section-title text-sidebar-foreground">
         Soporte
       </p>
-      <nav style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+      <nav className="hw-sidebar-nav">
         {SUPPORT_ITEMS.map((item) => (
           <NavLink
             key={item.href}
             to={item.href}
-            className={`${linkBase} ${isActive(item.href) ? linkActive : linkInactive}`}
-            style={linkStyle}
+            className={`${linkBase} hw-sidebar-link ${isActive(item.href) ? linkActive : linkInactive}`}
           >
             <item.icon className="h-[18px] w-[18px] shrink-0" />
             <span className="truncate">{item.label}</span>
