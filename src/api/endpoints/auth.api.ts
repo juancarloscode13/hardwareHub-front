@@ -1,5 +1,5 @@
 import { api } from '../axios';
-import type { LoginRequestDto, RegisterRequestDto } from '@/dto';
+import type { LoginRequestDto, RegisterRequestDto, ForgotPasswordRequestDto, ResetPasswordRequestDto } from '@/dto';
 import type { LoginResponseDto, UsuarioResponseDto } from '@/dto';
 
 // ── Helper: File → base64 sin el prefijo "data:…;base64," ────────────────
@@ -43,4 +43,10 @@ export const authApi = {
 
   me: () =>
     api.get<UsuarioResponseDto>('/auth/me').then(({ data }) => data),
+
+  forgotPassword: (data: ForgotPasswordRequestDto) =>
+    api.post<{ message: string }>('/auth/forgot-password', data).then(({ data }) => data),
+
+  resetPassword: (data: ResetPasswordRequestDto) =>
+    api.post<{ message: string }>('/auth/reset-password', data).then(({ data }) => data),
 };

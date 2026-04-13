@@ -8,12 +8,14 @@ import { Button } from '@/components/ui/button.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { Label } from '@/components/ui/label.tsx';
 import { ThemeToggle } from '@/components/ui/theme-toggle.tsx';
+import ForgotPasswordDialog from '@/components/auth/ForgotPasswordDialog';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const login = useLogin();
+  const [forgotOpen, setForgotOpen] = useState(false);
   const navigate = useNavigate();
 
   // Validación reactiva: solo se muestra tras primer submit
@@ -111,6 +113,19 @@ export default function LoginPage() {
               )}
             </div>
 
+            {/* Enlace recuperar contraseña */}
+            <div className="flex justify-end -mt-2">
+              <span
+                role="button"
+                tabIndex={0}
+                onClick={() => setForgotOpen(true)}
+                onKeyDown={(e) => { if (e.key === 'Enter') setForgotOpen(true); }}
+                className="text-hw-accent text-[0.8rem] hover:underline cursor-pointer transition-colors duration-300"
+              >
+                ¿Ha olvidado su contraseña?
+              </span>
+            </div>
+
             {/* Mensaje de error del servidor */}
             {login.isError && (
               <div className="px-[0.75rem] py-[0.5rem] rounded-[8px] border border-hw-error-border bg-hw-error-bg text-hw-error text-[0.875rem]">
@@ -164,6 +179,9 @@ export default function LoginPage() {
           </Link>
         </p>
       </div>
+
+      {/* Dialog de recuperar contraseña */}
+      <ForgotPasswordDialog open={forgotOpen} onOpenChange={setForgotOpen} />
     </div>
   );
 }
