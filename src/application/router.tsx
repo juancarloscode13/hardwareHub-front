@@ -2,6 +2,7 @@ import React from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
+import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import LandingPage from '@/pages/LandingPage';
 import DashboardLayout from '@/pages/DashboardLayout';
 import AdminPage from '@/pages/AdminPage';
@@ -52,6 +53,14 @@ export default createBrowserRouter([
     element: (
       <PublicOnlyRoute>
         <RegisterPage />
+      </PublicOnlyRoute>
+    ),
+  },
+  {
+    path: '/reset-password',
+    element: (
+      <PublicOnlyRoute>
+        <ResetPasswordPage />
       </PublicOnlyRoute>
     ),
   },

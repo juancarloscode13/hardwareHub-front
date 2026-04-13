@@ -200,3 +200,12 @@ export interface RegisterRequestDto {
   avatar?: File | null;
 }
 
+// -- Password Recovery ----------------------------------------------------------
+export interface ForgotPasswordRequestDto {
+  email: string;
+}
+
+export interface ResetPasswordRequestDto {
+  token: string;
+  nuevaContrasena: string;
+}
