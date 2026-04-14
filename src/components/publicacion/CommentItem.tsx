@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { CornerDownRight } from 'lucide-react';
 import type { ComentarioResponseDto } from '@/dto';
 import { useUsuario } from '@/features/usuario/hooks/useUsuario';
+import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 import { timeAgo } from '@/lib/date-helpers';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -90,7 +91,10 @@ interface CommentItemProps {
 export default function CommentItem({ comentario, replies = [], publicacionId }: CommentItemProps) {
   const navigate = useNavigate();
   const { data: autor, isLoading } = useUsuario(comentario.usuarioId);
+  const { user: currentUser } = useCurrentUser();
   const [replyOpen, setReplyOpen] = useState(false);
+
+  const isOwnComment = !!currentUser && currentUser.id === comentario.usuarioId;
 
   if (isLoading) {
     return (
@@ -139,16 +143,18 @@ export default function CommentItem({ comentario, replies = [], publicacionId }:
             {comentario.textoContenido}
           </p>
 
-          {/* Botón Responder */}
-          <Button
-            variant="ghost"
-            size="xs"
-            onClick={() => setReplyOpen((v) => !v)}
-            className="self-start text-hw-subtitle hover:text-hw-accent hw-reply-btn"
-          >
-            <CornerDownRight className="h-3 w-3" />
-            {replyOpen ? 'Cancelar' : `Responder${replies.length > 0 ? ` (${replies.length})` : ''}`}
-          </Button>
+          {/* Botón Responder — solo si no es el propio autor */}
+          {!isOwnComment && (
+            <Button
+              variant="ghost"
+              size="xs"
+              onClick={() => setReplyOpen((v) => !v)}
+              className="self-start text-hw-subtitle hover:text-hw-accent hw-reply-btn"
+            >
+              <CornerDownRight className="h-3 w-3" />
+              {replyOpen ? 'Cancelar' : `Responder${replies.length > 0 ? ` (${replies.length})` : ''}`}
+            </Button>
+          )}
         </div>
       </div>
 

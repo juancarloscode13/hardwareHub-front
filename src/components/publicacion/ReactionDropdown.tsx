@@ -30,6 +30,7 @@ const REACTIONS: ReactionDef[] = [
 
 interface ReactionDropdownProps {
   publicacionId: number;
+  autorId: number;
   likesCount: number;
   dislikesCount: number;
   loveCount: number;
@@ -53,11 +54,13 @@ export default function ReactionDropdown(props: ReactionDropdownProps) {
   const { user } = useCurrentUser();
   const addReaccion = useAddReaccion();
 
+  const isOwnPost = !!user && user.id === props.autorId;
+
   const total =
     props.likesCount + props.dislikesCount + props.loveCount + props.funnyCount + props.interestingCount;
 
   const handleReact = (tipo: TipoReaccion) => {
-    if (!user) return;
+    if (!user || isOwnPost) return;
     addReaccion.mutate({
       id: props.publicacionId,
       data: { usuarioId: user.id, tipo },
@@ -66,10 +69,12 @@ export default function ReactionDropdown(props: ReactionDropdownProps) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild disabled={isOwnPost}>
         <Button
           variant="ghost"
-          className="text-hw-subtitle hover:text-hw-title hover:bg-hw-accent/10 cursor-pointer"
+          disabled={isOwnPost}
+          title={isOwnPost ? 'No puedes reaccionar a tu propia publicación' : undefined}
+          className="text-hw-subtitle hover:text-hw-title hover:bg-hw-accent/10 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           style={{
             display: 'inline-flex',
             alignItems: 'center',

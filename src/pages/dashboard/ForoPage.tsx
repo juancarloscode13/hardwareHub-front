@@ -169,14 +169,14 @@ export default function ForoPage() {
   return (
     <div className="hw-page-flow">
       {/* ── Sección 1: Cabecera ──────────────────────────────────────── */}
-      <div className="flex justify-between items-start">
-        <div className="flex items-center gap-3">
-          <MessageSquare className="h-7 w-7 text-hw-accent shrink-0" />
-          <div>
-            <h1 className="text-hw-title font-heading text-[1.4rem] font-bold m-0">
+      <div className="hw-foro-header">
+        <div className="hw-foro-header-brand">
+          <MessageSquare className="h-7 w-7 text-hw-accent shrink-0 hw-foro-header-brand-icon" />
+          <div className="hw-foro-header-copy">
+            <h1 className="text-hw-title font-heading hw-foro-header-title">
               Foro
             </h1>
-            <p className="text-hw-subtitle text-[0.85rem] mt-1">
+            <p className="hw-foro-header-subtitle">
               Comparte tus builds, opiniones y preguntas con la comunidad.
             </p>
           </div>
@@ -184,7 +184,7 @@ export default function ForoPage() {
 
         <Button
           onClick={() => setDialogOpen(true)}
-          className="inline-flex items-center gap-2.5 px-3"
+          className="hw-foro-new-post-btn"
         >
           <Plus className="h-4 w-4" />
           Nueva publicación
@@ -192,12 +192,12 @@ export default function ForoPage() {
       </div>
 
       {/* ── Sección 2: Barra de búsqueda ─────────────────────────────── */}
-      <div className="hw-search-bar">
+      <div className="hw-foro-search-row">
         <Input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Buscar personas o publicaciones…"
-          className="flex-auto min-w-[240px] max-w-full pl-4 pr-3"
+          className="hw-foro-search-input"
           onKeyDown={(e) => {
             if (e.key === 'Enter') handleSearchPublicaciones();
           }}
@@ -207,7 +207,7 @@ export default function ForoPage() {
           variant="outline"
           size="sm"
           onClick={handleSearchUsuarios}
-          className="inline-flex items-center gap-2 px-2.5"
+          className="hw-foro-search-btn"
         >
           <Users className="h-4 w-4" />
           Personas
@@ -217,7 +217,7 @@ export default function ForoPage() {
           variant="outline"
           size="sm"
           onClick={handleSearchPublicaciones}
-          className="inline-flex items-center gap-2 px-2.5"
+          className="hw-foro-search-btn"
         >
           <Search className="h-4 w-4" />
           Publicaciones
@@ -229,6 +229,7 @@ export default function ForoPage() {
             size="icon-sm"
             onClick={handleClearSearch}
             aria-label="Limpiar búsqueda"
+            className="hw-foro-search-clear-btn"
           >
             <X className="h-4 w-4" />
           </Button>
