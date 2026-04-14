@@ -151,7 +151,7 @@ export default function StartChatDialog({
               key={u.id}
               onClick={() => handleSelect(u)}
               disabled={createConversation.isPending}
-              className="hw-user-result-btn hover:bg-hw-icon-bg transition-colors"
+              className="hw-user-result-btn hw-user-result-btn-hover"
             >
               <Avatar size="sm">
                 {avatarSrc(u.iconoPerfil) ? (

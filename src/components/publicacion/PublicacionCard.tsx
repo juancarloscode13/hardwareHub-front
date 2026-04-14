@@ -99,6 +99,7 @@ export default function PublicacionCard({ publicacion, autor }: PublicacionCardP
       <div className="hw-card-actions">
         <ReactionDropdown
           publicacionId={publicacion.id}
+          autorId={publicacion.usuarioId}
           likesCount={publicacion.likesCount}
           dislikesCount={publicacion.dislikesCount}
           loveCount={publicacion.loveCount}
