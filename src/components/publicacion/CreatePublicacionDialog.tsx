@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react';
-import { Plus, ImagePlus, X } from 'lucide-react';
+import { useCallback, useState } from 'react';
+import { Plus, X } from 'lucide-react';
 import { toast } from 'sonner';
+import type { UploadHookControl } from '@better-upload/client';
 import {
   Dialog,
   DialogContent,
@@ -10,6 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { UploadDropzone } from '@/components/ui/upload-dropzone';
 import { useCreatePublicacion } from '@/features/publicacion/hooks/useCreatePublicacion';
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 
@@ -29,35 +31,34 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
   const [contenidoTexto, setContenidoTexto] = useState('');
   const [multimedia, setMultimedia] = useState('');
   const [multimediaMime, setMultimediaMime] = useState('image/jpeg');
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isImagePending, setIsImagePending] = useState(false);
 
   // ── Handlers ──────────────────────────────────────────────────────────
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleUploadImage = useCallback((input: File[] | FileList) => {
+    const files = Array.from(input);
+    const file = files[0];
     if (!file) return;
 
     const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
     const fileExtension = file.name.split('.').pop()?.toLowerCase();
     if (!fileExtension || !allowedExtensions.includes(fileExtension)) {
       toast.error('Extensión no permitida. Usa: .jpg, .jpeg, .png, .webp o .gif.');
-      if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
 
     if (!file.type.startsWith('image/')) {
       toast.error('Solo se permiten archivos de imagen.');
-      if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
 
     const maxBytes = 16 * 1024 * 1024;
     if (file.size > maxBytes) {
       toast.error('La imagen debe pesar menos de 16MB.');
-      if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
 
+    setIsImagePending(true);
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result as string;
@@ -65,21 +66,34 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
       const base64 = result.split(',')[1] ?? '';
       setMultimedia(base64);
       setMultimediaMime(file.type || 'image/jpeg');
+      setIsImagePending(false);
+    };
+    reader.onerror = () => {
+      toast.error('No se pudo leer la imagen. Intenta con otro archivo.');
+      setIsImagePending(false);
     };
     reader.readAsDataURL(file);
-  };
+  }, []);
+
+  const dropzoneControl = {
+    upload: handleUploadImage,
+    isPending: isImagePending,
+    progress: null,
+    isSuccess: false,
+    isError: false,
+    error: null,
+  } as unknown as UploadHookControl<true>;
 
   const clearImage = () => {
     setMultimedia('');
     setMultimediaMime('image/jpeg');
-    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const resetForm = () => {
     setContenidoTexto('');
     setMultimedia('');
     setMultimediaMime('image/jpeg');
-    if (fileInputRef.current) fileInputRef.current.value = '';
+    setIsImagePending(false);
   };
 
   const handleSubmit = () => {
@@ -113,15 +127,15 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent showCloseButton className="w-[min(36rem,calc(100vw-2rem))]">
-        <DialogHeader>
-          <DialogTitle style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <DialogHeader className="hw-pub-dialog-header">
+          <DialogTitle className="flex items-center gap-2">
             <Plus className="h-5 w-5 text-hw-accent" />
             Nueva publicación
           </DialogTitle>
         </DialogHeader>
 
-        {/* Textarea */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {/* Cuerpo del formulario */}
+        <div className="hw-pub-dialog-form">
           <Textarea
             value={contenidoTexto}
             onChange={(e) => setContenidoTexto(e.target.value)}
@@ -129,51 +143,44 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
             minLength={1}
             maxLength={2000}
             rows={4}
+            className="hw-pub-dialog-textarea focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 rounded-lg"
           />
 
-          {/* Image preview */}
+          {/* Dropzone: solo visible cuando aún no hay imagen */}
+          {!multimedia && (
+            <UploadDropzone
+              control={dropzoneControl}
+              accept="image/jpeg,image/png,image/gif,image/webp"
+              description={{
+                fileTypes: 'JPG, PNG, GIF, WebP',
+                maxFileSize: '16MB',
+                maxFiles: 1,
+              }}
+            />
+          )}
+
+          {/* Previsualización: solo visible cuando hay imagen cargada */}
           {multimedia && (
-            <div style={{ position: 'relative', display: 'inline-block' }}>
+            <div className="relative rounded-lg border border-hw-input-border">
               <img
                 src={`data:${multimediaMime};base64,${multimedia}`}
                 alt="Preview"
-                style={{ maxHeight: 200, objectFit: 'cover', borderRadius: 8, width: '100%' }}
+                className="max-h-[200px] w-full rounded-lg object-cover"
               />
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white rounded-full"
+              <button
+                type="button"
                 onClick={clearImage}
+                aria-label="Quitar imagen"
+                className="absolute top-2 right-2 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors"
               >
                 <X className="h-4 w-4" />
-              </Button>
+              </button>
             </div>
           )}
-
-          {/* File input */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Button
-              variant="outline"
-              size="sm"
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
-            >
-              <ImagePlus className="h-4 w-4" />
-              {multimedia ? 'Cambiar imagen' : 'Añadir imagen'}
-            </Button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              style={{ display: 'none' }}
-            />
-          </div>
         </div>
 
-        <DialogFooter>
-          <Button onClick={handleSubmit} disabled={!canSubmit}>
+        <DialogFooter className="border-t-0 bg-transparent p-0 pt-2">
+          <Button onClick={handleSubmit} disabled={!canSubmit} className="hw-pub-dialog-submit">
             {createMutation.isPending ? 'Publicando…' : 'Publicar'}
           </Button>
         </DialogFooter>
