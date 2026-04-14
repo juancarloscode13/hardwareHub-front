@@ -200,6 +200,16 @@ export interface RamResponseDto {
   latencia: number;
 }
 
+// ── Foro tiempo real ──────────────────────────────────────────────────────────
+/** Evento emitido por /topic/forum.feed al crear una nueva publicación */
+export interface NuevaPublicacionEventDto {
+  id: number;
+  usuarioId: number;
+  autorNombre: string | null;
+  preview: string | null;
+  fecha: string;
+}
+
 export interface ReaccionConteoDto {
   publicacionId: number;
   likesCount: number;

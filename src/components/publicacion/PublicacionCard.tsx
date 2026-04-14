@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import ReactionDropdown from './ReactionDropdown';
 import CommentsDialog from './CommentsDialog';
 import MontajePreviewCard from '@/components/montaje/MontajePreviewCard';
+import { usePublicacionRealtime } from '@/features/publicacion/hooks/usePublicacionRealtime';
 
 // ── Helpers ───────────────────────────────────────────────────────────────
 
@@ -42,6 +43,18 @@ interface PublicacionCardProps {
 export default function PublicacionCard({ publicacion, autor }: PublicacionCardProps) {
   const navigate = useNavigate();
   const [commentsOpen, setCommentsOpen] = useState(false);
+
+  // ── Tiempo real: reacciones y comentarios en vivo ─────────────────────────
+  const { reaccionesUpdate } = usePublicacionRealtime(publicacion.id);
+
+  // Contadores efectivos: los del servidor o los del último evento STOMP
+  const counts = reaccionesUpdate ?? {
+    likesCount:       publicacion.likesCount,
+    dislikesCount:    publicacion.dislikesCount,
+    loveCount:        publicacion.loveCount,
+    funnyCount:       publicacion.funnyCount,
+    interestingCount: publicacion.interestingCount,
+  };
 
   const imgSrc = multimediaSrc(publicacion.multimedia);
 
@@ -100,11 +113,11 @@ export default function PublicacionCard({ publicacion, autor }: PublicacionCardP
         <ReactionDropdown
           publicacionId={publicacion.id}
           autorId={publicacion.usuarioId}
-          likesCount={publicacion.likesCount}
-          dislikesCount={publicacion.dislikesCount}
-          loveCount={publicacion.loveCount}
-          funnyCount={publicacion.funnyCount}
-          interestingCount={publicacion.interestingCount}
+          likesCount={counts.likesCount}
+          dislikesCount={counts.dislikesCount}
+          loveCount={counts.loveCount}
+          funnyCount={counts.funnyCount}
+          interestingCount={counts.interestingCount}
         />
 
         <Button

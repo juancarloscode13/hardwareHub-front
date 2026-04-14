@@ -6,6 +6,7 @@ import {
   usePublicaciones,
   usePublicacionesByTexto,
 } from '@/features/publicacion/hooks/usePublicacion';
+import { useForumFeed } from '@/features/publicacion/hooks/useForumFeed';
 import { useUsuarios } from '@/features/usuario/hooks/useUsuario';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -115,6 +116,9 @@ export default function ForoPage() {
   const [searchMode, setSearchMode] = useState<'feed' | 'usuarios' | 'publicaciones'>('feed');
   const [activeQuery, setActiveQuery] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  // ── Tiempo real: suscripción al feed global del foro ──────────────────────
+  useForumFeed();
 
   // ── Data hooks ──────────────────────────────────────────────────────────
 
