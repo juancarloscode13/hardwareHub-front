@@ -26,9 +26,19 @@ import CreateMontajePage from '@/pages/dashboard/CreateMontajePage';
 // Redirige a /dashboard si el usuario ya está autenticado.
 // Evita que un usuario logueado vea /login o /registro.
 function PublicOnlyRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isLoading } = useCurrentUser();
+  const { isAuthenticated, isAdmin, isLoading } = useCurrentUser();
   if (isLoading) return null;
-  if (isAuthenticated) return <Navigate to="/dashboard" replace />;
+  if (isAuthenticated) return <Navigate to={isAdmin ? '/admin' : '/dashboard'} replace />;
+  return <>{children}</>;
+}
+
+// Evita que un admin caiga en el dashboard de usuario (por ejemplo,
+// si algún flujo de login navega a /dashboard de forma fija).
+function UserDashboardRoute({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated, isAdmin, isLoading } = useCurrentUser();
+  if (isLoading) return null;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (isAdmin) return <Navigate to="/admin" replace />;
   return <>{children}</>;
 }
 
@@ -68,9 +78,11 @@ export default createBrowserRouter([
   {
     path: '/dashboard',
     element: (
-      <ProtectedRoute>
-        <DashboardLayout />
-      </ProtectedRoute>
+      <UserDashboardRoute>
+        <ProtectedRoute>
+          <DashboardLayout />
+        </ProtectedRoute>
+      </UserDashboardRoute>
     ),
     children: [
       { index: true,          element: <ForoPage /> },

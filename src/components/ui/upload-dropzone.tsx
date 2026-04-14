@@ -8,6 +8,7 @@ type UploadDropzoneProps = {
   control: UploadHookControl<true>;
   id?: string;
   accept?: string;
+  noClick?: boolean;
   metadata?: Record<string, unknown>;
   description?:
     | {
@@ -25,6 +26,7 @@ export function UploadDropzone({
   control: { upload, isPending },
   id: _id,
   accept,
+  noClick = true,
   metadata,
   description,
   uploadOverride,
@@ -40,9 +42,9 @@ export function UploadDropzone({
           upload(files, { metadata });
         }
       }
-      inputRef.current.value = '';
+      if (inputRef.current) inputRef.current.value = '';
     },
-    noClick: true,
+    noClick,
   });
 
   return (

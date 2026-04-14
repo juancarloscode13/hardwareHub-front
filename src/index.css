@@ -891,6 +891,33 @@ body {
   padding: 1.25rem 1.5rem;
 }
 
+/* ── Formulario de nueva publicación ──────────────────────────────────── */
+
+.hw-pub-dialog-header {
+  padding-bottom: 1.25rem;
+}
+
+.hw-pub-dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.5rem;
+}
+
+.hw-pub-dialog-textarea {
+  background: var(--hw-input);
+  border-color: var(--hw-input-border);
+  color: var(--hw-input-text);
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.hw-pub-dialog-submit {
+  height: auto;
+  padding: 0.625rem 1.25rem;
+}
+
 /* ── Profile page ─────────────────────────────────────────────────────── */
 
 .hw-profile-field {
