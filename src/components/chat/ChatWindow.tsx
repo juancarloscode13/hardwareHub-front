@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { MessageSquare } from 'lucide-react';
 import { useChat } from '@/features/chat/hooks/useChat';
+import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 import type { ConversationResponseDto } from '@/dto/chat';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
@@ -35,6 +36,7 @@ interface ActiveChatWindowProps {
 // ── Estado activo (con hooks de chat) ─────────────────────────────────────
 
 function ActiveChatWindow({ conversation, currentUserId }: ActiveChatWindowProps) {
+  const { user } = useCurrentUser();
   const {
     messages,
     sendMessage,
@@ -92,6 +94,8 @@ function ActiveChatWindow({ conversation, currentUserId }: ActiveChatWindowProps
         messages={messages}
         currentUserId={currentUserId}
         conversationId={conversation.id}
+        currentUserIcon={user?.iconoPerfil ?? null}
+        otherUserIcon={conversation.otherUserIconoPerfil ?? null}
         isLoading={isLoading}
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}
