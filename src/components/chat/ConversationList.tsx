@@ -44,8 +44,10 @@ export default function ConversationList({
       {/* Header */}
       <div
         className={cn(
-          'flex shrink-0 items-center gap-2 border-b border-hw-card-border py-3',
-          collapsed ? 'flex-col justify-center px-3' : 'justify-between px-5',
+          'hw-chat-sidebar-header flex shrink-0 items-center gap-1 border-b border-hw-card-border py-3',
+          collapsed
+            ? 'hw-chat-sidebar-header-collapsed flex-col justify-center px-3'
+            : 'hw-chat-sidebar-header-expanded justify-between px-5',
         )}
       >
         {!collapsed && (
@@ -54,7 +56,7 @@ export default function ConversationList({
           </h2>
         )}
 
-        <div className={cn('flex shrink-0 items-center gap-2', collapsed && 'flex-col')}>
+        <div className={cn('hw-chat-sidebar-actions flex shrink-0 items-center', collapsed && 'flex-col')}>
           {/* Toggle collapse */}
           {onToggleCollapse && (
             <TooltipProvider delayDuration={0}>
@@ -101,16 +103,19 @@ export default function ConversationList({
 
       {/* Buscador (oculto cuando está colapsado) */}
       {!collapsed && (
-        <div className="shrink-0 px-5 py-3">
-          <InputGroup className="h-9 rounded-xl">
-            <InputGroupAddon align="inline-start" className="pl-3 pr-1 text-muted-foreground">
+        <div className="hw-chat-sidebar-search mt-2 shrink-0 px-5 pb-3 pt-2">
+          <InputGroup className="h-9 rounded-xl pl-2">
+            <InputGroupAddon
+              align="inline-start"
+              className="hw-chat-sidebar-search-addon text-muted-foreground"
+            >
               <Search className="h-4 w-4" />
             </InputGroupAddon>
             <InputGroupInput
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar conversación…"
-              className="h-full text-sm"
+              className="hw-chat-sidebar-search-input h-full text-sm"
             />
           </InputGroup>
         </div>
@@ -119,7 +124,7 @@ export default function ConversationList({
       {/* Lista */}
       <div
         className={cn(
-          'min-h-0 flex-1 overflow-y-auto overscroll-contain pb-3',
+          'hw-chat-sidebar-list min-h-0 flex-1 overflow-y-auto overscroll-contain pb-3',
           collapsed ? 'px-2' : 'px-3',
         )}
       >
