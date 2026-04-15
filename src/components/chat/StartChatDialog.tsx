@@ -99,8 +99,8 @@ export default function StartChatDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent>
-        <DialogHeader>
+      <DialogContent className="hw-start-chat-dialog">
+        <DialogHeader className="hw-start-chat-dialog-header">
           <DialogTitle>
             <span className="hw-dialog-title-icon">
               <MessageCirclePlus className="h-5 w-5 text-hw-accent" />
@@ -117,11 +117,12 @@ export default function StartChatDialog({
           autoFocus
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          className="hw-start-chat-dialog-input"
           placeholder="Buscar por nombre…"
         />
 
         {/* Resultados */}
-        <div className="hw-search-results">
+        <div className="hw-search-results hw-start-chat-dialog-results">
           {/* Estado vacío: query muy corta */}
           {debouncedQuery.length < 2 && (
             <p className="text-hw-subtitle text-center pt-8 text-[0.85rem]">

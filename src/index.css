@@ -512,6 +512,7 @@ body {
 .hw-chat-sidebar-header-expanded {
   padding-left: 1.25rem;
   padding-right: 1.25rem;
+  margin-bottom: 0.75rem !important;
 }
 
 .hw-chat-sidebar-header-collapsed {
@@ -520,20 +521,20 @@ body {
 }
 
 .hw-chat-sidebar-actions {
-  gap: 0.5rem;
+  gap: 0.75rem !important;
 }
 
-.hw-chat-sidebar-search {
-  padding-top: 0.625rem;
-  padding-bottom: 0.625rem;
+.hw-chat-sidebar-search .hw-chat-sidebar-search-addon {
+  padding-left: 0.875rem !important;
+  padding-right: 0.375rem !important;
 }
 
-.hw-chat-sidebar-search-expanded {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+.hw-chat-sidebar-search .hw-chat-sidebar-search-input {
+  padding-left: 0.375rem !important;
 }
 
 .hw-chat-sidebar-list {
+  padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
 
@@ -1285,6 +1286,22 @@ body {
 
 .hw-dialog-padded {
   padding: 1.25rem 1.5rem;
+}
+
+.hw-start-chat-dialog {
+  gap: 1.25rem !important;
+}
+
+.hw-start-chat-dialog-header {
+  gap: 0.75rem !important;
+}
+
+.hw-start-chat-dialog-input {
+  margin-top: 0.25rem;
+}
+
+.hw-start-chat-dialog-results {
+  gap: 0.75rem;
 }
 
 /* ── Formulario de nueva publicación ──────────────────────────────────── */
