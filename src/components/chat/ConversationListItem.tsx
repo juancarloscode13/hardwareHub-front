@@ -64,18 +64,6 @@ export default function ConversationListItem({
     </Avatar>
   );
 
-  const avatarCollapsed = (
-    <Avatar size="default" className="shrink-0 ml-2">
-      {avatarSrc(conversation.otherUserIconoPerfil) ? (
-        <AvatarImage
-          src={avatarSrc(conversation.otherUserIconoPerfil)!}
-          alt={conversation.otherUserNombre}
-        />
-      ) : null}
-      <AvatarFallback>{getInitials(conversation.otherUserNombre)}</AvatarFallback>
-    </Avatar>
-  );
-
   /* ── Vista colapsada: solo avatar con tooltip ─────────────────────── */
   if (collapsed) {
     return (
@@ -85,13 +73,13 @@ export default function ConversationListItem({
             <button
               onClick={onClick}
               className={cn(
-                'relative flex w-full items-center justify-start rounded-xl p-2 pl-2.5 transition-colors cursor-pointer',
+                'hw-chat-conversation-item relative flex w-full items-center justify-center rounded-xl transition-colors cursor-pointer',
                 isActive
                   ? 'bg-(--hw-accent)/10 ring-1 ring-(--hw-accent)/30'
                   : 'hover:bg-muted/60',
               )}
             >
-              {avatarCollapsed}
+              {avatar}
               {conversation.unreadCount > 0 && (
                 <span className="hw-unread-badge hw-unread-badge-collapsed bg-hw-accent text-hw-accent-fg">
                   {conversation.unreadCount > 99 ? '99+' : conversation.unreadCount}
@@ -101,11 +89,6 @@ export default function ConversationListItem({
           </TooltipTrigger>
           <TooltipContent side="right" sideOffset={8}>
             <p className="font-medium">{conversation.otherUserNombre}</p>
-            {conversation.lastMessageContent && (
-              <p className="text-xs text-muted-foreground truncate max-w-[180px]">
-                {conversation.lastMessageContent}
-              </p>
-            )}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -117,7 +100,7 @@ export default function ConversationListItem({
     <button
       onClick={onClick}
       className={cn(
-        'flex w-full items-center gap-3 min-w-0 rounded-xl px-6 py-2.5 text-left transition-colors cursor-pointer overflow-hidden',
+        'hw-chat-conversation-item hw-chat-conversation-item-expanded flex w-full items-center gap-3 min-w-0 rounded-xl px-4 text-left transition-colors cursor-pointer overflow-hidden',
         isActive
           ? 'bg-(--hw-accent)/10 ring-1 ring-(--hw-accent)/30'
           : 'hover:bg-muted/60',
@@ -126,7 +109,7 @@ export default function ConversationListItem({
       {avatar}
 
       {/* Info */}
-      <div className="flex min-w-0 flex-1 flex-col ml-2">
+      <div className="hw-chat-conversation-item-content ml-1.5 flex min-w-0 flex-1 flex-col">
         <div className="flex items-center justify-between gap-2">
           <span className="truncate text-sm font-semibold text-hw-title min-w-0 flex-1">
             {conversation.otherUserNombre}

@@ -35,6 +35,28 @@
   --hw-error-bg:      rgba(220, 38, 38, 0.06);
   --hw-error-border:  rgba(220, 38, 38, 0.3);
 
+  /* ── Chat bubble V2 palette (light) ────────────────────────────────── */
+  --hw-bubble-own-from:           #d2eded;
+  --hw-bubble-own-to:             #b8e0e0;
+  --hw-bubble-own-border:         rgba(0, 139, 139, 0.30);
+  --hw-bubble-own-text:           #1a3a3a;
+  --hw-bubble-own-shadow:         0 2px 10px rgba(0, 139, 139, 0.10);
+  --hw-bubble-own-shadow-hover:   0 4px 18px rgba(0, 139, 139, 0.18);
+  --hw-bubble-other-from:         #f4f5f7;
+  --hw-bubble-other-to:           #eaecef;
+  --hw-bubble-other-border:       rgba(0, 0, 0, 0.10);
+  --hw-bubble-other-text:         #2a2a2a;
+  --hw-bubble-other-shadow:       0 2px 8px rgba(0, 0, 0, 0.06);
+  --hw-bubble-other-shadow-hover: 0 4px 14px rgba(0, 0, 0, 0.10);
+  --hw-bubble-dot-own:            rgba(0, 139, 139, 0.35);
+  --hw-bubble-dot-other:          rgba(0, 0, 0, 0.10);
+  --hw-bubble-scanline-color:     rgba(0, 139, 139, 0.012);
+  --hw-bubble-avatar-ring-shadow: 0 0 6px rgba(0, 139, 139, 0.18);
+  --hw-bubble-sender-color:       #000000;
+  --hw-bubble-time-own:           #008B8B;
+  --hw-bubble-time-other:         #888888;
+  --hw-bubble-status-read:        #008B8B;
+
   /* ── Vite boilerplate vars ────────────────────────────────────────── */
   --text: #6b6375;
   --text-h: #08060d;
@@ -125,6 +147,28 @@
   --hw-error:         #f87171;
   --hw-error-bg:      rgba(239, 68, 68, 0.1);
   --hw-error-border:  rgba(239, 68, 68, 0.3);
+
+  /* ── Chat bubble V2 palette (dark) ─────────────────────────────────── */
+  --hw-bubble-own-from:           #0a2a3a;
+  --hw-bubble-own-to:             #061a28;
+  --hw-bubble-own-border:         rgba(0, 255, 255, 0.25);
+  --hw-bubble-own-text:           #d0f0f0;
+  --hw-bubble-own-shadow:         0 0 8px rgba(0, 255, 255, 0.10), 0 2px 8px rgba(0, 0, 0, 0.30);
+  --hw-bubble-own-shadow-hover:   0 0 16px rgba(0, 255, 255, 0.22), 0 4px 20px rgba(0, 0, 0, 0.40);
+  --hw-bubble-other-from:         #0a1820;
+  --hw-bubble-other-to:           #061014;
+  --hw-bubble-other-border:       rgba(0, 255, 255, 0.12);
+  --hw-bubble-other-text:         #a8d0d8;
+  --hw-bubble-other-shadow:       0 0 4px rgba(0, 255, 255, 0.06), 0 2px 8px rgba(0, 0, 0, 0.30);
+  --hw-bubble-other-shadow-hover: 0 0 12px rgba(0, 255, 255, 0.12), 0 4px 16px rgba(0, 0, 0, 0.40);
+  --hw-bubble-dot-own:            rgba(0, 255, 255, 0.50);
+  --hw-bubble-dot-other:          rgba(0, 255, 255, 0.25);
+  --hw-bubble-scanline-color:     rgba(0, 255, 255, 0.015);
+  --hw-bubble-avatar-ring-shadow: 0 0 8px rgba(0, 255, 255, 0.22);
+  --hw-bubble-sender-color:       #ffffff;
+  --hw-bubble-time-own:           #00FFFF;
+  --hw-bubble-time-other:         rgba(0, 255, 255, 0.50);
+  --hw-bubble-status-read:        #00FFFF;
 
   /* ── shadcn dark tokens ───────────────────────────────────────────── */
   --background: oklch(0.145 0 0);
@@ -448,33 +492,293 @@ body {
   padding: 12px 16px;
 }
 
-/* ── Chat bubble ──────────────────────────────────────────────────────── */
+/* ── Chat sidebar spacing ───────────────────────────────────────────── */
 
-.hw-chat-bubble {
-  padding-left: 20px;
-  padding-right: 20px;
-  min-width: 10rem;
-  border-radius: 20px;
+.hw-chat-sidebar-header {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
-.hw-chat-bubble-own {
-  border-bottom-right-radius: 6px;
+.hw-chat-sidebar-title {
+  margin: 0 !important;
+  padding-left: 0.625rem !important;
+  font-size: 0.9375rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  letter-spacing: normal !important;
+  color: var(--hw-title) !important;
 }
 
-.hw-chat-bubble-other {
-  border-bottom-left-radius: 6px;
+.hw-chat-sidebar-header-expanded {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
-.hw-chat-sender {
-  font-weight: 700;
-  color: var(--hw-title);
-  opacity: 0.95;
+.hw-chat-sidebar-header-collapsed {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
-.hw-chat-text-other {
-  color: var(--hw-title);
-  opacity: 0.95;
+.hw-chat-sidebar-actions {
+  gap: 0.5rem;
 }
+
+.hw-chat-sidebar-search {
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+}
+
+.hw-chat-sidebar-search-expanded {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.hw-chat-sidebar-list {
+  padding-bottom: 0.5rem;
+}
+
+.hw-chat-conversation-item {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+}
+
+.hw-chat-conversation-item-expanded {
+  gap: 0.75rem;
+}
+
+.hw-chat-conversation-item-content {
+  gap: 0.2rem;
+}
+
+/* ── Chat input composer spacing ─────────────────────────────────────── */
+
+.hw-chat-input-shell {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.hw-chat-input-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hw-chat-input-field {
+  flex: 1 1 auto;
+  height: 2.75rem;
+  border-radius: 9999px;
+  padding-left: 1.25rem;
+  padding-right: 1rem;
+}
+
+.hw-chat-send-btn {
+  flex-shrink: 0;
+  margin-left: 0.25rem;
+  margin-right: 0.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
+/* ── Chat bubble V2 ───────────────────────────────────────────────────── */
+
+.hw-bubble {
+  position: relative;
+  max-width: 350px;
+  padding: 13px 17px;
+  font-size: 0.925rem;
+  line-height: 1.62;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  word-break: break-word;
+  cursor: default;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hw-bubble-own {
+  background: linear-gradient(135deg, var(--hw-bubble-own-from), var(--hw-bubble-own-to));
+  border: 1px solid var(--hw-bubble-own-border);
+  color: var(--hw-bubble-own-text);
+  border-radius: 18px 4px 18px 18px;
+  box-shadow: var(--hw-bubble-own-shadow);
+}
+
+.hw-bubble-other {
+  background: linear-gradient(135deg, var(--hw-bubble-other-from), var(--hw-bubble-other-to));
+  border: 1px solid var(--hw-bubble-other-border);
+  color: var(--hw-bubble-other-text);
+  border-radius: 4px 18px 18px 18px;
+  box-shadow: var(--hw-bubble-other-shadow);
+}
+
+.hw-bubble-own.hw-bubble-hovered {
+  transform: translateY(-1px);
+  box-shadow: var(--hw-bubble-own-shadow-hover);
+}
+
+.hw-bubble-other.hw-bubble-hovered {
+  transform: translateY(-1px);
+  box-shadow: var(--hw-bubble-other-shadow-hover);
+}
+
+/* Scanline overlay */
+.hw-bubble-scanline {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      var(--hw-bubble-scanline-color) 3px,
+      var(--hw-bubble-scanline-color) 4px
+    );
+  pointer-events: none;
+}
+
+/* Decorative corner dots */
+.hw-bubble-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hw-bubble-dot-tl {
+  top: 6px;
+  left: 6px;
+}
+
+.hw-bubble-dot-br {
+  bottom: 6px;
+  right: 6px;
+  opacity: 0.4;
+}
+
+.hw-bubble-own .hw-bubble-dot {
+  background: var(--hw-bubble-dot-own);
+  box-shadow: 0 0 4px var(--hw-bubble-dot-own);
+}
+
+.hw-bubble-other .hw-bubble-dot {
+  background: var(--hw-bubble-dot-other);
+  box-shadow: 0 0 4px var(--hw-bubble-dot-other);
+}
+
+/* Bubble text (z-index above scanline) */
+.hw-bubble-text {
+  position: relative;
+  z-index: 1;
+  font-size: 0.925rem;
+  line-height: 1.62;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+/* Chat message row + avatar spacing */
+.hw-chat-message-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.25rem !important;
+  margin-top: 1rem !important;
+}
+
+.hw-chat-message-row-own {
+  flex-direction: row-reverse;
+}
+
+.hw-chat-message-row-other {
+  flex-direction: row;
+}
+
+/* Avatar wrapper (positions the shadcn Avatar relative to the bubble) */
+.hw-bubble-avatar-wrap {
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+.hw-bubble-avatar-wrap-own {
+  margin-top: -17.5px;
+}
+
+.hw-bubble-avatar-wrap-other {
+  margin-top: 8px;
+}
+
+/* Cyan ring around the shadcn Avatar */
+.hw-bubble-avatar-ring {
+  border: 1.5px solid var(--hw-accent) !important;
+  box-shadow: var(--hw-bubble-avatar-ring-shadow);
+}
+
+/* Fallback initials inside the Avatar */
+.hw-bubble-avatar-fallback {
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em;
+  background: var(--hw-bubble-own-from) !important;
+  color: var(--hw-accent) !important;
+}
+
+.hw-bubble-avatar-xl {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+}
+
+.hw-bubble-avatar-xl .hw-bubble-avatar-fallback {
+  font-size: 0.72rem !important;
+}
+
+/* Sender name */
+.hw-bubble-sender-name {
+  font-size: 0.675rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--hw-bubble-sender-color);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+/* Time + status row */
+.hw-bubble-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  opacity: 0.55;
+}
+
+.hw-bubble-meta-own {
+  color: var(--hw-bubble-time-own);
+}
+
+.hw-bubble-meta-other {
+  color: var(--hw-bubble-time-other);
+}
+
+/* Status icon */
+.hw-bubble-status {
+  display: flex;
+  align-items: center;
+  color: currentColor;
+}
+
+.hw-bubble-status-read {
+  color: var(--hw-bubble-status-read);
+}
+
+/* ── Chat layout helpers (kept from V1) ───────────────────────────────── */
 
 .hw-chat-avatar-spacing {
   margin-right: 10px;

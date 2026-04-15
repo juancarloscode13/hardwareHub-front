@@ -11,6 +11,8 @@ interface MessageListProps {
   messages: MessageResponseDto[];
   currentUserId: number;
   conversationId: number;
+  currentUserIcon: string | null;
+  otherUserIcon: string | null;
   isLoading: boolean;
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
@@ -30,6 +32,8 @@ export default function MessageList({
   messages,
   currentUserId,
   conversationId,
+  currentUserIcon,
+  otherUserIcon,
   isLoading,
   hasNextPage,
   isFetchingNextPage,
@@ -120,6 +124,7 @@ export default function MessageList({
               message={msg}
               isOwn={msg.senderId === currentUserId}
               showDateLabel={showDateLabel}
+              senderIconoPerfil={msg.senderId === currentUserId ? currentUserIcon : otherUserIcon}
             />
             {idx < messages.length - 1 && (
               <div aria-hidden className="hw-chat-msg-spacer" />

@@ -26,13 +26,13 @@ export default function MessageInput({ onSend, disabled = false }: MessageInputP
   };
 
   return (
-    <div className="shrink-0 border-t border-hw-card-border bg-hw-card px-7 py-4">
-      <form onSubmit={handleSubmit} className="flex w-full items-center gap-4">
+    <div className="hw-chat-input-shell shrink-0 border-t border-hw-card-border bg-hw-card">
+      <form onSubmit={handleSubmit} className="hw-chat-input-row">
         <Input
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder="Escribe un mensaje..."
-          className="flex-1 h-11 rounded-full pl-3.5 pr-4 text-sm indent-px"
+          className="hw-chat-input-field text-sm"
           disabled={disabled}
         />
         <Button
@@ -40,7 +40,7 @@ export default function MessageInput({ onSend, disabled = false }: MessageInputP
           size="icon"
           disabled={disabled}
           className={cn(
-            'h-10 w-10 shrink-0 rounded-full bg-hw-accent text-hw-accent-fg shadow-sm transition-all duration-200 ease-out hover:scale-105 hover:bg-hw-accent/90 active:scale-95 ml-3 mr-2.5',
+            'hw-chat-send-btn h-10 w-10 rounded-full bg-hw-accent text-hw-accent-fg shadow-sm transition-all duration-200 ease-out hover:scale-105 hover:bg-hw-accent/90 active:scale-95',
             !hasText && 'opacity-75'
           )}
           aria-label="Enviar mensaje"

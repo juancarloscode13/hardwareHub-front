@@ -44,18 +44,17 @@ export default function ConversationList({
       {/* Header */}
       <div
         className={cn(
-          'flex shrink-0 items-center border-b border-hw-card-border py-4',
-          collapsed ? 'justify-center px-5' : 'justify-between px-10',
+          'flex shrink-0 items-center gap-2 border-b border-hw-card-border py-3',
+          collapsed ? 'flex-col justify-center px-3' : 'justify-between px-5',
         )}
       >
         {!collapsed && (
-          // Forzamos un pequeño margen izquierdo en la cabecera "Mensajes"
-          <h2 className="m-0 pl-4 ml-2 font-heading text-base font-bold text-hw-title">
+          <h2 className="hw-chat-sidebar-title min-w-0 flex-1 font-heading">
             Mensajes
           </h2>
         )}
 
-        <div className={cn('flex items-center', collapsed ? 'flex-col gap-4' : 'gap-6')}>
+        <div className={cn('flex shrink-0 items-center gap-2', collapsed && 'flex-col')}>
           {/* Toggle collapse */}
           {onToggleCollapse && (
             <TooltipProvider delayDuration={0}>
@@ -73,7 +72,7 @@ export default function ConversationList({
                     )}
                   </button>
                 </TooltipTrigger>
-                <TooltipContent side={collapsed ? 'right' : 'bottom'}>
+                  <TooltipContent side={collapsed ? 'right' : 'bottom'} sideOffset={8}>
                   {collapsed ? 'Expandir panel' : 'Minimizar panel'}
                 </TooltipContent>
               </Tooltip>
@@ -92,7 +91,7 @@ export default function ConversationList({
                   <MessageCirclePlus className="h-5 w-5" />
                 </button>
               </TooltipTrigger>
-              <TooltipContent side={collapsed ? 'right' : 'bottom'}>
+              <TooltipContent side={collapsed ? 'right' : 'bottom'} sideOffset={8}>
                 Nueva conversación
               </TooltipContent>
             </Tooltip>
@@ -102,8 +101,8 @@ export default function ConversationList({
 
       {/* Buscador (oculto cuando está colapsado) */}
       {!collapsed && (
-        <div className="shrink-0 px-10 py-4">
-          <InputGroup className="h-10 rounded-xl">
+        <div className="shrink-0 px-5 py-3">
+          <InputGroup className="h-9 rounded-xl">
             <InputGroupAddon align="inline-start" className="pl-3 pr-1 text-muted-foreground">
               <Search className="h-4 w-4" />
             </InputGroupAddon>
@@ -121,7 +120,7 @@ export default function ConversationList({
       <div
         className={cn(
           'min-h-0 flex-1 overflow-y-auto overscroll-contain pb-3',
-          collapsed ? 'px-4' : 'px-7',
+          collapsed ? 'px-2' : 'px-3',
         )}
       >
         {isLoading ? (
@@ -149,7 +148,7 @@ export default function ConversationList({
             {collapsed ? '' : search ? 'Sin resultados' : 'No hay conversaciones'}
           </div>
         ) : (
-          <div className={cn('flex flex-col', collapsed ? 'gap-1' : 'gap-0.5')}>
+          <div className={cn('flex flex-col', collapsed ? 'gap-1' : 'gap-1')}>
             {filtered.map((conv) => (
               <ConversationListItem
                 key={conv.id}
