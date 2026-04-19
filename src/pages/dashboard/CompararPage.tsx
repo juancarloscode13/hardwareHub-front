@@ -275,7 +275,7 @@ function ComponentSelector<T extends { id: number; modelo: string; fabricanteId:
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Buscar modelo…"
-        className="w-full h-9 rounded-lg border border-hw-card-border bg-hw-input px-3 text-sm text-hw-input-text placeholder:text-hw-placeholder focus:outline-none focus:ring-1 focus:ring-hw-accent/50"
+        className="w-full h-9 rounded-lg border border-hw-card-border bg-hw-input px-3 text-sm text-hw-input-text placeholder:text-hw-placeholder focus:outline-none focus:ring-1 focus:ring-hw-accent/50 hw-compare-selector-input"
       />
 
       <div className="overflow-y-auto overscroll-contain hw-compare-selector-list">
