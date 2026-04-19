@@ -137,20 +137,17 @@ function GuideSectionCard({ section }: { section: GuideSection }) {
   const Icon = section.icon;
 
   return (
-    <div className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl overflow-hidden transition-all">
+    <div className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl overflow-hidden transition-all hw-aprender-section-card">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center gap-4 px-6 py-5 text-left cursor-pointer hover:bg-muted/40 transition-colors"
+        className="w-full flex items-center py-5 text-left cursor-pointer hover:bg-muted/40 transition-colors hw-aprender-section-trigger"
       >
-        <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-hw-icon-border bg-hw-icon-bg shrink-0">
+        <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-hw-icon-border bg-hw-icon-bg shrink-0 hw-aprender-section-icon-wrap">
           <Icon className="w-5 h-5 text-hw-accent" />
         </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <p className="text-hw-title font-heading" style={{ fontSize: '0.95rem', fontWeight: 600, margin: 0 }}>
+        <div className="flex-1 min-w-0">
+          <p className="text-hw-title font-heading hw-aprender-section-title">
             {section.title}
-          </p>
-          <p className="text-hw-subtitle" style={{ fontSize: '0.78rem', margin: '2px 0 0' }}>
-            {section.intro.slice(0, 80)}…
           </p>
         </div>
         <ChevronDown
@@ -163,7 +160,7 @@ function GuideSectionCard({ section }: { section: GuideSection }) {
         className="overflow-hidden transition-all duration-300"
         style={{ maxHeight: open ? 600 : 0, opacity: open ? 1 : 0 }}
       >
-        <div className="px-6 pb-5" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div className="hw-aprender-section-content">
           <p className="text-hw-subtitle" style={{ fontSize: '0.84rem', lineHeight: 1.65, margin: 0 }}>
             {section.intro}
           </p>
@@ -194,12 +191,9 @@ function GuideSectionCard({ section }: { section: GuideSection }) {
 
 export default function AprenderPage() {
   return (
-    <section
-      className="flex flex-col gap-10"
-      style={{ paddingLeft: 8, paddingRight: 8, paddingTop: 4, paddingBottom: 8 }}
-    >
+    <section className="flex flex-col gap-8 hw-aprender-page">
       {/* ── Cabecera ─────────────────────────────────────────────────── */}
-      <div className="flex items-center gap-3 pr-2">
+      <div className="hw-aprender-header">
         <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-hw-icon-border bg-hw-icon-bg">
           <GraduationCap className="w-5 h-5 text-hw-accent" />
         </div>
@@ -213,11 +207,10 @@ export default function AprenderPage() {
         </div>
       </div>
 
+      <div className="hw-aprender-separator" aria-hidden="true" />
+
       {/* ── Intro card ────────────────────────────────────────────────── */}
-      <div
-        className="bg-hw-icon-bg ring-1 ring-hw-icon-border rounded-2xl"
-        style={{ padding: '24px 28px' }}
-      >
+      <div className="bg-hw-icon-bg ring-1 ring-hw-icon-border rounded-2xl hw-aprender-intro">
         <p className="text-hw-title" style={{ fontSize: '0.9rem', lineHeight: 1.65, margin: 0 }}>
           Montar un PC puede parecer intimidante, pero en realidad es como construir con piezas de LEGO:
           cada componente tiene su lugar y función. En esta guía te explicamos qué hace cada pieza,
@@ -225,18 +218,19 @@ export default function AprenderPage() {
         </p>
       </div>
 
+      <div className="hw-aprender-separator" aria-hidden="true" />
+
       {/* ── Secciones ─────────────────────────────────────────────────── */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div className="hw-aprender-sections">
         {GUIDE_SECTIONS.map((section) => (
           <GuideSectionCard key={section.title} section={section} />
         ))}
       </div>
 
+      <div className="hw-aprender-separator" aria-hidden="true" />
+
       {/* ── Footer ───────────────────────────────────────────────────── */}
-      <div
-        className="bg-hw-icon-bg ring-1 ring-hw-icon-border rounded-2xl text-center"
-        style={{ padding: '32px 24px' }}
-      >
+      <div className="bg-hw-icon-bg ring-1 ring-hw-icon-border rounded-2xl text-center hw-aprender-footer">
         <p className="text-hw-title font-heading" style={{ fontSize: '1rem', fontWeight: 600, margin: 0 }}>
           ¿Listo para construir?
         </p>
