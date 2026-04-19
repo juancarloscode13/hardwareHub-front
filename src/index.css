@@ -1666,3 +1666,74 @@ body {
   gap: 12px;
 }
 
+/* ── Ayuda page ───────────────────────────────────────────────────────── */
+
+.hw-ayuda-page {
+  padding: 12px 8px 16px;
+}
+
+.hw-ayuda-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-right: 8px;
+}
+
+.hw-ayuda-separator {
+  width: 100%;
+  height: 22px;
+  background: transparent;
+}
+
+.hw-ayuda-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hw-ayuda-section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  padding-left: 4px;
+}
+
+.hw-ayuda-section-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hw-ayuda-category-separator {
+  width: 100%;
+  height: 18px;
+  background: transparent;
+}
+
+.hw-ayuda-item-trigger {
+  gap: 12px;
+  padding: 16px 20px;
+}
+
+.hw-ayuda-item-answer {
+  font-size: 0.84rem;
+  line-height: 1.65;
+  margin: 0;
+  padding: 0 20px 16px;
+}
+
+.hw-ayuda-footer {
+  padding: 32px 24px;
+}
+
+.hw-ayuda-footer-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.hw-ayuda-footer-text {
+  font-size: 0.84rem;
+  margin: 8px 0 0;
+}
+

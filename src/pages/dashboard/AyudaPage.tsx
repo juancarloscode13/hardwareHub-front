@@ -118,7 +118,7 @@ function FaqAccordionItem({ item }: { item: FaqItem }) {
     >
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center gap-3 px-5 py-4 text-left cursor-pointer hover:bg-muted/40 transition-colors"
+        className="w-full flex items-center text-left cursor-pointer hover:bg-muted/40 transition-colors hw-ayuda-item-trigger"
       >
         <Icon className="h-4 w-4 text-hw-accent shrink-0" />
         <span className="flex-1 text-hw-title text-sm font-medium">{item.question}</span>
@@ -132,8 +132,7 @@ function FaqAccordionItem({ item }: { item: FaqItem }) {
         style={{ maxHeight: open ? 300 : 0, opacity: open ? 1 : 0 }}
       >
         <p
-          className="text-hw-subtitle px-5 pb-4"
-          style={{ fontSize: '0.84rem', lineHeight: 1.65, margin: 0, paddingTop: 0 }}
+          className="text-hw-subtitle hw-ayuda-item-answer"
         >
           {item.answer}
         </p>
@@ -146,12 +145,9 @@ function FaqAccordionItem({ item }: { item: FaqItem }) {
 
 export default function AyudaPage() {
   return (
-    <section
-      className="flex flex-col gap-10"
-      style={{ paddingLeft: 8, paddingRight: 8, paddingTop: 4, paddingBottom: 8 }}
-    >
+    <section className="flex flex-col gap-8 hw-ayuda-page">
       {/* ── Cabecera ─────────────────────────────────────────────────── */}
-      <div className="flex items-center gap-3 pr-2">
+      <div className="hw-ayuda-header">
         <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-hw-icon-border bg-hw-icon-bg">
           <HelpCircle className="w-5 h-5 text-hw-accent" />
         </div>
@@ -165,32 +161,37 @@ export default function AyudaPage() {
         </div>
       </div>
 
+      <div className="hw-ayuda-separator" aria-hidden="true" />
+
       {/* ── Secciones de FAQ ──────────────────────────────────────────── */}
-      {FAQ_SECTIONS.map((section) => (
-        <div key={section.title} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <h2
-            className="font-heading text-hw-title"
-            style={{ fontSize: '1rem', fontWeight: 600, margin: 0, paddingLeft: 4 }}
-          >
-            {section.title}
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {section.items.map((item) => (
-              <FaqAccordionItem key={item.question} item={item} />
-            ))}
+      {FAQ_SECTIONS.map((section, index) => (
+        <div key={section.title}>
+          <div className="hw-ayuda-section">
+            <h2
+              className="font-heading text-hw-title hw-ayuda-section-title"
+            >
+              {section.title}
+            </h2>
+            <div className="hw-ayuda-section-items">
+              {section.items.map((item) => (
+                <FaqAccordionItem key={item.question} item={item} />
+              ))}
+            </div>
           </div>
+          {index < FAQ_SECTIONS.length - 1 && (
+            <div className="hw-ayuda-category-separator" aria-hidden="true" />
+          )}
         </div>
       ))}
 
+      <div className="hw-ayuda-separator" aria-hidden="true" />
+
       {/* ── Footer ───────────────────────────────────────────────────── */}
-      <div
-        className="bg-hw-icon-bg ring-1 ring-hw-icon-border rounded-2xl text-center"
-        style={{ padding: '32px 24px' }}
-      >
-        <p className="text-hw-title font-heading" style={{ fontSize: '1rem', fontWeight: 600, margin: 0 }}>
+      <div className="bg-hw-icon-bg ring-1 ring-hw-icon-border rounded-2xl text-center hw-ayuda-footer">
+        <p className="text-hw-title font-heading hw-ayuda-footer-title">
           ¿No encuentras lo que buscas?
         </p>
-        <p className="text-hw-subtitle" style={{ fontSize: '0.84rem', margin: '8px 0 0' }}>
+        <p className="text-hw-subtitle hw-ayuda-footer-text">
           Contacta con nosotros a través de la sección de mensajería o publica tu duda en el foro.
           La comunidad estará encantada de ayudarte.
         </p>
