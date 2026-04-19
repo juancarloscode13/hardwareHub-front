@@ -9,6 +9,7 @@ import ReactionDropdown from './ReactionDropdown';
 import CommentsDialog from './CommentsDialog';
 import MontajePreviewCard from '@/components/montaje/MontajePreviewCard';
 import { usePublicacionRealtime } from '@/features/publicacion/hooks/usePublicacionRealtime';
+import { useComentariosByPublicacion } from '@/features/comentario/hooks/useComentario';
 
 // ── Helpers ───────────────────────────────────────────────────────────────
 
@@ -55,6 +56,9 @@ export default function PublicacionCard({ publicacion, autor }: PublicacionCardP
     funnyCount:       publicacion.funnyCount,
     interestingCount: publicacion.interestingCount,
   };
+
+  const { data: comentariosPage } = useComentariosByPublicacion(publicacion.id);
+  const commentsCount = comentariosPage?.totalElements ?? 0;
 
   const imgSrc = multimediaSrc(publicacion.multimedia);
 
@@ -127,6 +131,9 @@ export default function PublicacionCard({ publicacion, autor }: PublicacionCardP
         >
           <MessageSquare className="h-4 w-4" />
           Comentarios
+          <span className="inline-flex min-w-[1.5rem] items-center justify-center rounded-full bg-hw-accent/15 px-2 py-0.5 text-[0.72rem] font-medium text-hw-accent">
+            {commentsCount}
+          </span>
         </Button>
       </div>
 
