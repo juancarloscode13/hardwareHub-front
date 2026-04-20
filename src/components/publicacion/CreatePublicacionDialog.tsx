@@ -15,14 +15,14 @@ import { UploadDropzone } from '@/components/ui/upload-dropzone';
 import { useCreatePublicacion } from '@/features/publicacion/hooks/useCreatePublicacion';
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 
-// ── Props ─────────────────────────────────────────────────────────────────
+
 
 interface CreatePublicacionDialogProps {
   open: boolean;
   onOpenChange: (v: boolean) => void;
 }
 
-// ── Component ─────────────────────────────────────────────────────────────
+
 
 export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePublicacionDialogProps) {
   const { user } = useCurrentUser();
@@ -33,7 +33,7 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
   const [multimediaMime, setMultimediaMime] = useState('image/jpeg');
   const [isImagePending, setIsImagePending] = useState(false);
 
-  // ── Handlers ──────────────────────────────────────────────────────────
+  
 
   const handleUploadImage = useCallback((input: File[] | FileList) => {
     const files = Array.from(input);
@@ -62,7 +62,7 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result as string;
-      // Quitar el prefijo "data:...;base64,"
+      
       const base64 = result.split(',')[1] ?? '';
       setMultimedia(base64);
       setMultimediaMime(file.type || 'image/jpeg');
@@ -122,7 +122,7 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
 
   const canSubmit = contenidoTexto.trim().length > 0 && !createMutation.isPending;
 
-  // ── Render ────────────────────────────────────────────────────────────
+  
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -134,7 +134,7 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
           </DialogTitle>
         </DialogHeader>
 
-        {/* Cuerpo del formulario */}
+        {}
         <div className="hw-pub-dialog-form">
           <Textarea
             value={contenidoTexto}
@@ -146,7 +146,7 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
             className="hw-pub-dialog-textarea focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 rounded-lg"
           />
 
-          {/* Dropzone: solo visible cuando aún no hay imagen */}
+          {}
           {!multimedia && (
             <UploadDropzone
               control={dropzoneControl}
@@ -159,7 +159,7 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
             />
           )}
 
-          {/* Previsualización: solo visible cuando hay imagen cargada */}
+          {}
           {multimedia && (
             <div className="relative rounded-lg border border-hw-input-border">
               <img

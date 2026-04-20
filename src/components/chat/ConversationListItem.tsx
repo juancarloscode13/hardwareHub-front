@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
-// ── Helpers ─────────────────────────────────────────────────────────────────
+
 
 function getInitials(nombre: string): string {
   const parts = nombre.trim().split(/\s+/);

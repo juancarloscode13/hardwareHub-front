@@ -11,7 +11,7 @@ import MontajePreviewCard from '@/components/montaje/MontajePreviewCard';
 import { usePublicacionRealtime } from '@/features/publicacion/hooks/usePublicacionRealtime';
 import { useComentariosByPublicacion } from '@/features/comentario/hooks/useComentario';
 
-// ── Helpers ───────────────────────────────────────────────────────────────
+
 
 function getInitials(nombre: string | undefined): string {
   if (!nombre) return 'HH';

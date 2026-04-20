@@ -16,7 +16,7 @@ import {
   TableCell,
 } from '@/components/ui/table';
 
-// ── Types ─────────────────────────────────────────────────────────────────
+
 
 export interface ColumnDef<T> {
   key: string;
@@ -26,29 +26,29 @@ export interface ColumnDef<T> {
 }
 
 interface ComponentSelectorSectionProps<T extends { id: number; modelo: string; precio: number }> {
-  /** Accordion value identifier */
+  
   accordionValue: string;
-  /** Display title (CPU, GPU, etc.) */
+  
   title: string;
-  /** Icon component */
+  
   icon: React.ElementType;
-  /** All available items */
+  
   items: T[];
-  /** Loading state */
+  
   isLoading: boolean;
-  /** Column definitions */
+  
   columns: ColumnDef<T>[];
-  /** Currently selected item ID */
+  
   selectedId: number | null;
-  /** Selected item data (for preview) */
+  
   selectedItem?: T;
-  /** Callback when an item is selected */
+  
   onSelect: (item: T) => void;
-  /** Callback to deselect */
+  
   onDeselect: () => void;
 }
 
-// ── Component ─────────────────────────────────────────────────────────────
+
 
 export default function ComponentSelectorSection<
   T extends { id: number; modelo: string; precio: number },
@@ -68,11 +68,11 @@ export default function ComponentSelectorSection<
   const [filterKey, setFilterKey] = useState('');
   const [filterValue, setFilterValue] = useState('');
 
-  // ── Filtrado ────────────────────────────────────────────────────────
+  
   const filteredItems = useMemo(() => {
     let result = items;
 
-    // Búsqueda por nombre
+    
     if (searchTerm.trim()) {
       const lower = searchTerm.toLowerCase();
       result = result.filter((item) =>
@@ -80,7 +80,7 @@ export default function ComponentSelectorSection<
       );
     }
 
-    // Filtro por columna seleccionada
+    
     if (filterKey && filterValue) {
       result = result.filter((item) => {
         const val = String((item as Record<string, unknown>)[filterKey] ?? '');
@@ -91,7 +91,7 @@ export default function ComponentSelectorSection<
     return result;
   }, [items, searchTerm, filterKey, filterValue]);
 
-  // ── Columnas filtrables ─────────────────────────────────────────────
+  
   const filterableColumns = columns.filter((c) => c.filterOptions && c.filterOptions.length > 0);
 
   const handleClearFilter = () => {
@@ -99,7 +99,7 @@ export default function ComponentSelectorSection<
     setFilterValue('');
   };
 
-  // ── Trigger label ───────────────────────────────────────────────────
+  
   const triggerLabel = selectedItem
     ? `${title}: ${selectedItem.modelo}`
     : title;

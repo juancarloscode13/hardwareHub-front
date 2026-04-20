@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
 
-// ── Types ──────────────────────────────────────────────────────────────────
+
 
 interface AdminTableProps {
   columns:     { key: string; header: string }[];
@@ -18,7 +18,7 @@ interface AdminTableProps {
   isLoading:   boolean;
 }
 
-// ── Helper ─────────────────────────────────────────────────────────────────
+
 
 function formatCell(value: unknown): string {
   if (value === null || value === undefined) return '—';
@@ -28,7 +28,7 @@ function formatCell(value: unknown): string {
   return String(value);
 }
 
-// ── Component ──────────────────────────────────────────────────────────────
+
 
 export function AdminTable({
   columns,
@@ -37,7 +37,7 @@ export function AdminTable({
   onRowSelect,
   isLoading,
 }: AdminTableProps) {
-  // ── Loading state ──────────────────────────────────────────────────────
+  
   if (isLoading) {
     return (
       <div className="w-full space-y-[0.5rem]">
@@ -48,7 +48,7 @@ export function AdminTable({
     );
   }
 
-  // ── Empty / no entity selected ─────────────────────────────────────────
+  
   if (data.length === 0) {
     return (
       <div className="flex items-center justify-center h-[200px] rounded-[12px] border border-hw-card-border bg-hw-card transition-colors duration-300">
@@ -59,7 +59,7 @@ export function AdminTable({
     );
   }
 
-  // ── Table ──────────────────────────────────────────────────────────────
+  
   return (
     <div className="rounded-[12px] border border-hw-card-border bg-hw-card overflow-hidden transition-colors duration-300">
       <Table>

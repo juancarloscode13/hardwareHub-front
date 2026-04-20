@@ -32,7 +32,7 @@ export function useDeleteUsuario() {
   });
 }
 
-// ── Followers ─────────────────────────────────────────────────────────────
+
 
 export function useFollowUsuario() {
   const qc = useQueryClient();
@@ -62,7 +62,7 @@ export function useUnfollowUsuario() {
   });
 }
 
-// ── Profile update ────────────────────────────────────────────────────────
+
 
 export function useUpdateProfile() {
   const qc = useQueryClient();
@@ -70,7 +70,7 @@ export function useUpdateProfile() {
     mutationFn: ({ id, data }: { id: number; data: UpdateProfilePayload }) =>
       usuarioApi.updateProfile(id, data),
     onSuccess: (_res, { id }) => {
-      // Refresca la info del usuario actual (header, sidebar, etc.)
+      
       void qc.invalidateQueries({ queryKey: AUTH_KEYS.me });
       void qc.invalidateQueries({ queryKey: USUARIO_KEYS.detail(id) });
       void qc.invalidateQueries({ queryKey: USUARIO_KEYS.all });

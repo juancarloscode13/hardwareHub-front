@@ -13,7 +13,7 @@ import {
 import ConversationListItem from './ConversationListItem';
 import { cn } from '@/lib/utils';
 
-// ── Props ───────────────────────────────────────────────────────────────────
+
 
 interface ConversationListProps {
   activeConversationId: number | null;
@@ -23,7 +23,7 @@ interface ConversationListProps {
   onToggleCollapse?: () => void;
 }
 
-// ── Componente ──────────────────────────────────────────────────────────────
+
 
 export default function ConversationList({
   activeConversationId,
@@ -41,7 +41,7 @@ export default function ConversationList({
 
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden">
-      {/* Header */}
+      {}
       <div
         className={cn(
           'hw-chat-sidebar-header flex shrink-0 items-center gap-1 border-b border-hw-card-border py-3',
@@ -57,7 +57,7 @@ export default function ConversationList({
         )}
 
         <div className={cn('hw-chat-sidebar-actions flex shrink-0 items-center', collapsed && 'flex-col')}>
-          {/* Toggle collapse */}
+          {}
           {onToggleCollapse && (
             <TooltipProvider delayDuration={0}>
               <Tooltip>
@@ -81,7 +81,7 @@ export default function ConversationList({
             </TooltipProvider>
           )}
 
-          {/* New conversation button */}
+          {}
           <TooltipProvider delayDuration={0}>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -101,7 +101,7 @@ export default function ConversationList({
         </div>
       </div>
 
-      {/* Buscador (oculto cuando está colapsado) */}
+      {}
       {!collapsed && (
         <div className="hw-chat-sidebar-search mt-2 shrink-0 px-5 pb-3 pt-2">
           <InputGroup className="h-9 rounded-xl pl-2">
@@ -121,7 +121,7 @@ export default function ConversationList({
         </div>
       )}
 
-      {/* Lista */}
+      {}
       <div
         className={cn(
           'hw-chat-sidebar-list min-h-0 flex-1 overflow-y-auto overscroll-contain pb-3',

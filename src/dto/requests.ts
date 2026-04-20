@@ -81,7 +81,8 @@ export interface CpuRequestDto {
   temperaturaMax: number;
   conectividadPcie: number;
   graficosIntegrados: string;
-  puntuacionPassmark: number;
+  puntuacionPassmarkSinglethread: number;
+  puntuacionPassmarkMultithread: number;
 }
 
 export interface FabricanteRequestDto {
@@ -105,6 +106,7 @@ export interface GpuRequestDto {
   precio: Decimal;
   generacion: GpuGeneracion;
   altoGpu: number;
+  longitudGpu: number;
   puntuacionPassmark: number;
 }
 
@@ -187,7 +189,7 @@ export interface UsuarioRequestDto {
   rol: UsuarioRol;
 }
 
-// ── Auth ──────────────────────────────────────────────────────────────────
+
 export interface LoginRequestDto {
   email: string;
   password: string;
@@ -200,7 +202,7 @@ export interface RegisterRequestDto {
   avatar?: File | null;
 }
 
-// -- Password Recovery ----------------------------------------------------------
+
 export interface ForgotPasswordRequestDto {
   email: string;
 }

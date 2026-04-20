@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button.tsx';
 import { useTheme } from '@/features/use-theme.ts';
 
 interface ThemeToggleProps {
-  /** Cuando es false, el botón NO usa position:fixed y se comporta como inline */
+  
   fixed?: boolean;
 }
 

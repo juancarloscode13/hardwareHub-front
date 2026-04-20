@@ -3,11 +3,11 @@ import type { MessageResponseDto } from '@/dto/chat';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 
-// ── Types ───────────────────────────────────────────────────────────────────
+
 
 type MessageStatus = 'sent' | 'read';
 
-// ── Helpers ─────────────────────────────────────────────────────────────────
+
 
 function formatTime(iso: string): string {
   const d = new Date(iso);

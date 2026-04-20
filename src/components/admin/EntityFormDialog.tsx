@@ -13,7 +13,7 @@ import { Input }  from '@/components/ui/input';
 import { Label }  from '@/components/ui/label';
 import type { FieldDef } from '@/features/admin/entityConfig';
 
-// ── Types ──────────────────────────────────────────────────────────────────
+
 
 interface EntityFormDialogProps {
   open:           boolean;
@@ -26,7 +26,7 @@ interface EntityFormDialogProps {
   isPending:      boolean;
 }
 
-// ── Helper: inicializar valores del formulario ─────────────────────────────
+
 
 function buildInitial(
   fields: FieldDef[],
@@ -47,7 +47,7 @@ function buildInitial(
     } else if (f.type === 'number') {
       result[f.name] = raw ?? '';
     } else {
-      // text | select
+      
       result[f.name] = raw ?? '';
     }
   }
@@ -55,7 +55,7 @@ function buildInitial(
   return result;
 }
 
-// ── Shared input class ─────────────────────────────────────────────────────
+
 
 const INPUT_BASE =
   'h-[42px] bg-hw-input rounded-[8px] text-hw-input-text text-[0.875rem] px-[0.75rem] placeholder:text-hw-placeholder focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 transition-colors duration-300';
@@ -66,7 +66,7 @@ const SELECT_BASE =
 const TEXTAREA_BASE =
   'bg-hw-input border border-hw-input-border text-hw-input-text rounded-[8px] px-[0.75rem] py-[0.5rem] w-full text-[0.875rem] font-mono focus:outline-none focus:border-hw-accent resize-y min-h-[80px] placeholder:text-hw-placeholder transition-colors duration-300';
 
-// ── Component ──────────────────────────────────────────────────────────────
+
 
 export function EntityFormDialog({
   open,
@@ -83,7 +83,7 @@ export function EntityFormDialog({
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // ── Handlers ────────────────────────────────────────────────────────────
+  
 
   function setValue(name: string, value: unknown) {
     setValues((prev) => ({ ...prev, [name]: value }));
@@ -93,7 +93,7 @@ export function EntityFormDialog({
   function handleSubmit() {
     const newErrors: Record<string, string> = {};
 
-    // Validación de obligatorios
+    
     for (const f of fields) {
       if (f.required) {
         const val = values[f.name];
@@ -108,7 +108,7 @@ export function EntityFormDialog({
       return;
     }
 
-    // Parsear campos JSON
+    
     const parsed: Record<string, unknown> = { ...values };
     for (const f of fields) {
       if (f.type === 'json') {

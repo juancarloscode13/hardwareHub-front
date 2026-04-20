@@ -5,10 +5,7 @@ const WEEK = 604_800_000;
 const MONTH = 2_592_000_000;
 const YEAR = 31_536_000_000;
 
-/**
- * Convierte un ISO date string a formato relativo legible.
- * Ejemplo: "hace 3 horas", "ayer", "hace 2 semanas"
- */
+
 export function timeAgo(isoDate: string): string {
   const diff = Date.now() - new Date(isoDate).getTime();
 

@@ -6,11 +6,11 @@ import { useCreateComentario } from '@/features/comentario/hooks/useCreateComent
 
 interface CommentInputProps {
   publicacionId: number;
-  /** Si se pasa, se crea como respuesta a ese comentario */
+  
   comentarioId?: number | null;
-  /** Placeholder personalizado */
+  
   placeholder?: string;
-  /** Muestra botón cancelar (para uso inline en respuestas) */
+  
   onCancel?: () => void;
   onSent?: () => void;
 }

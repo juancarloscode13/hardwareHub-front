@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dialog.tsx';
 import { UploadDropzone } from '@/components/ui/upload-dropzone.tsx';
 
-// ── Props ────────────────────────────────────────────────────────────────
+
 interface AvatarUploadDialogProps {
   file: File | null;
   preview: string | null;
@@ -20,7 +20,7 @@ interface AvatarUploadDialogProps {
   onFileRemoved: () => void;
 }
 
-// ── Component ────────────────────────────────────────────────────────────
+
 export function AvatarUploadDialog({
   file,
   preview,
@@ -42,10 +42,7 @@ export function AvatarUploadDialog({
     hideTimer.current = setTimeout(() => setShowDelete(false), 1000);
   };
 
-  /**
-   * Adapter: wraps local file-reading logic behind an UploadHookControl
-   * interface so the UploadDropzone component works without a real server.
-   */
+  
   const fakeUpload = useCallback(
     (input: File[] | FileList) => {
       const files = Array.from(input);
@@ -91,7 +88,7 @@ export function AvatarUploadDialog({
 
   return (
     <div className="flex flex-col items-center gap-2">
-      {/* Preview con botón de eliminar al lado (hover) */}
+      {}
       {preview ? (
         <div
           className="relative"
@@ -124,7 +121,7 @@ export function AvatarUploadDialog({
         </div>
       )}
 
-      {/* Dialog trigger */}
+      {}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button
@@ -147,7 +144,7 @@ export function AvatarUploadDialog({
 
           <div className="mt-6">
             <UploadDropzone
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              
               control={control as any}
               accept="image/jpeg,image/png,image/gif,image/webp"
               description={{

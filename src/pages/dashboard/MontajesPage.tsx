@@ -9,7 +9,7 @@ import { useEnrichedMontajes } from '@/features/montaje/hooks/useEnrichedMontaje
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 import type { MontajeEnrichedDto } from '@/dto';
 
-// ── Skeletons ─────────────────────────────────────────────────────────────
+
 
 function MontajeSkeletons() {
   return (
@@ -21,7 +21,7 @@ function MontajeSkeletons() {
   );
 }
 
-// ── MontajesPage ──────────────────────────────────────────────────────────
+
 
 export default function MontajesPage() {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ export default function MontajesPage() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, padding: '24px 0' }}>
-      {/* ── Cabecera ─────────────────────────────────────────────────── */}
+      {}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <PcCase className="h-7 w-7 text-hw-accent shrink-0" />
@@ -73,7 +73,7 @@ export default function MontajesPage() {
         </Button>
       </div>
 
-      {/* ── Contenido ────────────────────────────────────────────────── */}
+      {}
       <div
         style={{
           maxWidth: 800,
@@ -84,10 +84,10 @@ export default function MontajesPage() {
           gap: 12,
         }}
       >
-        {/* Loading */}
+        {}
         {isLoading && <MontajeSkeletons />}
 
-        {/* Error */}
+        {}
         {montajesError && (
           <div
             className="text-destructive"
@@ -106,7 +106,7 @@ export default function MontajesPage() {
           </div>
         )}
 
-        {/* Empty */}
+        {}
         {!isLoading && !montajesError && enriched.length === 0 && (
           <div
             className="text-hw-subtitle"
@@ -133,7 +133,7 @@ export default function MontajesPage() {
           </div>
         )}
 
-        {/* Lista */}
+        {}
         {!isLoading && !montajesError && enriched.length > 0 && (
           <Accordion type="single" collapsible className="flex flex-col gap-3">
             {enriched.map((m) => (

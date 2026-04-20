@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+﻿import { useState, useMemo } from 'react';
 import {
   GitCompare, Cpu, MonitorIcon, ArrowRightLeft,
   MemoryStick, HardDrive, CircuitBoard, Zap, Box, Fan,
@@ -20,7 +20,6 @@ import type {
   CajaResponseDto, RefrigeracionResponseDto, FabricanteResponseDto,
 } from '@/dto';
 
-// ── Tipos ───────────────────────────────────────────────────────────────────
 
 type Category = 'cpu' | 'gpu' | 'ram' | 'almacenamiento' | 'placaBase' | 'psu' | 'caja' | 'refrigeracion';
 
@@ -51,16 +50,12 @@ interface SpecRow {
   higherIsBetter?: boolean;
 }
 
-// ── Helpers ─────────────────────────────────────────────────────────────────
-
 function fabricanteName(id: number, map: Map<number, FabricanteResponseDto>): string {
   return map.get(id)?.nombre ?? `#${id}`;
 }
 
 function formatEnum(val: string): string {
-  // Quita prefijos tipo "CPU_ARQUITECTURA_" y humaniza
   const parts = val.split('_');
-  // Buscar el índice donde empieza el nombre real (después de 2 o 3 prefijos de categoría)
   const start = parts.length > 3 ? 3 : 2;
   return parts
     .slice(start)
@@ -73,7 +68,11 @@ function formatDecimal(val: number | undefined): string {
   return val.toLocaleString('es-ES', { maximumFractionDigits: 2 });
 }
 
-// ── Spec builders ───────────────────────────────────────────────────────────
+function formatInteger(val: number | undefined | null): string {
+  if (val === undefined || val === null) return '-';
+  return val.toLocaleString('es-ES');
+}
+
 
 function buildCpuSpecs(a: CpuResponseDto, b: CpuResponseDto, fabMap: Map<number, FabricanteResponseDto>): SpecRow[] {
   return [
@@ -90,7 +89,8 @@ function buildCpuSpecs(a: CpuResponseDto, b: CpuResponseDto, fabMap: Map<number,
     { label: 'Temp. Máx', valueA: `${a.temperaturaMax} °C`, valueB: `${b.temperaturaMax} °C`, numA: a.temperaturaMax, numB: b.temperaturaMax, higherIsBetter: true },
     { label: 'PCIe', valueA: `Gen ${a.conectividadPcie}`, valueB: `Gen ${b.conectividadPcie}`, numA: a.conectividadPcie, numB: b.conectividadPcie, higherIsBetter: true },
     { label: 'Gráficos Int.', valueA: a.graficosIntegrados || '—', valueB: b.graficosIntegrados || '—' },
-    { label: 'Passmark', valueA: a.puntuacionPassmark.toLocaleString('es-ES'), valueB: b.puntuacionPassmark.toLocaleString('es-ES'), numA: a.puntuacionPassmark, numB: b.puntuacionPassmark, higherIsBetter: true },
+    { label: 'PassMark ST', valueA: formatInteger(a.puntuacionPassmarkSinglethread), valueB: formatInteger(b.puntuacionPassmarkSinglethread), numA: a.puntuacionPassmarkSinglethread, numB: b.puntuacionPassmarkSinglethread, higherIsBetter: true },
+    { label: 'PassMark MT', valueA: formatInteger(a.puntuacionPassmarkMultithread), valueB: formatInteger(b.puntuacionPassmarkMultithread), numA: a.puntuacionPassmarkMultithread, numB: b.puntuacionPassmarkMultithread, higherIsBetter: true },
     { label: 'Precio', valueA: `${formatDecimal(a.precio)} €`, valueB: `${formatDecimal(b.precio)} €`, numA: a.precio, numB: b.precio, higherIsBetter: false },
   ];
 }
@@ -110,7 +110,8 @@ function buildGpuSpecs(a: GpuResponseDto, b: GpuResponseDto, fabMap: Map<number,
     { label: 'Temp. Máx', valueA: `${a.temperaturaMax} °C`, valueB: `${b.temperaturaMax} °C`, numA: a.temperaturaMax, numB: b.temperaturaMax, higherIsBetter: true },
     { label: 'PCIe', valueA: `Gen ${a.conectividadPcie}`, valueB: `Gen ${b.conectividadPcie}`, numA: a.conectividadPcie, numB: b.conectividadPcie, higherIsBetter: true },
     { label: 'Alto GPU', valueA: `${a.altoGpu} mm`, valueB: `${b.altoGpu} mm`, numA: a.altoGpu, numB: b.altoGpu, higherIsBetter: false },
-    { label: 'Passmark', valueA: a.puntuacionPassmark.toLocaleString('es-ES'), valueB: b.puntuacionPassmark.toLocaleString('es-ES'), numA: a.puntuacionPassmark, numB: b.puntuacionPassmark, higherIsBetter: true },
+    { label: 'Longitud GPU', valueA: `${a.longitudGpu} mm`, valueB: `${b.longitudGpu} mm`, numA: a.longitudGpu, numB: b.longitudGpu, higherIsBetter: false },
+    { label: 'Passmark', valueA: formatInteger(a.puntuacionPassmark), valueB: formatInteger(b.puntuacionPassmark), numA: a.puntuacionPassmark, numB: b.puntuacionPassmark, higherIsBetter: true },
     { label: 'Precio', valueA: `${formatDecimal(a.precio)} €`, valueB: `${formatDecimal(b.precio)} €`, numA: a.precio, numB: b.precio, higherIsBetter: false },
   ];
 }
@@ -195,7 +196,6 @@ function buildRefrigeracionSpecs(a: RefrigeracionResponseDto, b: RefrigeracionRe
   ];
 }
 
-// ── SpecBar ─────────────────────────────────────────────────────────────────
 
 function SpecBar({ numA, numB, higherIsBetter }: { numA: number; numB: number; higherIsBetter: boolean }) {
   const max = Math.max(numA, numB, 1);
@@ -220,7 +220,6 @@ function SpecBar({ numA, numB, higherIsBetter }: { numA: number; numB: number; h
   );
 }
 
-// ── ComponentSelector ───────────────────────────────────────────────────────
 
 interface ComponentSelectorProps<T extends { id: number; modelo: string; fabricanteId: number }> {
   items: T[];
@@ -309,14 +308,12 @@ function ComponentSelector<T extends { id: number; modelo: string; fabricanteId:
   );
 }
 
-// ── CompararPage ────────────────────────────────────────────────────────────
 
 export default function CompararPage() {
   const [category, setCategory] = useState<Category>('cpu');
   const [selectedA, setSelectedA] = useState<number | null>(null);
   const [selectedB, setSelectedB] = useState<number | null>(null);
 
-  // ── Data hooks ────────────────────────────────────────────────────────
   const { data: cpuData, isLoading: cpuLoading } = useCpus({ size: 200 });
   const { data: gpuData, isLoading: gpuLoading } = useGpus({ size: 200 });
   const { data: ramData, isLoading: ramLoading } = useRams({ size: 200 });
@@ -355,7 +352,6 @@ export default function CompararPage() {
 
   const isLoading = loadingMap[category];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const itemsMap: Record<Category, any[]> = {
     cpu: cpus,
     gpu: gpus,
@@ -375,7 +371,6 @@ export default function CompararPage() {
     setSelectedB(null);
   };
 
-  // ── Spec rows ─────────────────────────────────────────────────────────
   const specRows: SpecRow[] | null = useMemo(() => {
     if (!selectedA || !selectedB) return null;
     const items = currentItems;
@@ -399,11 +394,9 @@ export default function CompararPage() {
   const itemA = currentItems.find((c: { id: number }) => c.id === selectedA);
   const itemB = currentItems.find((c: { id: number }) => c.id === selectedB);
 
-  // ── JSX ───────────────────────────────────────────────────────────────
 
   return (
     <section className="flex flex-col gap-8 hw-compare-page">
-      {/* ── Page heading ──────────────────────────────────────────────── */}
       <div className="hw-compare-header">
         <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-hw-icon-border bg-hw-icon-bg">
           <GitCompare className="w-5 h-5 text-hw-accent" />
@@ -420,7 +413,6 @@ export default function CompararPage() {
 
       <div className="hw-compare-section-separator" aria-hidden="true" />
 
-      {/* ── Category selector ─────────────────────────────────────────── */}
       <div className="hw-compare-cats">
         {CATEGORIES.map(({ key, label, icon: Icon }) => (
           <Button
@@ -437,7 +429,6 @@ export default function CompararPage() {
 
       <div className="hw-compare-section-separator" aria-hidden="true" />
 
-      {/* ── Selectors side by side ────────────────────────────────────── */}
       <div className="hw-compare-selectors">
         <ComponentSelector
           items={currentItems}
@@ -459,7 +450,6 @@ export default function CompararPage() {
 
       <div className="hw-compare-section-separator" aria-hidden="true" />
 
-      {/* ── Comparison empty state ────────────────────────────────────── */}
       {!specRows && (selectedA === null || selectedB === null) && (
         <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
           <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-muted">
@@ -473,7 +463,6 @@ export default function CompararPage() {
         </div>
       )}
 
-      {/* ── Comparison table ──────────────────────────────────────────── */}
       {specRows && itemA && itemB && (
         <div className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl overflow-hidden">
           {/* Header */}
@@ -559,3 +548,4 @@ export default function CompararPage() {
     </section>
   );
 }
+

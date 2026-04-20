@@ -7,7 +7,7 @@ import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-// ── Helpers ─────────────────────────────────────────────────────────────────
+
 
 function getInitials(nombre: string): string {
   const parts = nombre.trim().split(/\s+/);

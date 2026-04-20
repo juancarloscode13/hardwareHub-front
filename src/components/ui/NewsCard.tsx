@@ -2,7 +2,7 @@ import { ArrowRight } from 'lucide-react';
 import type { NoticiaResponseDto } from '@/dto';
 import { timeAgo } from '@/lib/date-helpers';
 
-// ── Placeholder si la imagen es null / falla ─────────────────────────────
+
 const PLACEHOLDER_IMG =
   'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=60&auto=format&fit=crop';
 

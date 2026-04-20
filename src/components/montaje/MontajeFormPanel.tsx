@@ -37,23 +37,23 @@ import type {
   MontajeEnrichedDto,
 } from '@/dto';
 
-// ── Helpers para enum labels ──────────────────────────────────────────────
+
 
 function enumLabel(value: string): string {
-  // "CPU_SOCKET_AM5" → "AM5", "RAM_TIPO_DDR5" → "DDR5"
+  
   const parts = value.split('_');
   return parts.slice(2).join(' ');
 }
 
-// ── Props ─────────────────────────────────────────────────────────────────
+
 
 interface MontajeFormPanelProps {
-  /** Si se pasa, estamos editando; si no, creando */
+  
   editingMontaje?: MontajeEnrichedDto;
   onSuccess: () => void;
 }
 
-// ── Component ─────────────────────────────────────────────────────────────
+
 
 export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeFormPanelProps) {
   const { user } = useCurrentUser();
@@ -61,7 +61,7 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
   const updateMutation = useUpdateMontaje();
   const isEditing = !!editingMontaje;
 
-  // ── State: IDs seleccionados ────────────────────────────────────────
+  
   const [cpuId, setCpuId] = useState<number | null>(editingMontaje?.cpuId ?? null);
   const [gpuId, setGpuId] = useState<number | null>(editingMontaje?.gpuId ?? null);
   const [ramId, setRamId] = useState<number | null>(editingMontaje?.ramId ?? null);
@@ -71,7 +71,7 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
   const [cajaId, setCajaId] = useState<number | null>(editingMontaje?.cajaId ?? null);
   const [almacenamientoId, setAlmacenamientoId] = useState<number | null>(editingMontaje?.almacenamientoId ?? null);
 
-  // ── State: datos seleccionados (para preview) ───────────────────────
+  
   const [selectedCpu, setSelectedCpu] = useState<CpuResponseDto | undefined>(editingMontaje?.cpu);
   const [selectedGpu, setSelectedGpu] = useState<GpuResponseDto | undefined>(editingMontaje?.gpu);
   const [selectedRam, setSelectedRam] = useState<RamResponseDto | undefined>(editingMontaje?.ram);
@@ -81,7 +81,7 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
   const [selectedCaja, setSelectedCaja] = useState<CajaResponseDto | undefined>(editingMontaje?.caja);
   const [selectedAlmacenamiento, setSelectedAlmacenamiento] = useState<AlmacenamientoResponseDto | undefined>(editingMontaje?.almacenamiento);
 
-  // ── Data hooks ──────────────────────────────────────────────────────
+  
   const { data: cpuData, isLoading: cpuLoading } = useCpus({ size: 200 });
   const { data: gpuData, isLoading: gpuLoading } = useGpus({ size: 200 });
   const { data: ramData, isLoading: ramLoading } = useRams({ size: 200 });
@@ -100,7 +100,7 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
   const cajas = cajaData?.content ?? [];
   const almacenamientos = almData?.content ?? [];
 
-  // ── Precio total ────────────────────────────────────────────────────
+  
   const precioTotal = useMemo(() => {
     return [
       selectedCpu?.precio,
@@ -116,7 +116,7 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
       .reduce((sum, p) => sum + p, 0);
   }, [selectedCpu, selectedGpu, selectedRam, selectedPlacaBase, selectedPsu, selectedRefrigeracion, selectedCaja, selectedAlmacenamiento]);
 
-  // ── Validación ──────────────────────────────────────────────────────
+  
   const allSelected =
     cpuId !== null &&
     gpuId !== null &&
@@ -129,7 +129,7 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
-  // ── Submit ──────────────────────────────────────────────────────────
+  
   const handleSave = () => {
     if (!user) return;
     if (!allSelected) {
@@ -171,7 +171,7 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
     }
   };
 
-  // ── Column definitions ──────────────────────────────────────────────
+  
   const cpuColumns: ColumnDef<CpuResponseDto>[] = [
     { key: 'modelo', label: 'Modelo', render: (c) => c.modelo },
     {

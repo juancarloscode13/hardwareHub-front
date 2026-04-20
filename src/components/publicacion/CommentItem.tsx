@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import CommentInput from './CommentInput';
 
-// ── Helpers ───────────────────────────────────────────────────────────────
+
 
 function getInitials(nombre: string | undefined): string {
   if (!nombre) return 'HH';
@@ -158,7 +158,7 @@ export default function CommentItem({ comentario, replies = [], publicacionId }:
         </div>
       </div>
 
-      {/* ── Respuestas anidadas ─────────────────────────────────────── */}
+      {}
       {replies.length > 0 && (
         <div className="hw-reply-thread">
           {replies.map((r) => (
@@ -167,7 +167,7 @@ export default function CommentItem({ comentario, replies = [], publicacionId }:
         </div>
       )}
 
-      {/* ── Input inline de respuesta ───────────────────────────────── */}
+      {}
       {replyOpen && (
         <div className="hw-reply-input-wrap">
           <CommentInput

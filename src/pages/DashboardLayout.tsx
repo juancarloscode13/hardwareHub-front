@@ -24,11 +24,11 @@ import {
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 import { useLogout } from '@/features/auth/hooks/useAuth';
 
-// ── Constantes ────────────────────────────────────────────────────────────
+
 
 const SIDEBAR_WIDTH = 256;
 
-// ── Helpers ───────────────────────────────────────────────────────────────
+
 
 function getUserInitials(nombre: string | undefined): string {
   if (!nombre) return 'HH';
@@ -39,9 +39,9 @@ function getUserInitials(nombre: string | undefined): string {
 
 function getAvatarSrc(iconoPerfil: string | null | undefined): string | undefined {
   if (!iconoPerfil) return undefined;
-  // Si ya es una data-URL completa, úsala tal cual
+  
   if (iconoPerfil.startsWith('data:')) return iconoPerfil;
-  // Si es base64 puro, añade el prefijo
+  
   return `data:image/png;base64,${iconoPerfil}`;
 }
 

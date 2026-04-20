@@ -16,7 +16,7 @@ import type { UsuarioResponseDto } from '@/dto';
 import PublicacionFeedItem from '@/components/publicacion/PublicacionFeedItem';
 import CreatePublicacionDialog from '@/components/publicacion/CreatePublicacionDialog';
 
-// ── Helpers ───────────────────────────────────────────────────────────────
+
 
 function getInitials(nombre: string | undefined): string {
   if (!nombre) return 'HH';
