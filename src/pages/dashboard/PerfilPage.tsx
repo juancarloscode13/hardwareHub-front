@@ -33,7 +33,7 @@ import {
 } from '@/components/ui/dialog';
 import { UploadDropzone } from '@/components/ui/upload-dropzone';
 
-// ── Helpers ─────────────────────────────────────────────────────────────────
+
 
 function getInitials(nombre: string | undefined): string {
   if (!nombre) return 'HH';

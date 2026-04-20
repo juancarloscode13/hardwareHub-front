@@ -7,7 +7,7 @@ export type Theme = 'light' | 'dark';
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>('dark');
 
-  // Sincronizar la clase "dark" en <html>
+  
   useEffect(() => {
     const root = document.documentElement;
     if (theme === 'dark') {

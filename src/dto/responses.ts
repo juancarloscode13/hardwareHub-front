@@ -84,7 +84,8 @@ export interface CpuResponseDto {
   temperaturaMax: number;
   conectividadPcie: number;
   graficosIntegrados: string;
-  puntuacionPassmark: number;
+  puntuacionPassmarkSinglethread: number;
+  puntuacionPassmarkMultithread: number;
 }
 
 export interface ErrorResponse {
@@ -116,6 +117,7 @@ export interface GpuResponseDto {
   precio: Decimal;
   generacion: GpuGeneracion;
   altoGpu: number;
+  longitudGpu: number;
   puntuacionPassmark: number;
 }
 
@@ -132,7 +134,7 @@ export interface MontajeResponseDto {
   usuarioId: number;
 }
 
-/** Montaje con datos completos de cada componente resueltos en frontend */
+
 export interface MontajeEnrichedDto extends MontajeResponseDto {
   cpu?: CpuResponseDto;
   gpu?: GpuResponseDto;
@@ -200,8 +202,8 @@ export interface RamResponseDto {
   latencia: number;
 }
 
-// ── Foro tiempo real ──────────────────────────────────────────────────────────
-/** Evento emitido por /topic/forum.feed al crear una nueva publicación */
+
+
 export interface NuevaPublicacionEventDto {
   id: number;
   usuarioId: number;
@@ -240,19 +242,19 @@ export interface UsuarioResponseDto {
   iconoPerfil?: string | null;
 }
 
-// ── Auth ──────────────────────────────────────────────────────────────────
+
 export interface LoginResponseDto {
   username: string;
   role: UsuarioRol;
 }
 
-// ── Noticias ──────────────────────────────────────────────────────────────
+
 export interface NoticiaResponseDto {
-  title:       string;              // Título de la noticia
-  description: string;              // Descripción breve
-  url:         string;              // URL original del artículo (identificador natural único)
-  image:       string;              // URL de la imagen de portada
-  publishedAt: LocalDateTimeString; // ISO 8601
-  sourceName:  string;              // Nombre de la fuente (ej: "Proceso")
+  title:       string;              
+  description: string;              
+  url:         string;              
+  image:       string;              
+  publishedAt: LocalDateTimeString; 
+  sourceName:  string;              
 }
 

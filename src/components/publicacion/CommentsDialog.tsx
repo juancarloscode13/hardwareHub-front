@@ -21,7 +21,7 @@ interface CommentsDialogProps {
 export default function CommentsDialog({ publicacionId, open, onOpenChange }: CommentsDialogProps) {
   const { data, isLoading } = useComentariosByPublicacion(open ? publicacionId : 0);
 
-  // ── Separar top-level de respuestas ──────────────────────────────────
+  
   const { topLevel, repliesMap } = useMemo(() => {
     const todos = data?.content ?? [];
     const top: ComentarioResponseDto[] = [];
@@ -49,7 +49,7 @@ export default function CommentsDialog({ publicacionId, open, onOpenChange }: Co
         className="w-[min(36rem,calc(100vw-2rem))]"
         style={{ padding: 0, display: 'flex', flexDirection: 'column', maxHeight: '80vh' }}
       >
-        {/* Header */}
+        {}
         <DialogHeader style={{ padding: '20px 24px 0' }}>
           <DialogTitle style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <MessageSquare className="h-5 w-5 text-hw-accent" />

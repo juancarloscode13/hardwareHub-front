@@ -12,7 +12,7 @@ export default function NoticiasPage() {
     <section
       className="flex flex-col gap-10 hw-page-section"
     >
-      {/* ── Cabecera ─────────────────────────────────────────────────── */}
+      {}
       <div className="flex items-center gap-3 pr-2">
         <div>
           <h1 className="font-heading text-xl font-bold tracking-tight text-hw-title sm:text-2xl">
@@ -24,10 +24,10 @@ export default function NoticiasPage() {
         </div>
       </div>
 
-      {/* ── Estado: cargando ──────────────────────────────────────────── */}
+      {}
       {isLoading && <NewsGridSkeleton count={8} />}
 
-      {/* ── Estado: error ─────────────────────────────────────────────── */}
+      {}
       {isError && (
         <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
           <AlertCircle className="h-10 w-10 text-hw-error" />
@@ -37,10 +37,10 @@ export default function NoticiasPage() {
         </div>
       )}
 
-      {/* ── Estado: datos ─────────────────────────────────────────────── */}
+      {}
       {hasNews && <NewsGrid newsList={noticiasList} />}
 
-      {/* ── Estado: vacío ─────────────────────────────────────────────── */}
+      {}
       {showEmpty && (
         <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
           <Newspaper className="h-10 w-10 text-hw-subtitle" />

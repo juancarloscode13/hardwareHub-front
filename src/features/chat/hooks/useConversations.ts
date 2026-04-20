@@ -1,14 +1,14 @@
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { chatApi } from '@/api/endpoints/chat.api';
 
-// ── Query keys ──────────────────────────────────────────────────────────────
+
 
 export const CONVERSATION_KEYS = {
   all: ['conversations'] as const,
   list: () => [...CONVERSATION_KEYS.all, 'list'] as const,
 };
 
-// ── useConversations ────────────────────────────────────────────────────────
+
 
 export function useConversations() {
   return useQuery({
@@ -17,7 +17,7 @@ export function useConversations() {
   });
 }
 
-// ── useCreateConversation ───────────────────────────────────────────────────
+
 
 export function useCreateConversation() {
   const qc = useQueryClient();
@@ -29,7 +29,7 @@ export function useCreateConversation() {
   });
 }
 
-// ── useMarkAsRead ───────────────────────────────────────────────────────────
+
 
 export function useMarkAsRead() {
   const qc = useQueryClient();

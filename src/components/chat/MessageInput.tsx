@@ -4,14 +4,14 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-// ── Props ───────────────────────────────────────────────────────────────────
+
 
 interface MessageInputProps {
   onSend: (content: string) => void;
   disabled?: boolean;
 }
 
-// ── Componente ──────────────────────────────────────────────────────────────
+
 
 export default function MessageInput({ onSend, disabled = false }: MessageInputProps) {
   const [value, setValue] = useState('');

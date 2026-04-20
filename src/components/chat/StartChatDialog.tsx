@@ -16,7 +16,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import type { UsuarioResponseDto } from '@/dto';
 import type { ConversationResponseDto } from '@/dto/chat';
 
-// ── Helpers ───────────────────────────────────────────────────────────────
+
 
 function getInitials(nombre: string | undefined): string {
   if (!nombre) return 'HH';

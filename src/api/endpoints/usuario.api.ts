@@ -4,13 +4,13 @@ import type { UsuarioRequestDto, UsuarioResponseDto } from '@/dto';
 
 const BASE = '/api/usuarios';
 
-/** Payload parcial para actualizar perfil propio (nombre + avatar opcionales) */
+
 export interface UpdateProfilePayload {
   nombre: string;
   email: string;
   contrasena: string;
   rol: string;
-  iconoPerfil?: string | null; // base64 puro (sin prefijo data:…)
+  iconoPerfil?: string | null; 
 }
 
 export const usuarioApi = {

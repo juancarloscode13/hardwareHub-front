@@ -5,7 +5,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 
-// ── Props ───────────────────────────────────────────────────────────────────
+
 
 interface MessageListProps {
   messages: MessageResponseDto[];
@@ -19,14 +19,14 @@ interface MessageListProps {
   onLoadMore: () => void;
 }
 
-// ── Helpers ─────────────────────────────────────────────────────────────────
 
-/** Devuelve true si dos mensajes están en días distintos */
+
+
 function isDifferentDay(a: string, b: string): boolean {
   return new Date(a).toDateString() !== new Date(b).toDateString();
 }
 
-// ── Componente ──────────────────────────────────────────────────────────────
+
 
 export default function MessageList({
   messages,
@@ -44,7 +44,7 @@ export default function MessageList({
   const prevLengthRef = useRef(0);
   const isNearBottomRef = useRef(true);
 
-  // Al cambiar de conversación, reposiciona al final y reinicia estado de auto-scroll.
+  
   useEffect(() => {
     isNearBottomRef.current = true;
     prevLengthRef.current = 0;
@@ -53,7 +53,7 @@ export default function MessageList({
     });
   }, [conversationId]);
 
-  // Auto-scroll al fondo solo si el usuario ya estaba cerca del final.
+  
   useEffect(() => {
     if (messages.length > prevLengthRef.current && isNearBottomRef.current) {
       bottomRef.current?.scrollIntoView({ behavior: 'auto' });

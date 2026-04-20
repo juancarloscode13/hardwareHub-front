@@ -10,17 +10,7 @@ export interface PublicacionRealtimeResult {
   nuevoComentario: ComentarioResponseDto | null;
 }
 
-/**
- * Hook que escucha actualizaciones en tiempo real de una publicación concreta.
- *
- * Suscripciones activas mientras el componente viva:
- *   - /topic/publicacion.{postId}.reacciones  → actualiza contadores localmente
- *   - /topic/publicacion.{postId}.comentarios → invalida la query de comentarios
- *
- * Reutiliza el stompClient singleton. NO crea una segunda conexión WS.
- *
- * @param postId  Id de la publicación a observar (0 o negativo = inactivo).
- */
+
 export function usePublicacionRealtime(postId: number): PublicacionRealtimeResult {
   const qc = useQueryClient();
   const [reaccionesUpdate, setReaccionesUpdate] = useState<ReaccionConteoDto | null>(null);
@@ -29,14 +19,14 @@ export function usePublicacionRealtime(postId: number): PublicacionRealtimeResul
   useEffect(() => {
     if (postId <= 0) return;
 
-    // Activa la conexión si aún no está activa (idempotente)
+    
     stompClient.activate();
 
     let unsubReacciones: (() => void) | null = null;
     let unsubComentarios: (() => void) | null = null;
 
     const removeListener = stompClient.addConnectListener(() => {
-      // ── Reacciones ────────────────────────────────────────────────────────
+      
       unsubReacciones = stompClient.subscribe(
         `/topic/publicacion.${postId}.reacciones`,
         (frame) => {

@@ -15,7 +15,7 @@ import { useCreatePublicacion } from '@/features/publicacion/hooks/useCreatePubl
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 import type { MontajeEnrichedDto } from '@/dto';
 
-// ── Props ─────────────────────────────────────────────────────────────────
+
 
 interface ShareMontajeDialogProps {
   open: boolean;
@@ -23,7 +23,7 @@ interface ShareMontajeDialogProps {
   montaje: MontajeEnrichedDto;
 }
 
-// ── Component ─────────────────────────────────────────────────────────────
+
 
 export default function ShareMontajeDialog({
   open,

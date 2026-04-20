@@ -10,7 +10,7 @@ export function useNoticias() {
   return useQuery({
     queryKey: NOTICIAS_KEYS.list(),
     queryFn:  noticiasApi.getAll,
-    staleTime: 5 * 60 * 1_000, // 5 minutos — noticias externas, no cambian tan rápido
+    staleTime: 5 * 60 * 1_000, 
   });
 }
 

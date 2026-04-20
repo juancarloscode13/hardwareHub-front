@@ -5,14 +5,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080
 
 type ConnectListener = () => void;
 
-/**
- * Singleton que gestiona la conexión STOMP sobre SockJS.
- *
- * - Una única instancia del cliente
- * - La cookie `access_token` se envía automáticamente por SockJS (same-origin)
- * - NO se pasan tokens en el CONNECT frame
- * - Soporta múltiples onConnect listeners
- */
+
 class StompClientManager {
   private client: Client;
   private static instance: StompClientManager | null = null;

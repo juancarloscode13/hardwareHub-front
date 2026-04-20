@@ -9,7 +9,7 @@ import {
   Mail,
 } from 'lucide-react';
 
-// ── Nav items ─────────────────────────────────────────────────────────────
+
 
 const NAV_ITEMS = [
     {label: 'Foro', href: '/dashboard', icon: MessageSquare},
@@ -24,7 +24,7 @@ const SUPPORT_ITEMS = [
     {label: 'Aprender', href: '/dashboard/aprender', icon: GraduationCap},
 ] as const;
 
-// ── Clases de nav link ────────────────────────────────────────────────────
+
 
 const linkBase =
   'flex items-center rounded-lg text-sm transition-colors';
@@ -33,7 +33,7 @@ const linkActive =
 const linkInactive =
   'text-sidebar-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground';
 
-// ── Componente ────────────────────────────────────────────────────────────
+
 
 export default function AppSidebar() {
   const { pathname } = useLocation();
@@ -45,7 +45,7 @@ export default function AppSidebar() {
 
   return (
     <div className="hw-sidebar-container">
-      {/* Navegación */}
+      {}
       <p className="hw-sidebar-section-title text-sidebar-foreground">
         Navegación
       </p>

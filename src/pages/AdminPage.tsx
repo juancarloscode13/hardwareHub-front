@@ -10,24 +10,24 @@ import { useLogout }        from '@/features/auth/hooks/useAuth';
 import { useAdminEntity }   from '@/features/admin/useAdminEntity';
 import { entityConfigs }    from '@/features/admin/entityConfig';
 
-// ── Component ──────────────────────────────────────────────────────────────
+
 
 export default function AdminPage() {
   const navigate = useNavigate();
   const logout   = useLogout();
 
-  // ── Estado ──────────────────────────────────────────────────────────────
+  
   const [selectedEntityKey, setSelectedEntityKey] = useState<string | null>(null);
   const [selectedRowId,     setSelectedRowId]     = useState<number | null>(null);
   const [dialogMode,        setDialogMode]        = useState<'create' | 'edit' | null>(null);
 
-  // ── Entidad activa (derivado) ────────────────────────────────────────────
+  
   const selectedEntity = entityConfigs.find((e) => e.key === selectedEntityKey) ?? null;
 
-  // ── Datos y mutaciones ───────────────────────────────────────────────────
+  
   const entity = useAdminEntity(selectedEntity);
 
-  // ── Handlers ────────────────────────────────────────────────────────────
+  
   const handleEntityChange = (key: string) => {
     setSelectedEntityKey(key || null);
     setSelectedRowId(null);
@@ -60,26 +60,26 @@ export default function AdminPage() {
     }
   };
 
-  // ── initialValues para el dialog de edición ──────────────────────────────
+  
   const editInitialValues =
     dialogMode === 'edit' && selectedRowId !== null
       ? entity.data?.content.find((row) => (row['id'] as number) === selectedRowId)
       : undefined;
 
-  // ── Render ───────────────────────────────────────────────────────────────
+  
   return (
     <div className="min-h-screen bg-hw-page transition-colors duration-300">
-      {/* Glow decorativo */}
+      {}
       <div className="fixed w-[600px] h-[600px] rounded-full bg-hw-glow blur-[120px] top-0 right-0 pointer-events-none transition-colors duration-300" />
 
-      {/* Header */}
+      {}
       <header className="relative z-10 flex items-center px-[2rem] py-[1.25rem] border-b border-hw-divider transition-colors duration-300">
         <span className="font-heading text-[1.125rem] font-bold tracking-[-0.02em] text-hw-title transition-colors duration-300">
           HardwareHub
         </span>
       </header>
 
-      {/* Botones fixed top-right: [logout] [theme] */}
+      {}
       <div className="fixed top-[1rem] right-[1rem] z-50 flex items-center gap-[0.625rem]">
         <Button
           variant="outline"
@@ -93,9 +93,9 @@ export default function AdminPage() {
         <ThemeToggle fixed={false} />
       </div>
 
-      {/* Main */}
+      {}
       <main className="relative z-10 max-w-[1200px] mx-auto px-[2rem] py-[2.5rem] flex flex-col gap-[1.75rem]">
-        {/* Título */}
+        {}
         <div>
           <h1 className="font-heading text-[1.5rem] font-bold tracking-[-0.02em] text-hw-title transition-colors duration-300">
             Panel de Control
@@ -105,7 +105,7 @@ export default function AdminPage() {
           </p>
         </div>
 
-        {/* Selector de entidad */}
+        {}
         <div className="flex flex-col gap-[0.5rem]">
           <label
             htmlFor="entity-select"
@@ -130,7 +130,7 @@ export default function AdminPage() {
           </select>
         </div>
 
-        {/* Tabla */}
+        {}
         <div className="transition-opacity duration-300">
           <AdminTable
             columns={selectedEntity?.columns ?? []}
@@ -141,9 +141,9 @@ export default function AdminPage() {
           />
         </div>
 
-        {/* Botones de acción */}
+        {}
         <div className="flex gap-[0.75rem] justify-end">
-          {/* Añadir (solo si la entidad soporta creación) */}
+          {}
           {entity.hasCreate && (
             <Button
               onClick={() => setDialogMode('create')}
@@ -155,7 +155,7 @@ export default function AdminPage() {
             </Button>
           )}
 
-          {/* Modificar (solo si la entidad soporta edición) */}
+          {}
           {entity.hasUpdate && (
             <Button
               variant="outline"
@@ -168,7 +168,7 @@ export default function AdminPage() {
             </Button>
           )}
 
-          {/* Eliminar */}
+          {}
           <Button
             variant="outline"
             onClick={handleDelete}
@@ -181,7 +181,7 @@ export default function AdminPage() {
         </div>
       </main>
 
-      {/* Dialog CRUD (solo para entidades con formulario) */}
+      {}
       {selectedEntity && selectedEntity.fields && dialogMode !== null && (
         <EntityFormDialog
           key={`${dialogMode}-${selectedRowId ?? 'new'}`}

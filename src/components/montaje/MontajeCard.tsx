@@ -11,7 +11,7 @@ import { useDeleteMontaje } from '@/features/montaje/hooks/useCreateMontaje';
 import ShareMontajeDialog from './ShareMontajeDialog';
 import type { MontajeEnrichedDto } from '@/dto';
 
-// ── Helpers ───────────────────────────────────────────────────────────────
+
 
 function formatPrecio(precio: number | undefined): string {
   if (precio == null) return '—';

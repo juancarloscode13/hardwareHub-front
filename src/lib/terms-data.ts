@@ -1,11 +1,11 @@
-// ── Tipos ─────────────────────────────────────────────────────────────────
+
 export interface TermsSection {
   title: string;
   text?: string;
   items?: string[];
 }
 
-// ── Datos ─────────────────────────────────────────────────────────────────
+
 export const TERMS_SECTIONS: TermsSection[] = [
   {
     title: '1. Responsable del tratamiento',

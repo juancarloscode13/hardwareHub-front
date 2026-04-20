@@ -12,7 +12,7 @@ import {
   ChevronDown,
 } from 'lucide-react';
 
-// ── Tipos ───────────────────────────────────────────────────────────────────
+
 
 interface GuideSection {
   title: string;
@@ -21,7 +21,7 @@ interface GuideSection {
   tips: string[];
 }
 
-// ── Contenido educativo ─────────────────────────────────────────────────────
+
 
 const GUIDE_SECTIONS: GuideSection[] = [
   {
@@ -130,7 +130,7 @@ const GUIDE_SECTIONS: GuideSection[] = [
   },
 ];
 
-// ── GuideSectionCard ────────────────────────────────────────────────────────
+
 
 function GuideSectionCard({ section }: { section: GuideSection }) {
   const [open, setOpen] = useState(false);
@@ -187,12 +187,12 @@ function GuideSectionCard({ section }: { section: GuideSection }) {
   );
 }
 
-// ── AprenderPage ────────────────────────────────────────────────────────────
+
 
 export default function AprenderPage() {
   return (
     <section className="flex flex-col gap-8 hw-aprender-page">
-      {/* ── Cabecera ─────────────────────────────────────────────────── */}
+      {}
       <div className="hw-aprender-header">
         <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-hw-icon-border bg-hw-icon-bg">
           <GraduationCap className="w-5 h-5 text-hw-accent" />
@@ -209,7 +209,7 @@ export default function AprenderPage() {
 
       <div className="hw-aprender-separator" aria-hidden="true" />
 
-      {/* ── Intro card ────────────────────────────────────────────────── */}
+      {}
       <div className="bg-hw-icon-bg ring-1 ring-hw-icon-border rounded-2xl hw-aprender-intro">
         <p className="text-hw-title" style={{ fontSize: '0.9rem', lineHeight: 1.65, margin: 0 }}>
           Montar un PC puede parecer intimidante, pero en realidad es como construir con piezas de LEGO:
@@ -220,7 +220,7 @@ export default function AprenderPage() {
 
       <div className="hw-aprender-separator" aria-hidden="true" />
 
-      {/* ── Secciones ─────────────────────────────────────────────────── */}
+      {}
       <div className="hw-aprender-sections">
         {GUIDE_SECTIONS.map((section) => (
           <GuideSectionCard key={section.title} section={section} />
@@ -229,7 +229,7 @@ export default function AprenderPage() {
 
       <div className="hw-aprender-separator" aria-hidden="true" />
 
-      {/* ── Footer ───────────────────────────────────────────────────── */}
+      {}
       <div className="bg-hw-icon-bg ring-1 ring-hw-icon-border rounded-2xl text-center hw-aprender-footer">
         <p className="text-hw-title font-heading" style={{ fontSize: '1rem', fontWeight: 600, margin: 0 }}>
           ¿Listo para construir?

@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/dialog.tsx';
 import { TERMS_SECTIONS } from '@/lib/terms-data';
 
-// ── Validaciones ─────────────────────────────────────────────────────────
+
 interface FormErrors {
   nombre?: string;
   email?: string;
@@ -47,7 +47,7 @@ function validate(
   return errors;
 }
 
-// ── Componente ───────────────────────────────────────────────────────────
+
 export default function RegisterPage() {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
@@ -61,14 +61,14 @@ export default function RegisterPage() {
   const register = useRegister();
   const navigate = useNavigate();
 
-  // Redirigir tras registro exitoso → login
+  
   useEffect(() => {
     if (register.isSuccess) {
       navigate('/login', { replace: true });
     }
   }, [register.isSuccess, navigate]);
 
-  // Validación reactiva: solo se muestra tras primer submit
+  
   const currentErrors = submitted ? validate(nombre, email, contrasena, termsAccepted) : {};
 
   const isFormValid =
@@ -108,14 +108,14 @@ export default function RegisterPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-hw-page p-[1rem] relative overflow-hidden transition-colors duration-300">
       <ThemeToggle />
-      {/* Glow */}
+      {}
       <div className="absolute w-[420px] h-[420px] rounded-full bg-hw-glow blur-[80px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-300" />
 
-      {/* Wrapper */}
+      {}
       <div className="relative z-10 w-full max-w-[420px] flex flex-col items-center">
-        {/* Card */}
+        {}
         <div className="w-full bg-hw-card border border-hw-card-border rounded-[16px] p-[2rem] [box-shadow:var(--hw-card-shadow)] transition-all duration-300">
-          {/* Header */}
+          {}
           <div className="text-center mb-[1.75rem]">
             <div className="inline-flex items-center justify-center w-[48px] h-[48px] rounded-[12px] border border-hw-icon-border bg-hw-icon-bg mb-[0.75rem] transition-colors duration-300">
               <UserPlus className="w-[24px] h-[24px] text-hw-accent transition-colors duration-300" />
@@ -128,9 +128,9 @@ export default function RegisterPage() {
             </p>
           </div>
 
-          {/* Form */}
+          {}
           <form onSubmit={handleSubmit} className="flex flex-col gap-[1.25rem]" noValidate>
-            {/* Avatar */}
+            {}
             <div className="flex justify-center">
               <AvatarUploadDialog
                 file={avatarFile}
@@ -140,7 +140,7 @@ export default function RegisterPage() {
               />
             </div>
 
-            {/* Nombre */}
+            {}
             <div className="flex flex-col gap-[0.5rem]">
               <Label htmlFor="nombre" className="text-[0.875rem] text-hw-label gap-[0.4rem] transition-colors duration-300">
                 <User className="w-[16px] h-[16px] text-hw-accent transition-colors duration-300" />
@@ -162,7 +162,7 @@ export default function RegisterPage() {
               )}
             </div>
 
-            {/* Email */}
+            {}
             <div className="flex flex-col gap-[0.5rem]">
               <Label htmlFor="email" className="text-[0.875rem] text-hw-label gap-[0.4rem] transition-colors duration-300">
                 <Mail className="w-[16px] h-[16px] text-hw-accent transition-colors duration-300" />
@@ -184,7 +184,7 @@ export default function RegisterPage() {
               )}
             </div>
 
-            {/* Contraseña */}
+            {}
             <div className="flex flex-col gap-[0.5rem]">
               <Label htmlFor="contrasena" className="text-[0.875rem] text-hw-label gap-[0.4rem] transition-colors duration-300">
                 <Lock className="w-[16px] h-[16px] text-hw-accent transition-colors duration-300" />
@@ -206,19 +206,19 @@ export default function RegisterPage() {
               )}
             </div>
 
-            {/* Error del servidor */}
+            {}
             {register.isError && (
               <div className="px-[0.75rem] py-[0.5rem] rounded-[8px] border border-hw-error-border bg-hw-error-bg text-hw-error text-[0.875rem]">
                 Error al crear la cuenta. Inténtalo de nuevo.
               </div>
             )}
 
-            {/* Divider */}
+            {}
             <div className="border-t border-hw-divider my-[0.25rem] transition-colors duration-300" />
 
-            {/* Términos y condiciones */}
+            {}
             <div className="flex flex-col gap-[0.5rem]">
-              {/* Checkbox + label */}
+              {}
               <label className="flex items-start gap-[0.625rem] cursor-pointer select-none">
                 <input
                   type="checkbox"
@@ -231,7 +231,7 @@ export default function RegisterPage() {
                 </span>
               </label>
 
-              {/* Botón leer términos */}
+              {}
               <button
                 type="button"
                 onClick={() => setTermsOpen(true)}
@@ -248,13 +248,13 @@ export default function RegisterPage() {
               )}
             </div>
 
-            {/* Dialog de términos y condiciones */}
+            {}
             <Dialog open={termsOpen} onOpenChange={setTermsOpen}>
               <DialogContent
                 className="w-[min(42rem,calc(100vw-2rem))] max-h-[80vh] flex flex-col p-0 gap-0"
                 showCloseButton={false}
               >
-                {/* Cabecera fija */}
+                {}
                 <DialogHeader className="flex-row items-center gap-[0.75rem] px-[1.5rem] pt-[1.25rem] pb-[1rem] border-b border-hw-divider shrink-0">
                   <div className="inline-flex items-center justify-center w-[36px] h-[36px] rounded-[10px] border border-hw-icon-border bg-hw-icon-bg shrink-0 transition-colors duration-300">
                     <Shield className="w-[18px] h-[18px] text-hw-accent" />
@@ -264,7 +264,7 @@ export default function RegisterPage() {
                   </DialogTitle>
                 </DialogHeader>
 
-                {/* Contenido scrollable */}
+                {}
                 <div className="overflow-y-auto px-[1.5rem] py-[1.25rem] flex flex-col gap-[1.25rem]">
                   <p className="text-[0.875rem] text-hw-label leading-relaxed">
                     El responsable del tratamiento de los datos personales recogidos a través de esta
@@ -295,7 +295,7 @@ export default function RegisterPage() {
                   ))}
                 </div>
 
-                {/* Footer */}
+                {}
                 <div className="shrink-0 border-t border-hw-divider px-[1.5rem] py-[1rem] flex justify-end">
                   <Button
                     type="button"
@@ -308,7 +308,7 @@ export default function RegisterPage() {
               </DialogContent>
             </Dialog>
 
-            {/* Botón Registrarse */}
+            {}
             <Button
               type="submit"
               disabled={register.isPending || (submitted && !isFormValid)}
@@ -327,7 +327,7 @@ export default function RegisterPage() {
               )}
             </Button>
 
-            {/* Botón Cancelar */}
+            {}
             <Button
               type="button"
               variant="outline"
@@ -340,7 +340,7 @@ export default function RegisterPage() {
           </form>
         </div>
 
-        {/* Login */}
+        {}
         <p className="mt-[1rem] text-[0.875rem] text-hw-subtitle text-center transition-colors duration-300">
           ¿Ya tienes cuenta?{' '}
           <Link

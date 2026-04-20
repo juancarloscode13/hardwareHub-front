@@ -13,7 +13,7 @@ import { refrigeracionApi }   from '@/api/endpoints/refrigeracion.api';
 import { usuarioApi }         from '@/api/endpoints/usuario.api';
 import type { PageResponse, PaginationParams } from '@/api/types';
 
-// ── Tipos públicos ─────────────────────────────────────────────────────────
+
 
 export interface FieldDef {
   name:      string;
@@ -34,9 +34,9 @@ export interface EntityConfig {
   fields?:   FieldDef[];
 }
 
-// ── Helper de cast ─────────────────────────────────────────────────────────
-// Los generics de cada API son más estrictos que Record<string,unknown>;
-// el cast "as unknown as" es necesario para unificarlos en la interfaz genérica.
+
+
+
 
 type AnyRecord = Record<string, unknown>;
 type AnyFn = (...args: never[]) => unknown;
@@ -54,11 +54,11 @@ function castDelete(fn: (id: number) => Promise<void>): EntityConfig['deleteFn']
   return fn;
 }
 
-// Suprime el warning de TypeScript sobre variables no usadas en los casts
+
 void (null as unknown as AnyFn);
 void (null as unknown as AnyRecord);
 
-// ── Opciones de enums ──────────────────────────────────────────────────────
+
 
 const CPU_SOCKET_OPTIONS = [
   { value: 'CPU_SOCKET_AM4',    label: 'AM4' },
@@ -218,10 +218,10 @@ const USUARIO_ROL_OPTIONS = [
   { value: 'ROL_ADMIN',   label: 'Administrador' },
 ];
 
-// ── Configuraciones de entidades ───────────────────────────────────────────
+
 
 export const entityConfigs: EntityConfig[] = [
-  // ── Fabricantes ────────────────────────────────────────────────────────
+  
   {
     key:      'fabricantes',
     label:    'Fabricantes',
@@ -238,7 +238,7 @@ export const entityConfigs: EntityConfig[] = [
     ],
   },
 
-  // ── CPUs ───────────────────────────────────────────────────────────────
+  
   {
     key:      'cpus',
     label:    'CPUs',
@@ -269,12 +269,13 @@ export const entityConfigs: EntityConfig[] = [
       { name: 'tdp',                label: 'TDP (W)',                   type: 'number',  required: true },
       { name: 'temperaturaMax',     label: 'Temperatura Máx (°C)',      type: 'number',  required: true },
       { name: 'conectividadPcie',   label: 'PCIe Versión',              type: 'number',  required: true },
-      { name: 'graficosIntegrados', label: 'Gráficos Integrados',       type: 'text',    required: true },
-      { name: 'puntuacionPassmark', label: 'Puntuación Passmark',       type: 'number',  required: true },
+      { name: 'graficosIntegrados',                label: 'Grficos Integrados',                 type: 'text',    required: true },
+      { name: 'puntuacionPassmarkSinglethread', label: 'PassMark Single Thread',         type: 'number',  required: true },
+      { name: 'puntuacionPassmarkMultithread',  label: 'PassMark Multi Thread',          type: 'number',  required: true },
     ],
   },
 
-  // ── GPUs ───────────────────────────────────────────────────────────────
+  
   {
     key:      'gpus',
     label:    'GPUs',
@@ -304,13 +305,14 @@ export const entityConfigs: EntityConfig[] = [
       { name: 'tdp',                label: 'TDP (W)',                  type: 'number', required: true },
       { name: 'conectividadPcie',   label: 'PCIe Versión',            type: 'number', required: true },
       { name: 'precio',             label: 'Precio (€)',              type: 'number', required: true },
-      { name: 'generacion',         label: 'Generación',              type: 'select', required: true, options: GPU_GENERACION_OPTIONS },
+      { name: 'generacion',         label: 'Generacin',              type: 'select', required: true, options: GPU_GENERACION_OPTIONS },
       { name: 'altoGpu',            label: 'Alto GPU (mm)',            type: 'number', required: true },
-      { name: 'puntuacionPassmark', label: 'Puntuación Passmark',      type: 'number', required: true },
+      { name: 'longitudGpu',        label: 'Longitud GPU (mm)',        type: 'number', required: true },
+      { name: 'puntuacionPassmark', label: 'Puntuacin Passmark',      type: 'number', required: true },
     ],
   },
 
-  // ── RAMs ───────────────────────────────────────────────────────────────
+  
   {
     key:      'rams',
     label:    'RAMs',
@@ -338,7 +340,7 @@ export const entityConfigs: EntityConfig[] = [
     ],
   },
 
-  // ── PSUs ───────────────────────────────────────────────────────────────
+  
   {
     key:      'psus',
     label:    'PSUs',
@@ -365,7 +367,7 @@ export const entityConfigs: EntityConfig[] = [
     ],
   },
 
-  // ── Almacenamientos ────────────────────────────────────────────────────
+  
   {
     key:      'almacenamientos',
     label:    'Almacenamientos',
@@ -393,7 +395,7 @@ export const entityConfigs: EntityConfig[] = [
     ],
   },
 
-  // ── Cajas ──────────────────────────────────────────────────────────────
+  
   {
     key:      'cajas',
     label:    'Cajas',
@@ -429,7 +431,7 @@ export const entityConfigs: EntityConfig[] = [
     ],
   },
 
-  // ── Placas Base ────────────────────────────────────────────────────────
+  
   {
     key:      'placasBase',
     label:    'Placas Base',
@@ -462,7 +464,7 @@ export const entityConfigs: EntityConfig[] = [
     ],
   },
 
-  // ── Refrigeraciones ────────────────────────────────────────────────────
+  
   {
     key:      'refrigeraciones',
     label:    'Refrigeraciones',
@@ -487,7 +489,7 @@ export const entityConfigs: EntityConfig[] = [
     ],
   },
 
-  // ── Usuarios ───────────────────────────────────────────────────────────
+  
   {
     key:      'usuarios',
     label:    'Usuarios',
@@ -511,7 +513,7 @@ export const entityConfigs: EntityConfig[] = [
     ],
   },
 
-  // ── Publicaciones (solo eliminar) ──────────────────────────────────────
+  
   {
     key:      'publicaciones',
     label:    'Publicaciones',
@@ -527,7 +529,7 @@ export const entityConfigs: EntityConfig[] = [
     ],
   },
 
-  // ── Montajes (solo eliminar) ───────────────────────────────────────────
+  
   {
     key:      'montajes',
     label:    'Montajes',
@@ -547,7 +549,7 @@ export const entityConfigs: EntityConfig[] = [
     ],
   },
 
-  // ── Comentarios (solo eliminar) ────────────────────────────────────────
+  
   {
     key:      'comentarios',
     label:    'Comentarios',

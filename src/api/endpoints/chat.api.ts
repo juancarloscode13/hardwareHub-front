@@ -9,11 +9,11 @@ import type {
 const BASE = '/api/conversations';
 
 export const chatApi = {
-  /** Lista todas las conversaciones del usuario autenticado */
+  
   getConversations: () =>
     api.get<ConversationResponseDto[]>(BASE).then(({ data }) => data),
 
-  /** Historial paginado de mensajes (más recientes primero) */
+  
   getMessages: (conversationId: number, page = 0, size = 20) =>
     api
       .get<PageResponse<MessageResponseDto>>(`${BASE}/${conversationId}/messages`, {

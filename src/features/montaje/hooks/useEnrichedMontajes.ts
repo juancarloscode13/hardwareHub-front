@@ -10,15 +10,9 @@ import { cajaApi } from '@/api/endpoints/caja.api';
 import { almacenamientoApi } from '@/api/endpoints/almacenamiento.api';
 import type { MontajeResponseDto, MontajeEnrichedDto } from '@/dto';
 
-/**
- * Dado un array de montajes, resuelve todos los IDs de componentes
- * en paralelo y devuelve MontajeEnrichedDto[].
- *
- * Usa useQueries para lanzar las N peticiones en paralelo (con caché).
- * Solo hace fetch de IDs únicos para evitar duplicados.
- */
+
 export function useEnrichedMontajes(montajes: MontajeResponseDto[]) {
-  // ── Extraer IDs únicos ──────────────────────────────────────────────
+  
   const uniqueIds = useMemo(() => {
     const cpuIds = new Set<number>();
     const gpuIds = new Set<number>();
@@ -52,7 +46,7 @@ export function useEnrichedMontajes(montajes: MontajeResponseDto[]) {
     };
   }, [montajes]);
 
-  // ── Build queries ───────────────────────────────────────────────────
+  
   const cpuQueries = useQueries({
     queries: uniqueIds.cpuIds.map((id) => ({
       queryKey: ['cpus', 'detail', id] as const,
@@ -117,7 +111,7 @@ export function useEnrichedMontajes(montajes: MontajeResponseDto[]) {
     })),
   });
 
-  // ── Derive loading state ────────────────────────────────────────────
+  
   const allQueries = [
     ...cpuQueries,
     ...gpuQueries,
@@ -131,7 +125,7 @@ export function useEnrichedMontajes(montajes: MontajeResponseDto[]) {
 
   const isLoading = allQueries.some((q) => q.isLoading);
 
-  // ── Build maps ──────────────────────────────────────────────────────
+  
   const enriched: MontajeEnrichedDto[] = useMemo(() => {
     const cpuMap = new Map(
       cpuQueries.filter((q) => q.data).map((q) => [q.data!.id, q.data!]),

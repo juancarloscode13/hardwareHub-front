@@ -10,7 +10,7 @@ import {
   Mail,
 } from 'lucide-react';
 
-// ── FAQ data ────────────────────────────────────────────────────────────────
+
 
 interface FaqItem {
   question: string;
@@ -106,7 +106,7 @@ const FAQ_SECTIONS: { title: string; items: FaqItem[] }[] = [
   },
 ];
 
-// ── FaqAccordionItem ────────────────────────────────────────────────────────
+
 
 function FaqAccordionItem({ item }: { item: FaqItem }) {
   const [open, setOpen] = useState(false);
@@ -141,12 +141,12 @@ function FaqAccordionItem({ item }: { item: FaqItem }) {
   );
 }
 
-// ── AyudaPage ───────────────────────────────────────────────────────────────
+
 
 export default function AyudaPage() {
   return (
     <section className="flex flex-col gap-8 hw-ayuda-page">
-      {/* ── Cabecera ─────────────────────────────────────────────────── */}
+      {}
       <div className="hw-ayuda-header">
         <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-hw-icon-border bg-hw-icon-bg">
           <HelpCircle className="w-5 h-5 text-hw-accent" />
@@ -163,7 +163,7 @@ export default function AyudaPage() {
 
       <div className="hw-ayuda-separator" aria-hidden="true" />
 
-      {/* ── Secciones de FAQ ──────────────────────────────────────────── */}
+      {}
       {FAQ_SECTIONS.map((section, index) => (
         <div key={section.title}>
           <div className="hw-ayuda-section">
@@ -186,7 +186,7 @@ export default function AyudaPage() {
 
       <div className="hw-ayuda-separator" aria-hidden="true" />
 
-      {/* ── Footer ───────────────────────────────────────────────────── */}
+      {}
       <div className="bg-hw-icon-bg ring-1 ring-hw-icon-border rounded-2xl text-center hw-ayuda-footer">
         <p className="text-hw-title font-heading hw-ayuda-footer-title">
           ¿No encuentras lo que buscas?

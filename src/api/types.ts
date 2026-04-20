@@ -1,6 +1,6 @@
-// ── Shared API types ──────────────────────────────────────────────────────
 
-/** Mirrors Spring Data's Page<T> response shape */
+
+
 export interface PageResponse<T> {
   content: T[];
   totalElements: number;
@@ -13,7 +13,7 @@ export interface PageResponse<T> {
   empty: boolean;
 }
 
-/** Query-string params accepted by all paginated endpoints */
+
 export interface PaginationParams {
   filter?: string;
   page?: number;

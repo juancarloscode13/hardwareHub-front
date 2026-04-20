@@ -36,7 +36,7 @@ export default function ResetPasswordPage() {
       },
     );
   };
-  // Sin token en la URL
+  
   if (!token) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-hw-page p-[1rem] relative overflow-hidden transition-colors duration-300">
@@ -70,7 +70,7 @@ export default function ResetPasswordPage() {
       <div className="absolute w-[420px] h-[420px] rounded-full bg-hw-glow blur-[80px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-300" />
       <div className="relative z-10 w-full max-w-[420px] flex flex-col items-center">
         <div className="w-full bg-hw-card border border-hw-card-border rounded-[16px] p-[2rem] [box-shadow:var(--hw-card-shadow)] transition-all duration-300">
-          {/* Header */}
+          {}
           <div className="text-center mb-[1.75rem]">
             <div className="inline-flex items-center justify-center w-[48px] h-[48px] rounded-[12px] border border-hw-icon-border bg-hw-icon-bg mb-[0.75rem] transition-colors duration-300">
               <KeyRound className="w-[24px] h-[24px] text-hw-accent transition-colors duration-300" />
@@ -82,9 +82,9 @@ export default function ResetPasswordPage() {
               Introduce tu nueva contraseña
             </p>
           </div>
-          {/* Form */}
+          {}
           <form onSubmit={handleSubmit} className="flex flex-col gap-[1.25rem]" noValidate>
-            {/* Nueva contraseña */}
+            {}
             <div className="flex flex-col gap-[0.5rem]">
               <Label htmlFor="new-password" className="text-[0.875rem] text-hw-label gap-[0.4rem] transition-colors duration-300">
                 <Lock className="w-[16px] h-[16px] text-hw-accent transition-colors duration-300" />
@@ -105,7 +105,7 @@ export default function ResetPasswordPage() {
                 <span className="text-hw-error text-[0.75rem]">{passwordError}</span>
               )}
             </div>
-            {/* Confirmar contraseña */}
+            {}
             <div className="flex flex-col gap-[0.5rem]">
               <Label htmlFor="confirm-password" className="text-[0.875rem] text-hw-label gap-[0.4rem] transition-colors duration-300">
                 <Lock className="w-[16px] h-[16px] text-hw-accent transition-colors duration-300" />
@@ -126,15 +126,15 @@ export default function ResetPasswordPage() {
                 <span className="text-hw-error text-[0.75rem]">{confirmError}</span>
               )}
             </div>
-            {/* Error del servidor */}
+            {}
             {resetPassword.isError && (
               <div className="px-[0.75rem] py-[0.5rem] rounded-[8px] border border-hw-error-border bg-hw-error-bg text-hw-error text-[0.875rem]">
                 El token es inválido o ha expirado. Solicita un nuevo enlace.
               </div>
             )}
-            {/* Divider */}
+            {}
             <div className="border-t border-hw-divider my-[0.25rem] transition-colors duration-300" />
-            {/* Botón */}
+            {}
             <Button
               type="submit"
               disabled={resetPassword.isPending}

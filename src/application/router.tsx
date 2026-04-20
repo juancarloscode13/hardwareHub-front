@@ -9,7 +9,7 @@ import AdminPage from '@/pages/AdminPage';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 
-// ── Sub-páginas del dashboard ─────────────────────────────────────────────
+
 import ForoPage from '@/pages/dashboard/ForoPage';
 import PerfilPage from '@/pages/dashboard/PerfilPage';
 import AyudaPage from '@/pages/dashboard/AyudaPage';
@@ -22,9 +22,9 @@ import MontajesPage from '@/pages/dashboard/MontajesPage';
 import CreateMontajePage from '@/pages/dashboard/CreateMontajePage';
 
 
-// ── Guard inverso ─────────────────────────────────────────────────────────
-// Redirige a /dashboard si el usuario ya está autenticado.
-// Evita que un usuario logueado vea /login o /registro.
+
+
+
 function PublicOnlyRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isAdmin, isLoading } = useCurrentUser();
   if (isLoading) return null;
@@ -32,8 +32,8 @@ function PublicOnlyRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-// Evita que un admin caiga en el dashboard de usuario (por ejemplo,
-// si algún flujo de login navega a /dashboard de forma fija).
+
+
 function UserDashboardRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isAdmin, isLoading } = useCurrentUser();
   if (isLoading) return null;
@@ -42,14 +42,14 @@ function UserDashboardRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-// ── Router ────────────────────────────────────────────────────────────────
+
 export default createBrowserRouter([
-  // Pública
+  
   {
     path: '/',
     element: <LandingPage />,
   },
-  // Pública con guard inverso
+  
   {
     path: '/login',
     element: (
@@ -74,7 +74,7 @@ export default createBrowserRouter([
       </PublicOnlyRoute>
     ),
   },
-  // Protegida: cualquier usuario autenticado (layout con sidebar + sub-rutas)
+  
   {
     path: '/dashboard',
     element: (
@@ -97,7 +97,7 @@ export default createBrowserRouter([
       { path: 'montajes/crear',  element: <CreateMontajePage /> },
     ],
   },
-  // Protegida: solo ROL_ADMIN
+  
   {
     path: '/admin',
     element: (
@@ -110,7 +110,7 @@ export default createBrowserRouter([
     path: '*',
     element: <Navigate to="/" replace />,
   },
-  // anadir rutas
+  
 ]);
 
 

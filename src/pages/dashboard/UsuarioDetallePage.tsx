@@ -10,7 +10,7 @@ import { useCreateConversation } from '@/features/chat/hooks/useConversations';
 import { usePublicacionesByUsuario } from '@/features/publicacion/hooks/usePublicacion';
 import PublicacionCard from '@/components/publicacion/PublicacionCard';
 
-// ── Helpers ───────────────────────────────────────────────────────────────
+
 
 function getInitials(nombre: string | undefined): string {
   if (!nombre) return 'HH';

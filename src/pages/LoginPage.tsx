@@ -18,7 +18,7 @@ export default function LoginPage() {
   const [forgotOpen, setForgotOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Validación reactiva: solo se muestra tras primer submit
+  
   const emailError = submitted && !email.trim() ? 'El email es obligatorio.' : null;
   const passwordError = submitted && !password ? 'La contraseña es obligatoria.' : null;
 
@@ -27,11 +27,11 @@ export default function LoginPage() {
     setSubmitted(true);
     if (!email.trim() || !password) return;
 
-    // La navegación va en el onSuccess del mutate (call-site), NO en un useEffect.
-    // Motivo: tras login exitoso, invalidateQueries hace que PublicOnlyRoute
-    // desmonte LoginPage (isLoading→true→null) antes de que cualquier
-    // useEffect pueda ejecutarse. El callback onSuccess sí se ejecuta
-    // sincrónicamente con la resolución de la mutación, antes del re-render.
+    
+    
+    
+    
+    
     login.mutate({ email, password }, {
       onSuccess: (data) => {
         if (data.role === 'ROL_ADMIN') navigate('/admin', { replace: true });
@@ -47,14 +47,14 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-hw-page p-[1rem] relative overflow-hidden transition-colors duration-300">
       <ThemeToggle />
-      {/* Glow */}
+      {}
       <div className="absolute w-[420px] h-[420px] rounded-full bg-hw-glow blur-[80px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-300" />
 
-      {/* Wrapper */}
+      {}
       <div className="relative z-10 w-full max-w-[420px] flex flex-col items-center">
-        {/* Card */}
+        {}
         <div className="w-full bg-hw-card border border-hw-card-border rounded-[16px] p-[2rem] [box-shadow:var(--hw-card-shadow)] transition-all duration-300">
-          {/* Header */}
+          {}
           <div className="text-center mb-[1.75rem]">
             <div className="inline-flex items-center justify-center w-[48px] h-[48px] rounded-[12px] border border-hw-icon-border bg-hw-icon-bg mb-[0.75rem] transition-colors duration-300">
               <LogIn className="w-[24px] h-[24px] text-hw-accent transition-colors duration-300" />
@@ -67,9 +67,9 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* Form */}
+          {}
           <form onSubmit={handleSubmit} className="flex flex-col gap-[1.25rem]" noValidate>
-            {/* Email */}
+            {}
             <div className="flex flex-col gap-[0.5rem]">
               <Label htmlFor="email" className="text-[0.875rem] text-hw-label gap-[0.4rem] transition-colors duration-300">
                 <Mail className="w-[16px] h-[16px] text-hw-accent transition-colors duration-300" />

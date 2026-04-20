@@ -31,7 +31,7 @@ export function useDeletePublicacion() {
   });
 }
 
-// ── Reactions ─────────────────────────────────────────────────────────────
+
 
 export function useAddReaccion() {
   const qc = useQueryClient();

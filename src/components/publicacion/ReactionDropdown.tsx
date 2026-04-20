@@ -10,7 +10,7 @@ import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 import { useAddReaccion } from '@/features/publicacion/hooks/useCreatePublicacion';
 import type { TipoReaccion } from '@/dto';
 
-// ── Reaction config ───────────────────────────────────────────────────────
+
 
 interface ReactionDef {
   tipo: TipoReaccion;
@@ -26,7 +26,7 @@ const REACTIONS: ReactionDef[] = [
   { tipo: 'INTERESTING', icon: Lightbulb,   label: 'Interesante' },
 ];
 
-// ── Props ─────────────────────────────────────────────────────────────────
+
 
 interface ReactionDropdownProps {
   publicacionId: number;
@@ -48,7 +48,7 @@ function countForTipo(tipo: TipoReaccion, props: ReactionDropdownProps): number 
   }
 }
 
-// ── Component ─────────────────────────────────────────────────────────────
+
 
 export default function ReactionDropdown(props: ReactionDropdownProps) {
   const { user } = useCurrentUser();

@@ -10,7 +10,7 @@ import { useRefrigeracion } from '@/features/refrigeracion/hooks/useRefrigeracio
 import { useCaja } from '@/features/caja/hooks/useCaja';
 import { useAlmacenamiento } from '@/features/almacenamiento/hooks/useAlmacenamiento';
 
-// ── Helpers ───────────────────────────────────────────────────────────────
+
 
 interface SpecRowProps {
   icon: React.ElementType;
@@ -39,13 +39,13 @@ function SpecRow({ icon: Icon, label, value, price }: SpecRowProps) {
   );
 }
 
-// ── Props ─────────────────────────────────────────────────────────────────
+
 
 interface MontajePreviewCardProps {
   montajeId: number;
 }
 
-// ── Component ─────────────────────────────────────────────────────────────
+
 
 export default function MontajePreviewCard({ montajeId }: MontajePreviewCardProps) {
   const { data: montaje, isLoading: mLoading } = useMontaje(montajeId);
@@ -90,7 +90,7 @@ export default function MontajePreviewCard({ montajeId }: MontajePreviewCardProp
       className="bg-muted/40 ring-1 ring-hw-card-border rounded-xl"
       style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 6 }}
     >
-      {/* Header */}
+      {}
       <div
         style={{
           display: 'flex',
@@ -112,7 +112,7 @@ export default function MontajePreviewCard({ montajeId }: MontajePreviewCardProp
         )}
       </div>
 
-      {/* Headline CPU + GPU */}
+      {}
       {(cpu || gpu) && (
         <p
           className="text-hw-title font-semibold"
@@ -122,7 +122,7 @@ export default function MontajePreviewCard({ montajeId }: MontajePreviewCardProp
         </p>
       )}
 
-      {/* Spec rows */}
+      {}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 3, marginTop: 4 }}>
         <SpecRow icon={Cpu}            label="CPU"           value={cpu?.modelo}            price={cpu?.precio} />
         <SpecRow icon={MonitorSmartphone} label="GPU"        value={gpu?.modelo}            price={gpu?.precio} />
