@@ -83,7 +83,11 @@ export default function ComponentSelectorSection<
     
     if (filterKey && filterValue) {
       result = result.filter((item) => {
-        const val = String((item as Record<string, unknown>)[filterKey] ?? '');
+        const raw = (item as Record<string, unknown>)[filterKey];
+        if (Array.isArray(raw)) {
+          return raw.includes(filterValue);
+        }
+        const val = String(raw ?? '');
         return val === filterValue;
       });
     }

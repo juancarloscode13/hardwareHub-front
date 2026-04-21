@@ -45,6 +45,10 @@ function enumLabel(value: string): string {
   return parts.slice(2).join(' ');
 }
 
+function enumListLabel(values: string[]): string {
+  return values.map(enumLabel).join(', ');
+}
+
 
 
 interface MontajeFormPanelProps {
@@ -286,7 +290,7 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
     {
       key: 'socketCompatible',
       label: 'Socket',
-      render: (r) => enumLabel(r.socketCompatible),
+      render: (r) => enumListLabel(r.socketCompatible),
       filterOptions: [
         { value: 'CPU_SOCKET_AM4', label: 'AM4' },
         { value: 'CPU_SOCKET_AM5', label: 'AM5' },

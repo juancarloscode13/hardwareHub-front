@@ -177,7 +177,7 @@ export interface RefrigeracionRequestDto {
   modelo: string;
   fabricanteId: number;
   precio: Decimal;
-  socketCompatible: CpuSocket;
+  socketCompatible: CpuSocket[];
   tipo: RefrigeracionTipo;
   atributos: JsonMap;
 }

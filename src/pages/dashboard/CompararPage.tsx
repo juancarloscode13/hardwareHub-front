@@ -63,6 +63,10 @@ function formatEnum(val: string): string {
     .join(' ');
 }
 
+function formatEnumList(values: string[]): string {
+  return values.map(formatEnum).join(', ');
+}
+
 function formatDecimal(val: number | undefined): string {
   if (val === undefined || val === null) return '—';
   return val.toLocaleString('es-ES', { maximumFractionDigits: 2 });
@@ -191,7 +195,7 @@ function buildRefrigeracionSpecs(a: RefrigeracionResponseDto, b: RefrigeracionRe
   return [
     { label: 'Fabricante', valueA: fabricanteName(a.fabricanteId, fabMap), valueB: fabricanteName(b.fabricanteId, fabMap) },
     { label: 'Tipo', valueA: formatEnum(a.tipo), valueB: formatEnum(b.tipo) },
-    { label: 'Socket Compatible', valueA: formatEnum(a.socketCompatible), valueB: formatEnum(b.socketCompatible) },
+    { label: 'Socket Compatible', valueA: formatEnumList(a.socketCompatible), valueB: formatEnumList(b.socketCompatible) },
     { label: 'Precio', valueA: `${formatDecimal(a.precio)} €`, valueB: `${formatDecimal(b.precio)} €`, numA: a.precio, numB: b.precio, higherIsBetter: false },
   ];
 }
