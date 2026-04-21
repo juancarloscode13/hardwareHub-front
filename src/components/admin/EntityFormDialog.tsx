@@ -42,6 +42,8 @@ function buildInitial(
         raw !== undefined && raw !== null
           ? JSON.stringify(raw, null, 2)
           : '{}';
+    } else if (f.type === 'multiselect') {
+      result[f.name] = Array.isArray(raw) ? raw : [];
     } else if (f.type === 'boolean') {
       result[f.name] = raw ?? false;
     } else if (f.type === 'number') {
@@ -97,7 +99,7 @@ export function EntityFormDialog({
     for (const f of fields) {
       if (f.required) {
         const val = values[f.name];
-        if (val === '' || val === null || val === undefined) {
+        if (val === '' || val === null || val === undefined || (Array.isArray(val) && val.length === 0)) {
           newErrors[f.name] = 'Este campo es obligatorio.';
         }
       }
@@ -191,6 +193,27 @@ export function EntityFormDialog({
                   <option value="" disabled>
                     Seleccionar…
                   </option>
+                  {f.options?.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              )}
+
+              {/* multiselect */}
+              {f.type === 'multiselect' && (
+                <select
+                  id={f.name}
+                  multiple
+                  value={(values[f.name] as string[]) ?? []}
+                  onChange={(e) => {
+                    const selected = Array.from(e.target.selectedOptions, (option) => option.value);
+                    setValue(f.name, selected);
+                  }}
+                  className={`${SELECT_BASE} ${errors[f.name] ? 'border-hw-error' : ''}`}
+                  size={Math.min(Math.max(f.options?.length ?? 4, 4), 8)}
+                >
                   {f.options?.map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}

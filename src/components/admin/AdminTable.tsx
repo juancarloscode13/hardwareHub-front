@@ -22,7 +22,10 @@ interface AdminTableProps {
 
 function formatCell(value: unknown): string {
   if (value === null || value === undefined) return '—';
-  if (Array.isArray(value))                  return '[Array]';
+  if (Array.isArray(value)) {
+    if (value.length === 0) return '—';
+    return value.map((item) => String(item)).join(', ');
+  }
   if (typeof value === 'object')             return '[Object]';
   if (typeof value === 'boolean')            return value ? 'Sí' : 'No';
   return String(value);

@@ -18,7 +18,7 @@ import type { PageResponse, PaginationParams } from '@/api/types';
 export interface FieldDef {
   name:      string;
   label:     string;
-  type:      'text' | 'number' | 'select' | 'boolean' | 'json';
+  type:      'text' | 'number' | 'select' | 'multiselect' | 'boolean' | 'json';
   options?:  { label: string; value: string }[];
   required?: boolean;
 }
@@ -483,7 +483,7 @@ export const entityConfigs: EntityConfig[] = [
       { name: 'modelo',            label: 'Modelo',              type: 'text',   required: true },
       { name: 'fabricanteId',      label: 'Fabricante ID',       type: 'number', required: true },
       { name: 'precio',            label: 'Precio (€)',          type: 'number', required: true },
-      { name: 'socketCompatible',  label: 'Socket Compatible',   type: 'select', required: true, options: CPU_SOCKET_OPTIONS },
+      { name: 'socketCompatible',  label: 'Sockets Compatibles', type: 'multiselect', required: true, options: CPU_SOCKET_OPTIONS },
       { name: 'tipo',              label: 'Tipo',                type: 'select', required: true, options: REFRIGERACION_TIPO_OPTIONS },
       { name: 'atributos',         label: 'Atributos (JSON)',     type: 'json',   required: true },
     ],
