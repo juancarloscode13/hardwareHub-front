@@ -119,21 +119,21 @@ export default function ComponentSelectorSection<
     ? imageUrls[selectedItem.imagen.trim()]
     : undefined;
 
+  const truncateModel = accordionValue === 'cpu';
+
   return (
     <AccordionItem
       value={accordionValue}
-      className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl overflow-hidden"
-      style={{ border: 'none' }}
+      className="hw-selector-card bg-hw-card ring-1 ring-hw-card-border rounded-2xl overflow-hidden"
     >
       <AccordionTrigger
-        className="hover:no-underline px-5 py-4"
-        style={{ alignItems: 'center' }}
+        className="hw-selector-trigger hover:no-underline px-5 py-4"
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 }}>
+        <div className="hw-selector-trigger-main">
           {selectedItem && (
             <ComponentThumbnail src={selectedImageUrl} alt={selectedItem.modelo} />
           )}
-          <Icon className="h-4 w-4 text-hw-accent shrink-0" />
+          <Icon className="hw-selector-type-icon h-4 w-4 text-hw-accent shrink-0" />
           <span className="text-hw-title font-heading font-semibold text-sm truncate">
             {triggerLabel}
           </span>
@@ -148,21 +148,12 @@ export default function ComponentSelectorSection<
         </div>
       </AccordionTrigger>
 
-      <AccordionContent className="px-5 pb-5">
+      <AccordionContent className="hw-selector-content px-5 pb-5">
         {/* Selected preview */}
         {selectedItem && (
-          <div
-            className="bg-green-500/10 rounded-lg"
-            style={{
-              padding: '10px 14px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: 16,
-            }}
-          >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div className="hw-selector-selected bg-green-500/10 rounded-lg">
+            <div className="hw-selector-selected-copy">
+              <div className="hw-selector-selected-row">
                 <ComponentThumbnail src={selectedImageUrl} alt={selectedItem.modelo} size="lg" />
                 <span className="text-sm text-hw-title font-semibold">
                   ✓ {selectedItem.modelo}
@@ -179,31 +170,24 @@ export default function ComponentSelectorSection<
         )}
 
         {/* Search + Filter bar */}
-        <div
-          style={{
-            display: 'flex',
-            gap: 8,
-            marginBottom: 12,
-            flexWrap: 'wrap',
-          }}
-        >
-          <div style={{ flex: 1, minWidth: 180, position: 'relative' }}>
+        <div className="hw-selector-toolbar">
+          <div className="hw-selector-search-wrap">
             <Search
               className="h-4 w-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
             />
             <Input
+              className="hw-selector-search-input"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder={`Buscar ${title.toLowerCase()}…`}
-              style={{ paddingLeft: 36 }}
             />
           </div>
 
           {/* Filter selectors */}
           {filterableColumns.length > 0 && (
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <div className="hw-selector-filters">
               <select
-                className="h-8 rounded-lg border border-input bg-transparent px-2 text-sm text-hw-title"
+                className="hw-selector-filter-select"
                 value={filterKey}
                 onChange={(e) => {
                   setFilterKey(e.target.value);
@@ -221,7 +205,7 @@ export default function ComponentSelectorSection<
               {filterKey && (
                 <>
                   <select
-                    className="h-8 rounded-lg border border-input bg-transparent px-2 text-sm text-hw-title"
+                    className="hw-selector-filter-select"
                     value={filterValue}
                     onChange={(e) => setFilterValue(e.target.value)}
                   >
@@ -253,14 +237,13 @@ export default function ComponentSelectorSection<
             No se encontraron resultados.
           </div>
         ) : (
-          <div style={{ maxHeight: 300, overflowY: 'auto' }}>
-            <Table>
+          <div className="hw-selector-results">
+            <Table className="hw-selector-table">
               <TableHeader>
                 <TableRow>
                   {columns.map((col) => (
                     <TableHead key={col.key}>{col.label}</TableHead>
                   ))}
-                  <TableHead className="w-[80px]" />
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -278,10 +261,12 @@ export default function ComponentSelectorSection<
                           : undefined;
 
                         return (
-                          <TableCell key={col.key}>
-                            <div className="flex items-center gap-2 min-w-0">
+                          <TableCell key={col.key} className="hw-selector-model-cell">
+                            <div className="hw-selector-model-wrap">
                               <ComponentThumbnail src={imageUrl} alt={item.modelo} />
-                              <span className="truncate">{col.render(item)}</span>
+                              <span className={truncateModel ? 'truncate hw-selector-model-text' : 'hw-selector-model-text hw-selector-model-text-wrap'}>
+                                {col.render(item)}
+                              </span>
                             </div>
                           </TableCell>
                         );
@@ -289,22 +274,6 @@ export default function ComponentSelectorSection<
 
                       return <TableCell key={col.key}>{col.render(item)}</TableCell>;
                     })}
-                    <TableCell>
-                      <Button
-                        variant={selectedId === item.id ? 'default' : 'outline'}
-                        size="xs"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onSelect(item);
-                        }}
-                      >
-                        {selectedId === item.id ? (
-                          <Check className="h-3 w-3" />
-                        ) : (
-                          'Elegir'
-                        )}
-                      </Button>
-                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
