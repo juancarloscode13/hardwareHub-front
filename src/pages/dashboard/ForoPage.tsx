@@ -26,9 +26,7 @@ function getInitials(nombre: string | undefined): string {
 }
 
 function avatarSrc(iconoPerfil: string | null | undefined): string | undefined {
-  if (!iconoPerfil) return undefined;
-  if (iconoPerfil.startsWith('data:')) return iconoPerfil;
-  return `data:image/png;base64,${iconoPerfil}`;
+  return iconoPerfil ?? undefined;
 }
 
 function sanitizeDslValue(value: string): string {

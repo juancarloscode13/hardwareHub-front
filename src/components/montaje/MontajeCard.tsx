@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Pencil, Trash2, Share2, Cpu, MonitorSmartphone, MemoryStick, HardDrive, Fan, PcCase, Plug, Database } from 'lucide-react';
 import { toast } from 'sonner';
 import {
@@ -8,6 +8,8 @@ import {
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { useDeleteMontaje } from '@/features/montaje/hooks/useCreateMontaje';
+import { useCloudinaryMediaUrls } from '@/features/cloudinary/hooks/useCloudinary';
+import { ComponentThumbnail } from '@/components/ui/component-thumbnail';
 import ShareMontajeDialog from './ShareMontajeDialog';
 import type { MontajeEnrichedDto } from '@/dto';
 
@@ -40,9 +42,10 @@ interface DetailRowProps {
   label: string;
   value: string;
   price?: string;
+  imageUrl?: string;
 }
 
-function DetailRow({ icon: Icon, label, value, price }: DetailRowProps) {
+function DetailRow({ icon: Icon, label, value, price, imageUrl }: DetailRowProps) {
   return (
     <div
       style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 0' }}
@@ -52,7 +55,10 @@ function DetailRow({ icon: Icon, label, value, price }: DetailRowProps) {
       <span className="text-xs text-muted-foreground" style={{ width: 110, flexShrink: 0 }}>
         {label}
       </span>
-      <span className="text-sm text-hw-title flex-1 truncate">{value}</span>
+      <div className="flex items-center gap-2 flex-1 min-w-0">
+        <ComponentThumbnail src={imageUrl} alt={value} size="sm" />
+        <span className="text-sm text-hw-title flex-1 truncate">{value}</span>
+      </div>
       {price && (
         <span className="text-xs text-muted-foreground shrink-0">{price}</span>
       )}
@@ -72,6 +78,22 @@ interface MontajeCardProps {
 export default function MontajeCard({ montaje, onEdit }: MontajeCardProps) {
   const [shareOpen, setShareOpen] = useState(false);
   const deleteMutation = useDeleteMontaje();
+
+  const imagePublicIds = useMemo(
+    () => [
+      montaje.cpu?.imagen,
+      montaje.gpu?.imagen,
+      montaje.ram?.imagen,
+      montaje.placaBase?.imagen,
+      montaje.psu?.imagen,
+      montaje.refrigeracion?.imagen,
+      montaje.caja?.imagen,
+      montaje.almacenamiento?.imagen,
+    ],
+    [montaje],
+  );
+
+  const { data: imageUrls } = useCloudinaryMediaUrls(imagePublicIds);
 
   const cpuName = montaje.cpu?.modelo ?? `CPU #${montaje.cpuId}`;
   const gpuName = montaje.gpu?.modelo ?? `GPU #${montaje.gpuId}`;
@@ -115,48 +137,56 @@ export default function MontajeCard({ montaje, onEdit }: MontajeCardProps) {
               label="CPU"
               value={cpuName}
               price={formatPrecio(montaje.cpu?.precio)}
+              imageUrl={montaje.cpu?.imagen ? imageUrls[montaje.cpu.imagen.trim()] : undefined}
             />
             <DetailRow
               icon={MonitorSmartphone}
               label="GPU"
               value={gpuName}
               price={formatPrecio(montaje.gpu?.precio)}
+              imageUrl={montaje.gpu?.imagen ? imageUrls[montaje.gpu.imagen.trim()] : undefined}
             />
             <DetailRow
               icon={MemoryStick}
               label="RAM"
               value={montaje.ram?.modelo ?? `RAM #${montaje.ramId}`}
               price={formatPrecio(montaje.ram?.precio)}
+              imageUrl={montaje.ram?.imagen ? imageUrls[montaje.ram.imagen.trim()] : undefined}
             />
             <DetailRow
               icon={HardDrive}
               label="Placa Base"
               value={montaje.placaBase?.modelo ?? `PB #${montaje.placaBaseId}`}
               price={formatPrecio(montaje.placaBase?.precio)}
+              imageUrl={montaje.placaBase?.imagen ? imageUrls[montaje.placaBase.imagen.trim()] : undefined}
             />
             <DetailRow
               icon={Plug}
               label="Fuente"
               value={montaje.psu?.modelo ?? `PSU #${montaje.psuId}`}
               price={formatPrecio(montaje.psu?.precio)}
+              imageUrl={montaje.psu?.imagen ? imageUrls[montaje.psu.imagen.trim()] : undefined}
             />
             <DetailRow
               icon={Fan}
               label="Refrigeración"
               value={montaje.refrigeracion?.modelo ?? `Refrig. #${montaje.refrigeracionId}`}
               price={formatPrecio(montaje.refrigeracion?.precio)}
+              imageUrl={montaje.refrigeracion?.imagen ? imageUrls[montaje.refrigeracion.imagen.trim()] : undefined}
             />
             <DetailRow
               icon={PcCase}
               label="Caja"
               value={montaje.caja?.modelo ?? `Caja #${montaje.cajaId}`}
               price={formatPrecio(montaje.caja?.precio)}
+              imageUrl={montaje.caja?.imagen ? imageUrls[montaje.caja.imagen.trim()] : undefined}
             />
             <DetailRow
               icon={Database}
               label="Almacenamiento"
               value={montaje.almacenamiento?.modelo ?? `Alm. #${montaje.almacenamientoId}`}
               price={formatPrecio(montaje.almacenamiento?.precio)}
+              imageUrl={montaje.almacenamiento?.imagen ? imageUrls[montaje.almacenamiento.imagen.trim()] : undefined}
             />
           </div>
 

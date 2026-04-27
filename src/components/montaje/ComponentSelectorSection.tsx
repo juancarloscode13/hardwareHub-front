@@ -15,6 +15,8 @@ import {
   TableRow,
   TableCell,
 } from '@/components/ui/table';
+import { useCloudinaryMediaUrls } from '@/features/cloudinary/hooks/useCloudinary';
+import { ComponentThumbnail } from '@/components/ui/component-thumbnail';
 
 
 
@@ -25,8 +27,8 @@ export interface ColumnDef<T> {
   filterOptions?: { value: string; label: string }[];
 }
 
-interface ComponentSelectorSectionProps<T extends { id: number; modelo: string; precio: number }> {
-  
+interface ComponentSelectorSectionProps<T extends { id: number; modelo: string; precio: number; imagen?: string | null }> {
+
   accordionValue: string;
   
   title: string;
@@ -51,7 +53,7 @@ interface ComponentSelectorSectionProps<T extends { id: number; modelo: string; 
 
 
 export default function ComponentSelectorSection<
-  T extends { id: number; modelo: string; precio: number },
+  T extends { id: number; modelo: string; precio: number; imagen?: string | null },
 >({
   accordionValue,
   title,
@@ -98,6 +100,11 @@ export default function ComponentSelectorSection<
   
   const filterableColumns = columns.filter((c) => c.filterOptions && c.filterOptions.length > 0);
 
+  const { data: imageUrls } = useCloudinaryMediaUrls([
+    ...filteredItems.map((item) => item.imagen),
+    selectedItem?.imagen,
+  ]);
+
   const handleClearFilter = () => {
     setFilterKey('');
     setFilterValue('');
@@ -107,6 +114,10 @@ export default function ComponentSelectorSection<
   const triggerLabel = selectedItem
     ? `${title}: ${selectedItem.modelo}`
     : title;
+
+  const selectedImageUrl = selectedItem?.imagen
+    ? imageUrls[selectedItem.imagen.trim()]
+    : undefined;
 
   return (
     <AccordionItem
@@ -119,6 +130,9 @@ export default function ComponentSelectorSection<
         style={{ alignItems: 'center' }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 }}>
+          {selectedItem && (
+            <ComponentThumbnail src={selectedImageUrl} alt={selectedItem.modelo} />
+          )}
           <Icon className="h-4 w-4 text-hw-accent shrink-0" />
           <span className="text-hw-title font-heading font-semibold text-sm truncate">
             {triggerLabel}
@@ -148,9 +162,12 @@ export default function ComponentSelectorSection<
             }}
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <span className="text-sm text-hw-title font-semibold">
-                ✓ {selectedItem.modelo}
-              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <ComponentThumbnail src={selectedImageUrl} alt={selectedItem.modelo} size="lg" />
+                <span className="text-sm text-hw-title font-semibold">
+                  ✓ {selectedItem.modelo}
+                </span>
+              </div>
               <span className="text-xs text-muted-foreground">
                 {selectedItem.precio.toFixed(2)} €
               </span>
@@ -254,9 +271,24 @@ export default function ComponentSelectorSection<
                     className="cursor-pointer"
                     onClick={() => onSelect(item)}
                   >
-                    {columns.map((col) => (
-                      <TableCell key={col.key}>{col.render(item)}</TableCell>
-                    ))}
+                    {columns.map((col) => {
+                      if (col.key === 'modelo') {
+                        const imageUrl = item.imagen
+                          ? imageUrls[item.imagen.trim()]
+                          : undefined;
+
+                        return (
+                          <TableCell key={col.key}>
+                            <div className="flex items-center gap-2 min-w-0">
+                              <ComponentThumbnail src={imageUrl} alt={item.modelo} />
+                              <span className="truncate">{col.render(item)}</span>
+                            </div>
+                          </TableCell>
+                        );
+                      }
+
+                      return <TableCell key={col.key}>{col.render(item)}</TableCell>;
+                    })}
                     <TableCell>
                       <Button
                         variant={selectedId === item.id ? 'default' : 'outline'}

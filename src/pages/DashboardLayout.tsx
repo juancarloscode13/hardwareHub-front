@@ -38,11 +38,7 @@ function getUserInitials(nombre: string | undefined): string {
 }
 
 function getAvatarSrc(iconoPerfil: string | null | undefined): string | undefined {
-  if (!iconoPerfil) return undefined;
-  
-  if (iconoPerfil.startsWith('data:')) return iconoPerfil;
-  
-  return `data:image/png;base64,${iconoPerfil}`;
+  return iconoPerfil ?? undefined;
 }
 
 // ── Layout ────────────────────────────────────────────────────────────────
