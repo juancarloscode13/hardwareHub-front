@@ -19,6 +19,8 @@ import type {
   AlmacenamientoResponseDto, PlacaBaseResponseDto, PsuResponseDto,
   CajaResponseDto, RefrigeracionResponseDto, FabricanteResponseDto,
 } from '@/dto';
+import { useCloudinaryMediaUrls } from '@/features/cloudinary/hooks/useCloudinary';
+import { ComponentThumbnail } from '@/components/ui/component-thumbnail';
 
 
 type Category = 'cpu' | 'gpu' | 'ram' | 'almacenamiento' | 'placaBase' | 'psu' | 'caja' | 'refrigeracion';
@@ -28,6 +30,13 @@ interface CategoryMeta {
   label: string;
   icon: React.ElementType;
 }
+
+type ComparableItemBase = {
+  id: number;
+  modelo: string;
+  fabricanteId: number;
+  imagen?: string | null;
+};
 
 const CATEGORIES: CategoryMeta[] = [
   { key: 'cpu',             label: 'CPU',             icon: Cpu },
@@ -77,8 +86,33 @@ function formatInteger(val: number | undefined | null): string {
   return val.toLocaleString('es-ES');
 }
 
+function toComparableNumber(val: number | null | undefined): number | undefined {
+  return typeof val === 'number' ? val : undefined;
+}
+
+function formatWithUnit(val: number | null | undefined, unit: string): string {
+  const num = toComparableNumber(val);
+  return num === undefined ? '—' : `${formatDecimal(num)} ${unit}`;
+}
+
+function formatGen(val: number | null | undefined): string {
+  const num = toComparableNumber(val);
+  return num === undefined ? '—' : `Gen ${formatInteger(num)}`;
+}
+
 
 function buildCpuSpecs(a: CpuResponseDto, b: CpuResponseDto, fabMap: Map<number, FabricanteResponseDto>): SpecRow[] {
+  const tdpA = toComparableNumber(a.tdp);
+  const tdpB = toComparableNumber(b.tdp);
+  const tempA = toComparableNumber(a.temperaturaMax);
+  const tempB = toComparableNumber(b.temperaturaMax);
+  const pcieA = toComparableNumber(a.conectividadPcie);
+  const pcieB = toComparableNumber(b.conectividadPcie);
+  const passmarkSta = toComparableNumber(a.puntuacionPassmarkSinglethread);
+  const passmarkStb = toComparableNumber(b.puntuacionPassmarkSinglethread);
+  const passmarkMta = toComparableNumber(a.puntuacionPassmarkMultithread);
+  const passmarkMtb = toComparableNumber(b.puntuacionPassmarkMultithread);
+
   return [
     { label: 'Fabricante', valueA: fabricanteName(a.fabricanteId, fabMap), valueB: fabricanteName(b.fabricanteId, fabMap) },
     { label: 'Socket', valueA: formatEnum(a.cpuSocket), valueB: formatEnum(b.cpuSocket) },
@@ -89,17 +123,28 @@ function buildCpuSpecs(a: CpuResponseDto, b: CpuResponseDto, fabMap: Map<number,
     { label: 'Caché (MB)', valueA: a.cantidadCache, valueB: b.cantidadCache, numA: a.cantidadCache, numB: b.cantidadCache, higherIsBetter: true },
     { label: 'Caché apilada', valueA: a.cacheApilada ? 'Sí' : 'No', valueB: b.cacheApilada ? 'Sí' : 'No' },
     { label: 'Hyperthreading', valueA: a.hyperthreading ? 'Sí' : 'No', valueB: b.hyperthreading ? 'Sí' : 'No' },
-    { label: 'TDP', valueA: `${a.tdp} W`, valueB: `${b.tdp} W`, numA: a.tdp, numB: b.tdp, higherIsBetter: false },
-    { label: 'Temp. Máx', valueA: `${a.temperaturaMax} °C`, valueB: `${b.temperaturaMax} °C`, numA: a.temperaturaMax, numB: b.temperaturaMax, higherIsBetter: true },
-    { label: 'PCIe', valueA: `Gen ${a.conectividadPcie}`, valueB: `Gen ${b.conectividadPcie}`, numA: a.conectividadPcie, numB: b.conectividadPcie, higherIsBetter: true },
+    { label: 'TDP', valueA: formatWithUnit(a.tdp, 'W'), valueB: formatWithUnit(b.tdp, 'W'), numA: tdpA, numB: tdpB, higherIsBetter: false },
+    { label: 'Temp. Máx', valueA: formatWithUnit(a.temperaturaMax, '°C'), valueB: formatWithUnit(b.temperaturaMax, '°C'), numA: tempA, numB: tempB, higherIsBetter: true },
+    { label: 'PCIe', valueA: formatGen(a.conectividadPcie), valueB: formatGen(b.conectividadPcie), numA: pcieA, numB: pcieB, higherIsBetter: true },
     { label: 'Gráficos Int.', valueA: a.graficosIntegrados || '—', valueB: b.graficosIntegrados || '—' },
-    { label: 'PassMark ST', valueA: formatInteger(a.puntuacionPassmarkSinglethread), valueB: formatInteger(b.puntuacionPassmarkSinglethread), numA: a.puntuacionPassmarkSinglethread, numB: b.puntuacionPassmarkSinglethread, higherIsBetter: true },
-    { label: 'PassMark MT', valueA: formatInteger(a.puntuacionPassmarkMultithread), valueB: formatInteger(b.puntuacionPassmarkMultithread), numA: a.puntuacionPassmarkMultithread, numB: b.puntuacionPassmarkMultithread, higherIsBetter: true },
+    { label: 'PassMark ST', valueA: formatInteger(a.puntuacionPassmarkSinglethread), valueB: formatInteger(b.puntuacionPassmarkSinglethread), numA: passmarkSta, numB: passmarkStb, higherIsBetter: true },
+    { label: 'PassMark MT', valueA: formatInteger(a.puntuacionPassmarkMultithread), valueB: formatInteger(b.puntuacionPassmarkMultithread), numA: passmarkMta, numB: passmarkMtb, higherIsBetter: true },
     { label: 'Precio', valueA: `${formatDecimal(a.precio)} €`, valueB: `${formatDecimal(b.precio)} €`, numA: a.precio, numB: b.precio, higherIsBetter: false },
   ];
 }
 
 function buildGpuSpecs(a: GpuResponseDto, b: GpuResponseDto, fabMap: Map<number, FabricanteResponseDto>): SpecRow[] {
+  const tempA = toComparableNumber(a.temperaturaMax);
+  const tempB = toComparableNumber(b.temperaturaMax);
+  const pcieA = toComparableNumber(a.conectividadPcie);
+  const pcieB = toComparableNumber(b.conectividadPcie);
+  const altoA = toComparableNumber(a.altoGpu);
+  const altoB = toComparableNumber(b.altoGpu);
+  const longA = toComparableNumber(a.longitudGpu);
+  const longB = toComparableNumber(b.longitudGpu);
+  const passmarkA = toComparableNumber(a.puntuacionPassmark);
+  const passmarkB = toComparableNumber(b.puntuacionPassmark);
+
   return [
     { label: 'Fabricante', valueA: fabricanteName(a.fabricanteId, fabMap), valueB: fabricanteName(b.fabricanteId, fabMap) },
     { label: 'Ensambladora', valueA: formatEnum(a.ensambladora), valueB: formatEnum(b.ensambladora) },
@@ -110,12 +155,12 @@ function buildGpuSpecs(a: GpuResponseDto, b: GpuResponseDto, fabMap: Map<number,
     { label: 'Frec. Base', valueA: `${formatDecimal(a.frecuenciaMin)} MHz`, valueB: `${formatDecimal(b.frecuenciaMin)} MHz`, numA: a.frecuenciaMin, numB: b.frecuenciaMin, higherIsBetter: true },
     { label: 'Frec. Boost', valueA: `${formatDecimal(a.frecuenciaMax)} MHz`, valueB: `${formatDecimal(b.frecuenciaMax)} MHz`, numA: a.frecuenciaMax, numB: b.frecuenciaMax, higherIsBetter: true },
     { label: 'Ancho Banda', valueA: `${a.anchoBanda} GB/s`, valueB: `${b.anchoBanda} GB/s`, numA: a.anchoBanda, numB: b.anchoBanda, higherIsBetter: true },
-    { label: 'TDP', valueA: `${a.tdp} W`, valueB: `${b.tdp} W`, numA: a.tdp, numB: b.tdp, higherIsBetter: false },
-    { label: 'Temp. Máx', valueA: `${a.temperaturaMax} °C`, valueB: `${b.temperaturaMax} °C`, numA: a.temperaturaMax, numB: b.temperaturaMax, higherIsBetter: true },
-    { label: 'PCIe', valueA: `Gen ${a.conectividadPcie}`, valueB: `Gen ${b.conectividadPcie}`, numA: a.conectividadPcie, numB: b.conectividadPcie, higherIsBetter: true },
-    { label: 'Alto GPU', valueA: `${a.altoGpu} mm`, valueB: `${b.altoGpu} mm`, numA: a.altoGpu, numB: b.altoGpu, higherIsBetter: false },
-    { label: 'Longitud GPU', valueA: `${a.longitudGpu} mm`, valueB: `${b.longitudGpu} mm`, numA: a.longitudGpu, numB: b.longitudGpu, higherIsBetter: false },
-    { label: 'Passmark', valueA: formatInteger(a.puntuacionPassmark), valueB: formatInteger(b.puntuacionPassmark), numA: a.puntuacionPassmark, numB: b.puntuacionPassmark, higherIsBetter: true },
+    { label: 'TDP', valueA: formatWithUnit(a.tdp, 'W'), valueB: formatWithUnit(b.tdp, 'W'), numA: toComparableNumber(a.tdp), numB: toComparableNumber(b.tdp), higherIsBetter: false },
+    { label: 'Temp. Máx', valueA: formatWithUnit(a.temperaturaMax, '°C'), valueB: formatWithUnit(b.temperaturaMax, '°C'), numA: tempA, numB: tempB, higherIsBetter: true },
+    { label: 'PCIe', valueA: formatGen(a.conectividadPcie), valueB: formatGen(b.conectividadPcie), numA: pcieA, numB: pcieB, higherIsBetter: true },
+    { label: 'Alto GPU', valueA: formatWithUnit(a.altoGpu, 'mm'), valueB: formatWithUnit(b.altoGpu, 'mm'), numA: altoA, numB: altoB, higherIsBetter: false },
+    { label: 'Longitud GPU', valueA: formatWithUnit(a.longitudGpu, 'mm'), valueB: formatWithUnit(b.longitudGpu, 'mm'), numA: longA, numB: longB, higherIsBetter: false },
+    { label: 'Passmark', valueA: formatInteger(a.puntuacionPassmark), valueB: formatInteger(b.puntuacionPassmark), numA: passmarkA, numB: passmarkB, higherIsBetter: true },
     { label: 'Precio', valueA: `${formatDecimal(a.precio)} €`, valueB: `${formatDecimal(b.precio)} €`, numA: a.precio, numB: b.precio, higherIsBetter: false },
   ];
 }
@@ -138,7 +183,7 @@ function buildAlmacenamientoSpecs(a: AlmacenamientoResponseDto, b: Almacenamient
     { label: 'Fabricante', valueA: fabricanteName(a.fabricanteId, fabMap), valueB: fabricanteName(b.fabricanteId, fabMap) },
     { label: 'Tipo', valueA: formatEnum(a.tipo), valueB: formatEnum(b.tipo) },
     { label: 'Formato', valueA: formatEnum(a.formato), valueB: formatEnum(b.formato) },
-    { label: 'Capacidad', valueA: `${formatDecimal(a.capacidad)} GB`, valueB: `${formatDecimal(b.capacidad)} GB`, numA: a.capacidad, numB: b.capacidad, higherIsBetter: true },
+    { label: 'Capacidad', valueA: `${formatDecimal(a.capacidad)} TB`, valueB: `${formatDecimal(b.capacidad)} TB`, numA: a.capacidad, numB: b.capacidad, higherIsBetter: true },
     { label: 'Vel. Lectura', valueA: `${a.velocidadLectura} MB/s`, valueB: `${b.velocidadLectura} MB/s`, numA: a.velocidadLectura, numB: b.velocidadLectura, higherIsBetter: true },
     { label: 'Vel. Escritura', valueA: `${a.velocidadEscritura} MB/s`, valueB: `${b.velocidadEscritura} MB/s`, numA: a.velocidadEscritura, numB: b.velocidadEscritura, higherIsBetter: true },
     { label: 'Conectividad', valueA: formatEnum(a.conectividad), valueB: formatEnum(b.conectividad) },
@@ -164,9 +209,12 @@ function buildPlacaBaseSpecs(a: PlacaBaseResponseDto, b: PlacaBaseResponseDto, f
 }
 
 function buildPsuSpecs(a: PsuResponseDto, b: PsuResponseDto, fabMap: Map<number, FabricanteResponseDto>): SpecRow[] {
+  const potenciaA = toComparableNumber(a.potencia);
+  const potenciaB = toComparableNumber(b.potencia);
+
   return [
     { label: 'Fabricante', valueA: fabricanteName(a.fabricanteId, fabMap), valueB: fabricanteName(b.fabricanteId, fabMap) },
-    { label: 'Potencia', valueA: `${a.potencia} W`, valueB: `${b.potencia} W`, numA: a.potencia, numB: b.potencia, higherIsBetter: true },
+    { label: 'Potencia', valueA: formatWithUnit(a.potencia, 'W'), valueB: formatWithUnit(b.potencia, 'W'), numA: potenciaA, numB: potenciaB, higherIsBetter: true },
     { label: 'Certificación', valueA: formatEnum(a.certificacion), valueB: formatEnum(b.certificacion) },
     { label: 'Factor Forma', valueA: formatEnum(a.factorForma), valueB: formatEnum(b.factorForma) },
     { label: 'Modular', valueA: a.modular ? 'Sí' : 'No', valueB: b.modular ? 'Sí' : 'No' },
@@ -175,18 +223,27 @@ function buildPsuSpecs(a: PsuResponseDto, b: PsuResponseDto, fabMap: Map<number,
 }
 
 function buildCajaSpecs(a: CajaResponseDto, b: CajaResponseDto, fabMap: Map<number, FabricanteResponseDto>): SpecRow[] {
+  const longGpuA = toComparableNumber(a.longitudMaxGpu);
+  const longGpuB = toComparableNumber(b.longitudMaxGpu);
+  const bahias25A = toComparableNumber(a.bahias25);
+  const bahias25B = toComparableNumber(b.bahias25);
+  const bahias35A = toComparableNumber(a.bahias35);
+  const bahias35B = toComparableNumber(b.bahias35);
+  const alturaA = toComparableNumber(a.alturaMaxEnfriadorCpu);
+  const alturaB = toComparableNumber(b.alturaMaxEnfriadorCpu);
+
   return [
     { label: 'Fabricante', valueA: fabricanteName(a.fabricanteId, fabMap), valueB: fabricanteName(b.fabricanteId, fabMap) },
     { label: 'Formato', valueA: formatEnum(a.formato), valueB: formatEnum(b.formato) },
     { label: 'Placas Compatibles', valueA: formatEnum(a.placasBaseCompatibles), valueB: formatEnum(b.placasBaseCompatibles) },
     { label: 'Color', valueA: a.color, valueB: b.color },
     { label: 'PSU Compatible', valueA: formatEnum(a.psuCompatible), valueB: formatEnum(b.psuCompatible) },
-    { label: 'Long. Máx GPU', valueA: `${a.longitudMaxGpu} mm`, valueB: `${b.longitudMaxGpu} mm`, numA: a.longitudMaxGpu, numB: b.longitudMaxGpu, higherIsBetter: true },
-    { label: 'Bahías 2.5"', valueA: a.bahias25, valueB: b.bahias25, numA: a.bahias25, numB: b.bahias25, higherIsBetter: true },
-    { label: 'Bahías 3.5"', valueA: a.bahias35, valueB: b.bahias35, numA: a.bahias35, numB: b.bahias35, higherIsBetter: true },
+    { label: 'Long. Máx GPU', valueA: formatWithUnit(a.longitudMaxGpu, 'mm'), valueB: formatWithUnit(b.longitudMaxGpu, 'mm'), numA: longGpuA, numB: longGpuB, higherIsBetter: true },
+    { label: 'Bahías 2.5"', valueA: formatInteger(a.bahias25), valueB: formatInteger(b.bahias25), numA: bahias25A, numB: bahias25B, higherIsBetter: true },
+    { label: 'Bahías 3.5"', valueA: formatInteger(a.bahias35), valueB: formatInteger(b.bahias35), numA: bahias35A, numB: bahias35B, higherIsBetter: true },
     { label: 'Ventiladores Inc.', valueA: a.ventiladoresIncluidos ? 'Sí' : 'No', valueB: b.ventiladoresIncluidos ? 'Sí' : 'No' },
     { label: 'RGB', valueA: a.rgb ? 'Sí' : 'No', valueB: b.rgb ? 'Sí' : 'No' },
-    { label: 'Alt. Máx Enfriador', valueA: `${a.alturaMaxEnfriadorCpu} mm`, valueB: `${b.alturaMaxEnfriadorCpu} mm`, numA: a.alturaMaxEnfriadorCpu, numB: b.alturaMaxEnfriadorCpu, higherIsBetter: true },
+    { label: 'Alt. Máx Enfriador', valueA: formatWithUnit(a.alturaMaxEnfriadorCpu, 'mm'), valueB: formatWithUnit(b.alturaMaxEnfriadorCpu, 'mm'), numA: alturaA, numB: alturaB, higherIsBetter: true },
     { label: 'Precio', valueA: `${formatDecimal(a.precio)} €`, valueB: `${formatDecimal(b.precio)} €`, numA: a.precio, numB: b.precio, higherIsBetter: false },
   ];
 }
@@ -225,22 +282,24 @@ function SpecBar({ numA, numB, higherIsBetter }: { numA: number; numB: number; h
 }
 
 
-interface ComponentSelectorProps<T extends { id: number; modelo: string; fabricanteId: number }> {
+interface ComponentSelectorProps<T extends { id: number; modelo: string; fabricanteId: number; imagen?: string | null }> {
   items: T[];
   selectedId: number | null;
   onSelect: (id: number | null) => void;
   fabMap: Map<number, FabricanteResponseDto>;
   label: string;
   isLoading: boolean;
+  imageUrls: Record<string, string>;
 }
 
-function ComponentSelector<T extends { id: number; modelo: string; fabricanteId: number }>({
+function ComponentSelector<T extends { id: number; modelo: string; fabricanteId: number; imagen?: string | null }>({
   items,
   selectedId,
   onSelect,
   fabMap,
   label,
   isLoading,
+  imageUrls,
 }: ComponentSelectorProps<T>) {
   const [search, setSearch] = useState('');
 
@@ -289,21 +348,28 @@ function ComponentSelector<T extends { id: number; modelo: string; fabricanteId:
         )}
         {filtered.map((item) => {
           const isSelected = item.id === selectedId;
+          const imageUrl = item.imagen ? imageUrls[item.imagen.trim()] : undefined;
+          const fabricante = fabricanteName(item.fabricanteId, fabMap);
+
           return (
             <button
               key={item.id}
               onClick={() => onSelect(isSelected ? null : item.id)}
-              className={`w-full text-left rounded-lg px-3 py-2 text-sm transition-colors cursor-pointer ${
+              className={`w-full text-left rounded-lg px-3 py-2 text-sm transition-colors cursor-pointer hw-compare-selector-item ${
                 isSelected
                   ? 'bg-hw-accent/10 ring-1 ring-hw-accent/30 text-hw-title font-medium'
                   : 'hover:bg-muted/60 text-hw-title'
               }`}
             >
-              <span className="text-hw-subtitle hw-compare-selector-fab">
-                {fabricanteName(item.fabricanteId, fabMap)}
-              </span>
-              <br />
-              {item.modelo}
+              <div className="hw-compare-selector-item-main">
+                <ComponentThumbnail src={imageUrl} alt={item.modelo} />
+                <div className="hw-compare-selector-item-text">
+                  <span className="truncate leading-tight hw-compare-selector-model block max-w-full">{item.modelo}</span>
+                  <span className="text-hw-subtitle hw-compare-selector-fab">
+                    Marca: {fabricante}
+                  </span>
+                </div>
+              </div>
             </button>
           );
         })}
@@ -356,7 +422,7 @@ export default function CompararPage() {
 
   const isLoading = loadingMap[category];
 
-  const itemsMap: Record<Category, any[]> = {
+  const itemsMap: Record<Category, ComparableItemBase[]> = {
     cpu: cpus,
     gpu: gpus,
     ram: rams,
@@ -368,6 +434,7 @@ export default function CompararPage() {
   };
 
   const currentItems = itemsMap[category];
+  const { data: currentImageUrls } = useCloudinaryMediaUrls(currentItems.map((item) => item.imagen));
 
   const handleCategoryChange = (cat: Category) => {
     setCategory(cat);
@@ -383,14 +450,14 @@ export default function CompararPage() {
     if (!a || !b) return null;
 
     switch (category) {
-      case 'cpu': return buildCpuSpecs(a, b, fabMap);
-      case 'gpu': return buildGpuSpecs(a, b, fabMap);
-      case 'ram': return buildRamSpecs(a, b, fabMap);
-      case 'almacenamiento': return buildAlmacenamientoSpecs(a, b, fabMap);
-      case 'placaBase': return buildPlacaBaseSpecs(a, b, fabMap);
-      case 'psu': return buildPsuSpecs(a, b, fabMap);
-      case 'caja': return buildCajaSpecs(a, b, fabMap);
-      case 'refrigeracion': return buildRefrigeracionSpecs(a, b, fabMap);
+      case 'cpu': return buildCpuSpecs(a as CpuResponseDto, b as CpuResponseDto, fabMap);
+      case 'gpu': return buildGpuSpecs(a as GpuResponseDto, b as GpuResponseDto, fabMap);
+      case 'ram': return buildRamSpecs(a as RamResponseDto, b as RamResponseDto, fabMap);
+      case 'almacenamiento': return buildAlmacenamientoSpecs(a as AlmacenamientoResponseDto, b as AlmacenamientoResponseDto, fabMap);
+      case 'placaBase': return buildPlacaBaseSpecs(a as PlacaBaseResponseDto, b as PlacaBaseResponseDto, fabMap);
+      case 'psu': return buildPsuSpecs(a as PsuResponseDto, b as PsuResponseDto, fabMap);
+      case 'caja': return buildCajaSpecs(a as CajaResponseDto, b as CajaResponseDto, fabMap);
+      case 'refrigeracion': return buildRefrigeracionSpecs(a as RefrigeracionResponseDto, b as RefrigeracionResponseDto, fabMap);
       default: return null;
     }
   }, [category, selectedA, selectedB, currentItems, fabMap]);
@@ -441,6 +508,7 @@ export default function CompararPage() {
           fabMap={fabMap}
           label="Componente A"
           isLoading={isLoading}
+          imageUrls={currentImageUrls}
         />
         <ComponentSelector
           items={currentItems}
@@ -449,6 +517,7 @@ export default function CompararPage() {
           fabMap={fabMap}
           label="Componente B"
           isLoading={isLoading}
+          imageUrls={currentImageUrls}
         />
       </div>
 
@@ -474,7 +543,13 @@ export default function CompararPage() {
             <span className="text-hw-subtitle font-heading hw-compare-table-header-label">
               Especificación
             </span>
-            <div>
+            <div className="hw-compare-table-header-item">
+              <div className="hw-compare-table-header-thumb">
+                <ComponentThumbnail
+                  src={itemA.imagen ? currentImageUrls[itemA.imagen.trim()] : undefined}
+                  alt={itemA.modelo}
+                />
+              </div>
               <p className="text-hw-title font-heading hw-compare-table-header-model">
                 {itemA.modelo}
               </p>
@@ -482,7 +557,13 @@ export default function CompararPage() {
                 {fabricanteName(itemA.fabricanteId, fabMap)}
               </p>
             </div>
-            <div>
+            <div className="hw-compare-table-header-item">
+              <div className="hw-compare-table-header-thumb">
+                <ComponentThumbnail
+                  src={itemB.imagen ? currentImageUrls[itemB.imagen.trim()] : undefined}
+                  alt={itemB.modelo}
+                />
+              </div>
               <p className="text-hw-title font-heading hw-compare-table-header-model">
                 {itemB.modelo}
               </p>
@@ -494,7 +575,10 @@ export default function CompararPage() {
 
           {/* Rows */}
           {specRows.map((row, idx) => {
-            const hasNums = row.numA !== undefined && row.numB !== undefined && row.higherIsBetter !== undefined;
+            const hasNums =
+              typeof row.numA === 'number' &&
+              typeof row.numB === 'number' &&
+              row.higherIsBetter !== undefined;
             const winA = hasNums && (row.higherIsBetter ? row.numA! >= row.numB! : row.numA! <= row.numB!);
             const winB = hasNums && (row.higherIsBetter ? row.numB! >= row.numA! : row.numB! <= row.numA!);
 

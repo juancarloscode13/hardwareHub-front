@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MessageSquare } from 'lucide-react';
+import ReactPlayer from 'react-player';
 import type { PublicacionResponseDto, UsuarioResponseDto } from '@/dto';
 import { timeAgo } from '@/lib/date-helpers';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -21,15 +22,15 @@ function getInitials(nombre: string | undefined): string {
 }
 
 function avatarSrc(iconoPerfil: string | null | undefined): string | undefined {
-  if (!iconoPerfil) return undefined;
-  if (iconoPerfil.startsWith('data:')) return iconoPerfil;
-  return `data:image/png;base64,${iconoPerfil}`;
+  return iconoPerfil ?? undefined;
 }
 
 function multimediaSrc(multimedia: string | null | undefined): string | undefined {
-  if (!multimedia) return undefined;
-  if (multimedia.startsWith('data:')) return multimedia;
-  return `data:image/jpeg;base64,${multimedia}`;
+  return multimedia ?? undefined;
+}
+
+function isVideoUrl(url: string): boolean {
+  return url.includes('/video/upload/');
 }
 
 // ── Props ─────────────────────────────────────────────────────────────────
@@ -60,7 +61,8 @@ export default function PublicacionCard({ publicacion, autor }: PublicacionCardP
   const { data: comentariosPage } = useComentariosByPublicacion(publicacion.id);
   const commentsCount = comentariosPage?.totalElements ?? 0;
 
-  const imgSrc = multimediaSrc(publicacion.multimedia);
+  const mediaSrc = multimediaSrc(publicacion.multimedia);
+  const isVideo = mediaSrc ? isVideoUrl(mediaSrc) : false;
 
   return (
     <article className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl hw-card-body">
@@ -98,13 +100,26 @@ export default function PublicacionCard({ publicacion, autor }: PublicacionCardP
       </p>
 
       {/* ── Image (optional) ──────────────────────────────────────────── */}
-      {imgSrc && (
+      {mediaSrc && !isVideo && (
         <img
-          src={imgSrc}
+          src={mediaSrc}
           alt="Contenido multimedia"
           loading="lazy"
           className="hw-card-img"
         />
+      )}
+
+      {/* ── Video (optional) ──────────────────────────────────────────── */}
+      {mediaSrc && isVideo && (
+        <div className="rounded-xl overflow-hidden">
+          <ReactPlayer
+            src={mediaSrc}
+            controls
+            width="100%"
+            height="auto"
+            pip={false}
+          />
+        </div>
       )}
 
       {/* ── Montaje adjunto (opcional) ────────────────────────────── */}

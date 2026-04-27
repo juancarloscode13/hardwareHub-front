@@ -19,6 +19,7 @@ import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 import { useUsuario, useFollowers, useFollowing } from '@/features/usuario/hooks/useUsuario';
 import { useUpdateProfile } from '@/features/usuario/hooks/useCreateUsuario';
 import { usePublicacionesByUsuario } from '@/features/publicacion/hooks/usePublicacion';
+import { cloudinaryApi } from '@/api/endpoints/cloudinary.api';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -43,15 +44,12 @@ function getInitials(nombre: string | undefined): string {
 }
 
 function avatarSrc(iconoPerfil: string | null | undefined): string | undefined {
-  if (!iconoPerfil) return undefined;
-  if (iconoPerfil.startsWith('data:')) return iconoPerfil;
-  return `data:image/png;base64,${iconoPerfil}`;
+  return iconoPerfil ?? undefined;
 }
 
-/** Convierte un data:URL a base64 puro (sin el prefijo) */
-function dataUrlToBase64(dataUrl: string): string {
-  const idx = dataUrl.indexOf(',');
-  return idx >= 0 ? dataUrl.slice(idx + 1) : dataUrl;
+/** Extracts a preview URL from a File using object URL */
+function filePreviewUrl(file: File): string {
+  return URL.createObjectURL(file);
 }
 
 function rolLabel(rol: string | undefined): string {
@@ -122,9 +120,11 @@ export default function PerfilPage() {
   // ── Estado del formulario ─────────────────────────────────────────────
   const [nombre, setNombre] = useState<string | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-  const [avatarBase64, setAvatarBase64] = useState<string | null | undefined>(undefined); // undefined = sin cambio
+  // avatarFile: undefined = no change; null = remove avatar; File = new file to upload
+  const [avatarFile, setAvatarFile] = useState<File | null | undefined>(undefined);
   const [avatarDialogOpen, setAvatarDialogOpen] = useState(false);
   const [avatarError, setAvatarError] = useState<string | null>(null);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
 
   // Valores efectivos (form o server)
   const effectiveNombre = nombre ?? usuario?.nombre ?? '';
@@ -137,7 +137,7 @@ export default function PerfilPage() {
 
   const hasChanges =
     (nombre !== null && nombre !== usuario?.nombre) ||
-    avatarBase64 !== undefined;
+    avatarFile !== undefined;
 
   // ── Handlers ──────────────────────────────────────────────────────────
 
@@ -152,27 +152,37 @@ export default function PerfilPage() {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = reader.result as string;
-      setAvatarPreview(dataUrl);
-      setAvatarBase64(dataUrlToBase64(dataUrl));
-      setAvatarDialogOpen(false);
-      setAvatarError(null);
-    };
-    reader.onerror = () => {
-      setAvatarError('Error al leer el archivo.');
-    };
-    reader.readAsDataURL(selected);
+    setAvatarPreview(filePreviewUrl(selected));
+    setAvatarFile(selected);
+    setAvatarDialogOpen(false);
+    setAvatarError(null);
   };
 
   const handleRemoveAvatar = () => {
     setAvatarPreview(null);
-    setAvatarBase64(null); // null = eliminar avatar
+    setAvatarFile(null); // null = remove avatar
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!user || !usuario) return;
+
+    let iconoPerfilUrl: string | null | undefined = undefined;
+
+    if (avatarFile !== undefined) {
+      if (avatarFile !== null) {
+        setIsUploadingAvatar(true);
+        try {
+          iconoPerfilUrl = await cloudinaryApi.uploadImage({ file: avatarFile });
+        } catch {
+          setIsUploadingAvatar(false);
+          toast.error('Error al subir el avatar a la nube');
+          return;
+        }
+        setIsUploadingAvatar(false);
+      } else {
+        iconoPerfilUrl = null; // user removed avatar
+      }
+    }
 
     updateProfile.mutate(
       {
@@ -182,16 +192,15 @@ export default function PerfilPage() {
           email: usuario.email,
           contrasena: usuario.contrasena,
           rol: usuario.rol,
-          ...(avatarBase64 !== undefined && { iconoPerfil: avatarBase64 }),
+          ...(iconoPerfilUrl !== undefined && { iconoPerfil: iconoPerfilUrl }),
         },
       },
       {
         onSuccess: () => {
           toast.success('Perfil actualizado correctamente');
-          // Reset dirty state
           setNombre(null);
           setAvatarPreview(null);
-          setAvatarBase64(undefined);
+          setAvatarFile(undefined);
         },
         onError: () => {
           toast.error('Error al actualizar el perfil');
@@ -203,7 +212,7 @@ export default function PerfilPage() {
   const handleDiscard = () => {
     setNombre(null);
     setAvatarPreview(null);
-    setAvatarBase64(undefined);
+    setAvatarFile(undefined);
   };
 
   // ── Fake upload control for UploadDropzone ────────────────────────────
@@ -421,11 +430,11 @@ export default function PerfilPage() {
           <div style={{ display: 'flex', gap: 10, paddingTop: 4 }}>
             <Button
               onClick={handleSave}
-              disabled={updateProfile.isPending || !effectiveNombre.trim()}
+              disabled={updateProfile.isPending || isUploadingAvatar || !effectiveNombre.trim()}
               className="cursor-pointer bg-hw-accent text-hw-accent-fg hover:bg-hw-accent/90"
               style={{ fontSize: '0.82rem', padding: '8px 24px', borderRadius: 10 }}
             >
-              {updateProfile.isPending ? (
+              {(updateProfile.isPending || isUploadingAvatar) ? (
                 <Loader2 className="h-4 w-4 animate-spin" style={{ marginRight: 6 }} />
               ) : (
                 <Save className="h-4 w-4" style={{ marginRight: 6 }} />
@@ -435,7 +444,7 @@ export default function PerfilPage() {
             <Button
               variant="outline"
               onClick={handleDiscard}
-              disabled={updateProfile.isPending}
+              disabled={updateProfile.isPending || isUploadingAvatar}
               className="cursor-pointer"
               style={{ fontSize: '0.82rem', padding: '8px 20px', borderRadius: 10 }}
             >

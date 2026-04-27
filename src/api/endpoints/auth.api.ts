@@ -1,27 +1,20 @@
 import { api } from '../axios';
+import { cloudinaryApi } from './cloudinary.api';
 import type { LoginRequestDto, RegisterRequestDto, ForgotPasswordRequestDto, ResetPasswordRequestDto } from '@/dto';
 import type { LoginResponseDto, UsuarioResponseDto } from '@/dto';
 
-
-function fileToBase64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = reader.result as string;
-      resolve(result.split(',')[1]); 
-    };
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
 
 export const authApi = {
   login: (data: LoginRequestDto) =>
     api.post<LoginResponseDto>('/auth/login', data).then(({ data }) => data),
 
-  
   register: async (data: RegisterRequestDto) => {
-    const iconoPerfil = data.avatar ? await fileToBase64(data.avatar) : undefined;
+    let iconoPerfil: string | undefined;
+
+    if (data.avatar) {
+      const url = await cloudinaryApi.uploadImage({ file: data.avatar });
+      iconoPerfil = url ?? undefined;
+    }
 
     return api
       .post<UsuarioResponseDto>('/auth/register', {

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Cpu, MonitorSmartphone, MemoryStick, HardDrive, Plug, Fan, PcCase, Database } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMontaje } from '@/features/montaje/hooks/useMontaje';
@@ -9,6 +10,8 @@ import { usePsu } from '@/features/psu/hooks/usePsu';
 import { useRefrigeracion } from '@/features/refrigeracion/hooks/useRefrigeracion';
 import { useCaja } from '@/features/caja/hooks/useCaja';
 import { useAlmacenamiento } from '@/features/almacenamiento/hooks/useAlmacenamiento';
+import { useCloudinaryMediaUrls } from '@/features/cloudinary/hooks/useCloudinary';
+import { ComponentThumbnail } from '@/components/ui/component-thumbnail';
 
 
 
@@ -17,9 +20,10 @@ interface SpecRowProps {
   label: string;
   value: string | undefined;
   price?: number;
+  imageUrl?: string;
 }
 
-function SpecRow({ icon: Icon, label, value, price }: SpecRowProps) {
+function SpecRow({ icon: Icon, label, value, price, imageUrl }: SpecRowProps) {
   if (!value) return null;
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -27,9 +31,12 @@ function SpecRow({ icon: Icon, label, value, price }: SpecRowProps) {
       <span className="text-hw-subtitle" style={{ fontSize: '0.72rem', width: 92, flexShrink: 0 }}>
         {label}
       </span>
-      <span className="text-hw-title" style={{ fontSize: '0.75rem', flex: 1, wordBreak: 'break-word' }}>
-        {value}
-      </span>
+      <div className="flex items-center gap-2 flex-1 min-w-0">
+        <ComponentThumbnail src={imageUrl} alt={value} size="sm" />
+        <span className="text-hw-title" style={{ fontSize: '0.75rem', flex: 1, wordBreak: 'break-word' }}>
+          {value}
+        </span>
+      </div>
       {price != null && (
         <span className="text-hw-subtitle shrink-0" style={{ fontSize: '0.7rem' }}>
           {price.toFixed(2)} €
@@ -58,6 +65,21 @@ export default function MontajePreviewCard({ montajeId }: MontajePreviewCardProp
   const { data: refrigeracion }  = useRefrigeracion(montaje?.refrigeracionId ?? 0);
   const { data: caja }           = useCaja(montaje?.cajaId ?? 0);
   const { data: almacenamiento } = useAlmacenamiento(montaje?.almacenamientoId ?? 0);
+
+  const imagePublicIds = useMemo(
+    () => [
+      cpu?.imagen,
+      gpu?.imagen,
+      ram?.imagen,
+      placaBase?.imagen,
+      psu?.imagen,
+      refrigeracion?.imagen,
+      caja?.imagen,
+      almacenamiento?.imagen,
+    ],
+    [cpu, gpu, ram, placaBase, psu, refrigeracion, caja, almacenamiento],
+  );
+  const { data: imageUrls } = useCloudinaryMediaUrls(imagePublicIds);
 
   if (mLoading) {
     return (
@@ -124,14 +146,14 @@ export default function MontajePreviewCard({ montajeId }: MontajePreviewCardProp
 
       {}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 3, marginTop: 4 }}>
-        <SpecRow icon={Cpu}            label="CPU"           value={cpu?.modelo}            price={cpu?.precio} />
-        <SpecRow icon={MonitorSmartphone} label="GPU"        value={gpu?.modelo}            price={gpu?.precio} />
-        <SpecRow icon={MemoryStick}    label="RAM"           value={ram?.modelo}            price={ram?.precio} />
-        <SpecRow icon={HardDrive}      label="Placa Base"    value={placaBase?.modelo}      price={placaBase?.precio} />
-        <SpecRow icon={Plug}           label="Fuente"        value={psu?.modelo}            price={psu?.precio} />
-        <SpecRow icon={Fan}            label="Refrigeración" value={refrigeracion?.modelo}  price={refrigeracion?.precio} />
-        <SpecRow icon={PcCase}         label="Caja"          value={caja?.modelo}           price={caja?.precio} />
-        <SpecRow icon={Database}       label="Almacenamiento" value={almacenamiento?.modelo} price={almacenamiento?.precio} />
+        <SpecRow icon={Cpu} label="CPU" value={cpu?.modelo} price={cpu?.precio} imageUrl={cpu?.imagen ? imageUrls[cpu.imagen.trim()] : undefined} />
+        <SpecRow icon={MonitorSmartphone} label="GPU" value={gpu?.modelo} price={gpu?.precio} imageUrl={gpu?.imagen ? imageUrls[gpu.imagen.trim()] : undefined} />
+        <SpecRow icon={MemoryStick} label="RAM" value={ram?.modelo} price={ram?.precio} imageUrl={ram?.imagen ? imageUrls[ram.imagen.trim()] : undefined} />
+        <SpecRow icon={HardDrive} label="Placa Base" value={placaBase?.modelo} price={placaBase?.precio} imageUrl={placaBase?.imagen ? imageUrls[placaBase.imagen.trim()] : undefined} />
+        <SpecRow icon={Plug} label="Fuente" value={psu?.modelo} price={psu?.precio} imageUrl={psu?.imagen ? imageUrls[psu.imagen.trim()] : undefined} />
+        <SpecRow icon={Fan} label="Refrigeración" value={refrigeracion?.modelo} price={refrigeracion?.precio} imageUrl={refrigeracion?.imagen ? imageUrls[refrigeracion.imagen.trim()] : undefined} />
+        <SpecRow icon={PcCase} label="Caja" value={caja?.modelo} price={caja?.precio} imageUrl={caja?.imagen ? imageUrls[caja.imagen.trim()] : undefined} />
+        <SpecRow icon={Database} label="Almacenamiento" value={almacenamiento?.modelo} price={almacenamiento?.precio} imageUrl={almacenamiento?.imagen ? imageUrls[almacenamiento.imagen.trim()] : undefined} />
       </div>
     </div>
   );

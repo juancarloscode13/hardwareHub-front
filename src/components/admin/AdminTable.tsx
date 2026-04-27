@@ -7,6 +7,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useCloudinaryMediaUrls } from '@/features/cloudinary/hooks/useCloudinary';
+import { ComponentThumbnail } from '@/components/ui/component-thumbnail';
 
 
 
@@ -40,7 +42,27 @@ export function AdminTable({
   onRowSelect,
   isLoading,
 }: AdminTableProps) {
-  
+  const imagePublicIds = data
+    .map((row) => row['imagen'])
+    .filter((value): value is string => typeof value === 'string' && value.trim().length > 0);
+  const { data: imageUrls } = useCloudinaryMediaUrls(imagePublicIds);
+
+  const renderCell = (colKey: string, value: unknown) => {
+    if (colKey === 'imagen' && typeof value === 'string' && value.trim().length > 0) {
+      const publicId = value.trim();
+      const url = imageUrls[publicId];
+      return (
+        <div className="flex items-center gap-2 min-w-0">
+          <ComponentThumbnail src={url} alt={publicId} />
+          <span className="truncate">{publicId}</span>
+        </div>
+      );
+    }
+
+    return formatCell(value);
+  };
+
+
   if (isLoading) {
     return (
       <div className="w-full space-y-[0.5rem]">
@@ -99,7 +121,7 @@ export function AdminTable({
                     key={col.key}
                     className="text-hw-input-text text-[0.875rem] py-[0.75rem] px-[1rem] transition-colors duration-300"
                   >
-                    {formatCell(row[col.key])}
+                    {renderCell(col.key, row[col.key])}
                   </TableCell>
                 ))}
               </TableRow>

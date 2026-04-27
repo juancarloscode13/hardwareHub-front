@@ -18,7 +18,7 @@ import type {
   RefrigeracionTipo,
   UsuarioRol,
 } from './enums';
-import type { ByteArrayBase64, Decimal, JsonMap } from './requests';
+import type { Decimal, JsonMap } from './requests';
 
 export type LocalDateTimeString = string;
 
@@ -26,6 +26,7 @@ export interface AlmacenamientoResponseDto {
   id: number;
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   precio: Decimal;
   capacidad: Decimal;
   tipo: AlmacenamientoTipo;
@@ -39,6 +40,7 @@ export interface CajaResponseDto {
   id: number;
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   precio: Decimal;
   formato: CajaFormato;
   placasBaseCompatibles: CajaFormato;
@@ -70,6 +72,7 @@ export interface CpuResponseDto {
   id: number;
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   cpuSocket: CpuSocket;
   cores: JsonMap;
   cacheApilada: boolean;
@@ -103,6 +106,7 @@ export interface GpuResponseDto {
   id: number;
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   ensambladora: GpuEnsambladora;
   nucleos: JsonMap;
   frecuenciaMax: Decimal;
@@ -150,6 +154,7 @@ export interface PlacaBaseResponseDto {
   id: number;
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   precio: Decimal;
   socketCompatible: CpuSocket;
   chipset: PlacaBaseChipset;
@@ -168,6 +173,7 @@ export interface PsuResponseDto {
   id: number;
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   precio: Decimal;
   modular: boolean;
   potencia: number;
@@ -178,7 +184,7 @@ export interface PsuResponseDto {
 export interface PublicacionResponseDto {
   id: number;
   contenidoTexto: string;
-  multimedia: ByteArrayBase64;
+  multimedia: string | null;
   montajeId: number;
   fecha: LocalDateTimeString;
   usuarioId: number;
@@ -193,6 +199,7 @@ export interface RamResponseDto {
   id: number;
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   precio: Decimal;
   velocidad: number;
   cantidad: number;
@@ -225,6 +232,7 @@ export interface RefrigeracionResponseDto {
   id: number;
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   precio: Decimal;
   socketCompatible: CpuSocket[];
   tipo: RefrigeracionTipo;
@@ -257,4 +265,8 @@ export interface NoticiaResponseDto {
   publishedAt: LocalDateTimeString; 
   sourceName:  string;              
 }
+
+export type CloudinaryUploadResponseDto = string;
+export type CloudinaryDeleteResponseDto = string;
+export type CloudinaryUrlResponseDto = string;
 

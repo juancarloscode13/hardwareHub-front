@@ -27,6 +27,7 @@ export type ByteArrayBase64 = string;
 export interface AlmacenamientoRequestDto {
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   precio: Decimal;
   capacidad: Decimal;
   tipo: AlmacenamientoTipo;
@@ -39,6 +40,7 @@ export interface AlmacenamientoRequestDto {
 export interface CajaRequestDto {
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   precio: Decimal;
   formato: CajaFormato;
   placasBaseCompatibles: CajaFormato;
@@ -67,6 +69,7 @@ export interface ComentarioRequestDto {
 export interface CpuRequestDto {
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   cpuSocket: CpuSocket;
   cores: JsonMap;
   cacheApilada: boolean;
@@ -92,6 +95,7 @@ export interface FabricanteRequestDto {
 export interface GpuRequestDto {
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   ensambladora: GpuEnsambladora;
   nucleos: JsonMap;
   frecuenciaMax: Decimal;
@@ -125,6 +129,7 @@ export interface MontajeRequestDto {
 export interface PlacaBaseRequestDto {
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   precio: Decimal;
   socketCompatible: CpuSocket;
   chipset: PlacaBaseChipset;
@@ -142,6 +147,7 @@ export interface PlacaBaseRequestDto {
 export interface PsuRequestDto {
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   precio: Decimal;
   modular: boolean;
   potencia: number;
@@ -151,7 +157,7 @@ export interface PsuRequestDto {
 
 export interface PublicacionRequestDto {
   contenidoTexto: string;
-  multimedia: ByteArrayBase64 | null;
+  multimedia: string | null;
   montajeId: number | null;
   usuarioId: number;
 }
@@ -159,6 +165,7 @@ export interface PublicacionRequestDto {
 export interface RamRequestDto {
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   precio: Decimal;
   velocidad: number;
   cantidad: number;
@@ -176,6 +183,7 @@ export interface ReaccionRequestDto {
 export interface RefrigeracionRequestDto {
   modelo: string;
   fabricanteId: number;
+  imagen?: string | null;
   precio: Decimal;
   socketCompatible: CpuSocket[];
   tipo: RefrigeracionTipo;
@@ -210,4 +218,12 @@ export interface ForgotPasswordRequestDto {
 export interface ResetPasswordRequestDto {
   token: string;
   nuevaContrasena: string;
+}
+
+export interface CloudinaryUploadRequestDto {
+  file: File;
+}
+
+export interface CloudinaryPublicIdRequestDto {
+  publicId: string;
 }

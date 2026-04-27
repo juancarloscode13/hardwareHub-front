@@ -66,7 +66,7 @@ export default function MontajesPage() {
 
         <Button
           onClick={() => navigate('/dashboard/montajes/crear')}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          className="hw-montajes-action-btn"
         >
           <Plus className="h-4 w-4" />
           Crear nuevo
@@ -125,7 +125,7 @@ export default function MontajesPage() {
             </p>
             <Button
               onClick={() => navigate('/dashboard/montajes/crear')}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 8 }}
+              className="hw-montajes-action-btn mt-2"
             >
               <Plus className="h-4 w-4" />
               Crear montaje
