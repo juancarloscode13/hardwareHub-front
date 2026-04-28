@@ -9,6 +9,7 @@ import {
   Plug,
   Database,
   Save,
+  TriangleAlert,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Accordion } from '@/components/ui/accordion';
@@ -36,6 +37,12 @@ import type {
   AlmacenamientoResponseDto,
   MontajeEnrichedDto,
 } from '@/dto';
+import {
+  getBuildCompatibilityIssues,
+  getCandidateCompatibilityIssues,
+  getEstimatedBuildTdp,
+  type SelectedComponents,
+} from '@/features/montaje/compatibility';
 
 
 
@@ -43,10 +50,6 @@ function enumLabel(value: string): string {
   
   const parts = value.split('_');
   return parts.slice(2).join(' ');
-}
-
-function enumListLabel(values: string[]): string {
-  return values.map(enumLabel).join(', ');
 }
 
 
@@ -133,11 +136,61 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
-  
+  const selectedComponents = useMemo<SelectedComponents>(() => ({
+    cpu: selectedCpu,
+    gpu: selectedGpu,
+    ram: selectedRam,
+    placaBase: selectedPlacaBase,
+    psu: selectedPsu,
+    refrigeracion: selectedRefrigeracion,
+    caja: selectedCaja,
+    almacenamiento: selectedAlmacenamiento,
+  }), [
+    selectedCpu,
+    selectedGpu,
+    selectedRam,
+    selectedPlacaBase,
+    selectedPsu,
+    selectedRefrigeracion,
+    selectedCaja,
+    selectedAlmacenamiento,
+  ]);
+
+  const compatibilityIssues = useMemo(
+    () => getBuildCompatibilityIssues(selectedComponents),
+    [selectedComponents],
+  );
+  const hasCompatibilityIssues = compatibilityIssues.length > 0;
+  const estimatedBuildTdp = useMemo(
+    () => getEstimatedBuildTdp(selectedComponents),
+    [selectedComponents],
+  );
+
+  const getCandidateIssues = <K extends keyof SelectedComponents>(
+    kind: K,
+    candidate: NonNullable<SelectedComponents[K]>,
+  ) => getCandidateCompatibilityIssues(kind, candidate, selectedComponents).map((issue) => issue.message);
+
+  const getOrderedItems = <T extends { id: number }>(
+    items: T[],
+    getItemIssues: (item: T) => string[],
+  ): T[] => {
+    return [...items].sort((a, b) => {
+      const aIssues = getItemIssues(a).length;
+      const bIssues = getItemIssues(b).length;
+      return aIssues - bIssues;
+    });
+  };
+
+
   const handleSave = () => {
     if (!user) return;
     if (!allSelected) {
       toast.error('Debes seleccionar todos los componentes');
+      return;
+    }
+    if (hasCompatibilityIssues) {
+      toast.error('Hay incompatibilidades en el montaje. Revisa el panel de compatibilidad.');
       return;
     }
 
@@ -276,6 +329,16 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
     { key: 'precio', label: 'Precio', render: (p) => `${p.precio.toFixed(2)} €` },
   ];
 
+  const getSocketBadgeLabel = (socket: string): string => {
+    const labels: Record<string, string> = {
+      CPU_SOCKET_AM4: 'AM4',
+      CPU_SOCKET_AM5: 'AM5',
+      CPU_SOCKET_LGA1700: 'LGA17',
+      CPU_SOCKET_LGA1851: 'LGA18',
+    };
+    return labels[socket] ?? socket;
+  };
+
   const refrigeracionColumns: ColumnDef<RefrigeracionResponseDto>[] = [
     { key: 'modelo', label: 'Modelo', render: (r) => r.modelo },
     {
@@ -289,8 +352,30 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
     },
     {
       key: 'socketCompatible',
-      label: 'Socket',
-      render: (r) => enumListLabel(r.socketCompatible),
+      label: 'Sockets',
+      render: (r) => (
+        <div style={{ display: 'flex', gap: '0.25rem', flexWrap: 'wrap' }}>
+          {r.socketCompatible.map((socket) => (
+            <span
+              key={socket}
+              style={{
+                display: 'inline-block',
+                padding: '0.175rem 0.35rem',
+                borderRadius: '0.35rem',
+                fontSize: '0.65rem',
+                fontWeight: 600,
+                backgroundColor: 'var(--hw-icon-bg)',
+                color: 'var(--hw-accent)',
+                border: '1px solid var(--hw-icon-border)',
+                textAlign: 'center',
+                minWidth: '2rem',
+              }}
+            >
+              {getSocketBadgeLabel(socket)}
+            </span>
+          ))}
+        </div>
+      ),
       filterOptions: [
         { value: 'CPU_SOCKET_AM4', label: 'AM4' },
         { value: 'CPU_SOCKET_AM5', label: 'AM5' },
@@ -358,11 +443,12 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
             accordionValue="cpu"
             title="CPU"
             icon={Cpu}
-            items={cpus}
+            items={getOrderedItems(cpus, (c) => getCandidateIssues('cpu', c))}
             isLoading={cpuLoading}
             columns={cpuColumns}
             selectedId={cpuId}
             selectedItem={selectedCpu}
+            getItemIssues={(c: CpuResponseDto) => getCandidateIssues('cpu', c)}
             onSelect={(c) => { setCpuId(c.id); setSelectedCpu(c); }}
             onDeselect={() => { setCpuId(null); setSelectedCpu(undefined); }}
           />
@@ -371,11 +457,12 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
             accordionValue="gpu"
             title="GPU"
             icon={MonitorSmartphone}
-            items={gpus}
+            items={getOrderedItems(gpus, (g) => getCandidateIssues('gpu', g))}
             isLoading={gpuLoading}
             columns={gpuColumns}
             selectedId={gpuId}
             selectedItem={selectedGpu}
+            getItemIssues={(g: GpuResponseDto) => getCandidateIssues('gpu', g)}
             onSelect={(g) => { setGpuId(g.id); setSelectedGpu(g); }}
             onDeselect={() => { setGpuId(null); setSelectedGpu(undefined); }}
           />
@@ -384,11 +471,12 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
             accordionValue="ram"
             title="RAM"
             icon={MemoryStick}
-            items={rams}
+            items={getOrderedItems(rams, (r) => getCandidateIssues('ram', r))}
             isLoading={ramLoading}
             columns={ramColumns}
             selectedId={ramId}
             selectedItem={selectedRam}
+            getItemIssues={(r: RamResponseDto) => getCandidateIssues('ram', r)}
             onSelect={(r) => { setRamId(r.id); setSelectedRam(r); }}
             onDeselect={() => { setRamId(null); setSelectedRam(undefined); }}
           />
@@ -397,11 +485,12 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
             accordionValue="placaBase"
             title="Placa Base"
             icon={HardDrive}
-            items={placasBases}
+            items={getOrderedItems(placasBases, (p) => getCandidateIssues('placaBase', p))}
             isLoading={pbLoading}
             columns={placaBaseColumns}
             selectedId={placaBaseId}
             selectedItem={selectedPlacaBase}
+            getItemIssues={(p: PlacaBaseResponseDto) => getCandidateIssues('placaBase', p)}
             onSelect={(p) => { setPlacaBaseId(p.id); setSelectedPlacaBase(p); }}
             onDeselect={() => { setPlacaBaseId(null); setSelectedPlacaBase(undefined); }}
           />
@@ -410,11 +499,12 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
             accordionValue="psu"
             title="Fuente de Alimentación"
             icon={Plug}
-            items={psus}
+            items={getOrderedItems(psus, (p) => getCandidateIssues('psu', p))}
             isLoading={psuLoading}
             columns={psuColumns}
             selectedId={psuId}
             selectedItem={selectedPsu}
+            getItemIssues={(p: PsuResponseDto) => getCandidateIssues('psu', p)}
             onSelect={(p) => { setPsuId(p.id); setSelectedPsu(p); }}
             onDeselect={() => { setPsuId(null); setSelectedPsu(undefined); }}
           />
@@ -423,11 +513,12 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
             accordionValue="refrigeracion"
             title="Refrigeración"
             icon={Fan}
-            items={refrigeraciones}
+            items={getOrderedItems(refrigeraciones, (r) => getCandidateIssues('refrigeracion', r))}
             isLoading={refLoading}
             columns={refrigeracionColumns}
             selectedId={refrigeracionId}
             selectedItem={selectedRefrigeracion}
+            getItemIssues={(r: RefrigeracionResponseDto) => getCandidateIssues('refrigeracion', r)}
             onSelect={(r) => { setRefrigeracionId(r.id); setSelectedRefrigeracion(r); }}
             onDeselect={() => { setRefrigeracionId(null); setSelectedRefrigeracion(undefined); }}
           />
@@ -436,11 +527,12 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
             accordionValue="caja"
             title="Caja"
             icon={PcCase}
-            items={cajas}
+            items={getOrderedItems(cajas, (c) => getCandidateIssues('caja', c))}
             isLoading={cajaLoading}
             columns={cajaColumns}
             selectedId={cajaId}
             selectedItem={selectedCaja}
+            getItemIssues={(c: CajaResponseDto) => getCandidateIssues('caja', c)}
             onSelect={(c) => { setCajaId(c.id); setSelectedCaja(c); }}
             onDeselect={() => { setCajaId(null); setSelectedCaja(undefined); }}
           />
@@ -449,11 +541,12 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
             accordionValue="almacenamiento"
             title="Almacenamiento"
             icon={Database}
-            items={almacenamientos}
+            items={getOrderedItems(almacenamientos, (a) => getCandidateIssues('almacenamiento', a))}
             isLoading={almLoading}
             columns={almacenamientoColumns}
             selectedId={almacenamientoId}
             selectedItem={selectedAlmacenamiento}
+            getItemIssues={(a: AlmacenamientoResponseDto) => getCandidateIssues('almacenamiento', a)}
             onSelect={(a) => { setAlmacenamientoId(a.id); setSelectedAlmacenamiento(a); }}
             onDeselect={() => { setAlmacenamientoId(null); setSelectedAlmacenamiento(undefined); }}
           />
@@ -502,6 +595,24 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
           ))}
         </div>
 
+        <div className="hw-montaje-compat-meta text-xs text-muted-foreground">
+          TDP estimado (CPU + GPU): {estimatedBuildTdp}W
+        </div>
+
+        {hasCompatibilityIssues && (
+          <div className="hw-montaje-compat-card">
+            <div className="hw-montaje-compat-title">
+              <TriangleAlert className="h-4 w-4" />
+              Incompatibilidades detectadas
+            </div>
+            <ul className="hw-montaje-compat-list">
+              {compatibilityIssues.map((issue) => (
+                <li key={issue.code}>{issue.message}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {/* Total */}
         <div
           className="border-t border-hw-divider"
@@ -520,7 +631,7 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
 
         <Button
           onClick={handleSave}
-          disabled={!allSelected || isPending}
+          disabled={!allSelected || hasCompatibilityIssues || isPending}
           style={{ display: 'inline-flex', alignItems: 'center', gap: 8, width: '100%' }}
         >
           <Save className="h-4 w-4" />

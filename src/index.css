@@ -1171,6 +1171,13 @@ body {
   min-width: 0;
 }
 
+.hw-selector-model-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
 .hw-selector-model-text {
   display: inline-block;
   min-width: 0;
@@ -1182,10 +1189,162 @@ body {
   word-break: break-word;
 }
 
+.hw-selector-model-issue {
+  display: block;
+  font-size: 0.67rem;
+  line-height: 1.35;
+  color: var(--hw-error);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.hw-selector-row-incompatible {
+  opacity: 0.58;
+  cursor: not-allowed;
+}
+
+.hw-selector-row-incompatible:hover {
+  background-color: transparent !important;
+}
+
+.hw-montaje-compat-meta {
+  margin-top: -0.1rem;
+}
+
+.hw-montaje-compat-card {
+  border: 1px solid var(--hw-error-border);
+  background: var(--hw-error-bg);
+  border-radius: 12px;
+  padding: 0.7rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hw-montaje-compat-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--hw-error);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.hw-montaje-compat-list {
+  margin: 0;
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  font-size: 0.73rem;
+  line-height: 1.35;
+}
+
 .hw-montajes-action-btn {
   gap: 0.75rem !important;
   padding-left: 1rem !important;
   padding-right: 1rem !important;
+}
+
+.hw-montajes-list-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.hw-montajes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.hw-montajes-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hw-montajes-header-copy {
+  min-width: 0;
+}
+
+.hw-montajes-header-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.hw-montajes-header-subtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+}
+
+.hw-montajes-state-text {
+  font-size: 0.9rem;
+}
+
+.hw-montaje-header-name {
+  padding-inline-start: 0.25rem;
+}
+
+.hw-montaje-detail-row {
+  display: grid;
+  grid-template-columns: 20px 128px minmax(0, 1fr) max-content;
+  align-items: center;
+  column-gap: 0.75rem;
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+.hw-montaje-detail-icon {
+  margin-left: 0.05rem;
+}
+
+.hw-montaje-detail-label {
+  display: block;
+  width: 128px;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hw-montaje-detail-main {
+  min-width: 0;
+  gap: 0.55rem;
+}
+
+.hw-montaje-detail-value {
+  padding-right: 0.35rem;
+  min-width: 0;
+}
+
+.hw-montaje-detail-price {
+  padding-left: 0.35rem;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.hw-montaje-actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.hw-montaje-action-btn-sm {
+  padding-top: 0.48rem !important;
+  padding-bottom: 0.48rem !important;
+  padding-left: 1.05rem !important;
+  padding-right: 1.05rem !important;
 }
 
 /* ── Empty / error states ─────────────────────────────────────────────── */
@@ -1991,3 +2150,38 @@ body {
   margin: 8px 0 0;
 }
 
+/* ── Share Montaje Dialog ────────────────────────────────────────── */
+
+.hw-share-montaje-dialog-header {
+  padding-bottom: 1.25rem;
+}
+
+.hw-share-montaje-dialog-preview {
+  margin: 0.5rem 0;
+}
+
+.hw-share-montaje-dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.5rem;
+}
+
+.hw-share-montaje-dialog-textarea {
+  background: var(--hw-input);
+  border-color: var(--hw-input-border);
+  color: var(--hw-input-text);
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.hw-share-montaje-dialog-footer {
+  margin-top: 0.75rem;
+  border-top: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
