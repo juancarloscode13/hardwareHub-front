@@ -43,22 +43,15 @@ export default function MontajesPage() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, padding: '24px 0' }}>
-      {}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+    <div className="hw-page-flow">
+      <div className="hw-montajes-header">
+        <div className="hw-montajes-header-brand">
           <PcCase className="h-7 w-7 text-hw-accent shrink-0" />
-          <div>
-            <h1
-              className="text-hw-title font-heading"
-              style={{ fontSize: '1.4rem', fontWeight: 700, margin: 0 }}
-            >
+          <div className="hw-montajes-header-copy">
+            <h1 className="hw-montajes-header-title text-hw-title font-heading">
               Mis Montajes
             </h1>
-            <p
-              className="text-hw-subtitle"
-              style={{ fontSize: '0.85rem', margin: '4px 0 0' }}
-            >
+            <p className="hw-montajes-header-subtitle text-hw-subtitle">
               Gestiona y comparte tus configuraciones de PC.
             </p>
           </div>
@@ -73,54 +66,22 @@ export default function MontajesPage() {
         </Button>
       </div>
 
-      {}
-      <div
-        style={{
-          maxWidth: 800,
-          margin: '0 auto',
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 12,
-        }}
-      >
-        {}
+      <div className="hw-montajes-list-wrap">
         {isLoading && <MontajeSkeletons />}
 
-        {}
         {montajesError && (
-          <div
-            className="text-destructive"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 8,
-              padding: '48px 16px',
-            }}
-          >
+          <div className="hw-error-state text-destructive">
             <AlertCircle className="h-5 w-5" />
-            <p style={{ fontSize: '0.9rem', margin: 0 }}>
+            <p className="hw-montajes-state-text">
               Error al cargar los montajes.
             </p>
           </div>
         )}
 
-        {}
         {!isLoading && !montajesError && enriched.length === 0 && (
-          <div
-            className="text-hw-subtitle"
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 12,
-              padding: '48px 16px',
-              textAlign: 'center',
-            }}
-          >
+          <div className="hw-empty-state text-hw-subtitle">
             <PackageOpen className="h-10 w-10 opacity-40" />
-            <p style={{ fontSize: '0.9rem', margin: 0 }}>
+            <p className="hw-montajes-state-text">
               Aún no tienes montajes. ¡Crea tu primer PC!
             </p>
             <Button
@@ -133,7 +94,6 @@ export default function MontajesPage() {
           </div>
         )}
 
-        {}
         {!isLoading && !montajesError && enriched.length > 0 && (
           <Accordion type="single" collapsible className="flex flex-col gap-3">
             {enriched.map((m) => (

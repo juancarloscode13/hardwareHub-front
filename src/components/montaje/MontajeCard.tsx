@@ -48,19 +48,18 @@ interface DetailRowProps {
 function DetailRow({ icon: Icon, label, value, price, imageUrl }: DetailRowProps) {
   return (
     <div
-      style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 0' }}
-      className="not-last:border-b border-hw-divider/50"
+      className="hw-montaje-detail-row not-last:border-b border-hw-divider/50"
     >
-      <Icon className="h-4 w-4 text-hw-accent shrink-0" />
-      <span className="text-xs text-muted-foreground" style={{ width: 110, flexShrink: 0 }}>
+      <Icon className="hw-montaje-detail-icon h-4 w-4 text-hw-accent shrink-0" />
+      <span className="hw-montaje-detail-label text-xs text-muted-foreground">
         {label}
       </span>
-      <div className="flex items-center gap-2 flex-1 min-w-0">
+      <div className="hw-montaje-detail-main flex items-center flex-1 min-w-0">
         <ComponentThumbnail src={imageUrl} alt={value} size="sm" />
-        <span className="text-sm text-hw-title flex-1 truncate">{value}</span>
+        <span className="hw-montaje-detail-value text-sm text-hw-title flex-1 truncate">{value}</span>
       </div>
       {price && (
-        <span className="text-xs text-muted-foreground shrink-0">{price}</span>
+        <span className="hw-montaje-detail-price text-xs text-muted-foreground shrink-0">{price}</span>
       )}
     </div>
   );
@@ -119,7 +118,7 @@ export default function MontajeCard({ montaje, onEdit }: MontajeCardProps) {
           style={{ alignItems: 'center' }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, minWidth: 0 }}>
-            <span className="text-hw-title font-heading font-semibold text-sm truncate">
+            <span className="hw-montaje-header-name text-hw-title font-heading font-semibold text-sm truncate">
               {cpuName} + {gpuName}
             </span>
             {total > 0 && (
@@ -130,7 +129,7 @@ export default function MontajeCard({ montaje, onEdit }: MontajeCardProps) {
           </div>
         </AccordionTrigger>
 
-        <AccordionContent className="px-5 pb-4">
+        <AccordionContent className="px-5 pb-4 h-auto!">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
             <DetailRow
               icon={Cpu}
@@ -203,19 +202,12 @@ export default function MontajeCard({ montaje, onEdit }: MontajeCardProps) {
           )}
 
           {/* Acciones */}
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              gap: 8,
-              marginTop: 16,
-            }}
-          >
+          <div className="hw-montaje-actions-row">
             <Button
               variant="outline"
               size="sm"
               onClick={() => onEdit(montaje)}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+              className="hw-montajes-action-btn hw-montaje-action-btn-sm"
             >
               <Pencil className="h-3.5 w-3.5" />
               Modificar
@@ -225,7 +217,7 @@ export default function MontajeCard({ montaje, onEdit }: MontajeCardProps) {
               size="sm"
               onClick={handleDelete}
               disabled={deleteMutation.isPending}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+              className="hw-montajes-action-btn hw-montaje-action-btn-sm"
             >
               <Trash2 className="h-3.5 w-3.5" />
               {deleteMutation.isPending ? 'Eliminando…' : 'Eliminar'}
@@ -234,7 +226,7 @@ export default function MontajeCard({ montaje, onEdit }: MontajeCardProps) {
               variant="outline"
               size="sm"
               onClick={() => setShareOpen(true)}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+              className="hw-montajes-action-btn hw-montaje-action-btn-sm"
             >
               <Share2 className="h-3.5 w-3.5" />
               Compartir

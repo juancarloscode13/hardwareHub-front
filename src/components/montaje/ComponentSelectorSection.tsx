@@ -48,6 +48,8 @@ interface ComponentSelectorSectionProps<T extends { id: number; modelo: string; 
   onSelect: (item: T) => void;
   
   onDeselect: () => void;
+
+  getItemIssues?: (item: T) => string[];
 }
 
 
@@ -65,6 +67,7 @@ export default function ComponentSelectorSection<
   selectedItem,
   onSelect,
   onDeselect,
+  getItemIssues,
 }: ComponentSelectorSectionProps<T>) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterKey, setFilterKey] = useState('');
@@ -247,14 +250,23 @@ export default function ComponentSelectorSection<
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredItems.map((item) => (
-                  <TableRow
-                    key={item.id}
-                    data-state={selectedId === item.id ? 'selected' : undefined}
-                    className="cursor-pointer"
-                    onClick={() => onSelect(item)}
-                  >
-                    {columns.map((col) => {
+                {filteredItems.map((item) => {
+                  const itemIssues = getItemIssues?.(item) ?? [];
+                  const isIncompatible = itemIssues.length > 0;
+
+                  return (
+                    <TableRow
+                      key={item.id}
+                      data-state={selectedId === item.id ? 'selected' : undefined}
+                      className={isIncompatible ? 'hw-selector-row-incompatible' : 'cursor-pointer'}
+                      title={isIncompatible ? itemIssues.join(' | ') : undefined}
+                      onClick={() => {
+                        if (!isIncompatible) {
+                          onSelect(item);
+                        }
+                      }}
+                    >
+                      {columns.map((col) => {
                       if (col.key === 'modelo') {
                         const imageUrl = item.imagen
                           ? imageUrls[item.imagen.trim()]
@@ -264,18 +276,24 @@ export default function ComponentSelectorSection<
                           <TableCell key={col.key} className="hw-selector-model-cell">
                             <div className="hw-selector-model-wrap">
                               <ComponentThumbnail src={imageUrl} alt={item.modelo} />
-                              <span className={truncateModel ? 'truncate hw-selector-model-text' : 'hw-selector-model-text hw-selector-model-text-wrap'}>
-                                {col.render(item)}
-                              </span>
+                              <div className="hw-selector-model-copy">
+                                <span className={truncateModel ? 'truncate hw-selector-model-text' : 'hw-selector-model-text hw-selector-model-text-wrap'}>
+                                  {col.render(item)}
+                                </span>
+                                {isIncompatible && (
+                                  <span className="hw-selector-model-issue">{itemIssues[0]}</span>
+                                )}
+                              </div>
                             </div>
                           </TableCell>
                         );
                       }
 
                       return <TableCell key={col.key}>{col.render(item)}</TableCell>;
-                    })}
-                  </TableRow>
-                ))}
+                      })}
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>
