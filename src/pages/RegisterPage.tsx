@@ -300,7 +300,7 @@ export default function RegisterPage() {
                   <Button
                     type="button"
                     onClick={() => setTermsOpen(false)}
-                    className="bg-hw-accent text-hw-accent-fg font-semibold rounded-[8px] hover:opacity-80 transition-opacity"
+                    className="hw-register-terms-confirm-btn bg-hw-accent text-hw-accent-fg font-semibold rounded-[8px] hover:opacity-80 transition-opacity"
                   >
                     Entendido
                   </Button>

@@ -104,7 +104,7 @@ export default function ConversationList({
       {}
       {!collapsed && (
         <div className="hw-chat-sidebar-search mt-2 shrink-0 px-5 pb-3 pt-2">
-          <InputGroup className="h-9 rounded-xl pl-2">
+          <InputGroup className="h-10 rounded-xl pl-2">
             <InputGroupAddon
               align="inline-start"
               className="hw-chat-sidebar-search-addon text-muted-foreground"

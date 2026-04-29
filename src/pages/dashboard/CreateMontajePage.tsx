@@ -42,10 +42,12 @@ export default function CreateMontajePage() {
         </Button>
       </div>
 
-      <MontajeFormPanel
-        editingMontaje={editingMontaje}
-        onSuccess={handleSuccess}
-      />
+      <div className="hw-create-montaje-content">
+        <MontajeFormPanel
+          editingMontaje={editingMontaje}
+          onSuccess={handleSuccess}
+        />
+      </div>
     </div>
   );
 }

@@ -59,6 +59,7 @@ interface MessageBubbleProps {
   message: MessageResponseDto;
   isOwn: boolean;
   showDateLabel: boolean;
+  isFirstMessage?: boolean;
   /** Base64 or data-URL del icono del remitente (puede ser null) */
   senderIconoPerfil?: string | null;
 }
@@ -69,6 +70,7 @@ const MessageBubble: FC<MessageBubbleProps> = ({
   message,
   isOwn,
   showDateLabel,
+  isFirstMessage = false,
   senderIconoPerfil = null,
 }) => {
   const [hovered, setHovered] = useState(false);
@@ -80,8 +82,8 @@ const MessageBubble: FC<MessageBubbleProps> = ({
     <>
       {/* Date label */}
       {showDateLabel && (
-        <div className="my-3 flex justify-center">
-          <span className="rounded-full bg-muted px-3 py-1 text-[0.7rem] font-medium text-muted-foreground">
+        <div className={cn('hw-chat-date-label flex justify-center', isFirstMessage && 'hw-chat-date-label-first')}>
+          <span className="rounded-full bg-muted px-3 py-1.5 text-[0.7rem] font-medium text-muted-foreground">
             {formatDateLabel(message.sentAt)}
           </span>
         </div>

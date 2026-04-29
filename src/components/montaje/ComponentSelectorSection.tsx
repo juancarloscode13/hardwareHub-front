@@ -130,7 +130,7 @@ export default function ComponentSelectorSection<
       className="hw-selector-card bg-hw-card ring-1 ring-hw-card-border rounded-2xl overflow-hidden"
     >
       <AccordionTrigger
-        className="hw-selector-trigger hover:no-underline px-5 py-4"
+        className="hw-selector-trigger hw-selector-trigger-folded hover:no-underline px-5 py-4"
       >
         <div className="hw-selector-trigger-main">
           {selectedItem && (
@@ -176,7 +176,7 @@ export default function ComponentSelectorSection<
         <div className="hw-selector-toolbar">
           <div className="hw-selector-search-wrap">
             <Search
-              className="h-4 w-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+              className="hw-selector-search-icon h-4 w-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
             />
             <Input
               className="hw-selector-search-input"
@@ -277,7 +277,7 @@ export default function ComponentSelectorSection<
                             <div className="hw-selector-model-wrap">
                               <ComponentThumbnail src={imageUrl} alt={item.modelo} />
                               <div className="hw-selector-model-copy">
-                                <span className={truncateModel ? 'truncate hw-selector-model-text' : 'hw-selector-model-text hw-selector-model-text-wrap'}>
+                                <span className={truncateModel ? 'hw-selector-model-text hw-selector-model-text-cpu' : 'hw-selector-model-text hw-selector-model-text-wrap'}>
                                   {col.render(item)}
                                 </span>
                                 {isIncompatible && (
