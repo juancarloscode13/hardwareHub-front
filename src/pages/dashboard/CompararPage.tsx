@@ -337,7 +337,7 @@ function ComponentSelector<T extends { id: number; modelo: string; fabricanteId:
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Buscar modelo…"
-        className="w-full h-9 rounded-lg border border-hw-card-border bg-hw-input px-3 text-sm text-hw-input-text placeholder:text-hw-placeholder focus:outline-none focus:ring-1 focus:ring-hw-accent/50 hw-compare-selector-input"
+        className="w-full rounded-lg border border-hw-card-border bg-hw-input px-3 text-sm text-hw-input-text placeholder:text-hw-placeholder focus:outline-none focus:ring-1 focus:ring-hw-accent/50 hw-compare-selector-input"
       />
 
       <div className="overflow-y-auto overscroll-contain hw-compare-selector-list">
@@ -362,9 +362,9 @@ function ComponentSelector<T extends { id: number; modelo: string; fabricanteId:
               }`}
             >
               <div className="hw-compare-selector-item-main">
-                <ComponentThumbnail src={imageUrl} alt={item.modelo} />
+                <ComponentThumbnail src={imageUrl} alt={item.modelo} size="lg" className="hw-compare-selector-thumb" />
                 <div className="hw-compare-selector-item-text">
-                  <span className="truncate leading-tight hw-compare-selector-model block max-w-full">{item.modelo}</span>
+                  <span className="hw-compare-selector-model block max-w-full">{item.modelo}</span>
                   <span className="text-hw-subtitle hw-compare-selector-fab">
                     Marca: {fabricante}
                   </span>

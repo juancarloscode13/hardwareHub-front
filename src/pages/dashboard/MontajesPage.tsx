@@ -59,7 +59,7 @@ export default function MontajesPage() {
 
         <Button
           onClick={() => navigate('/dashboard/montajes/crear')}
-          className="hw-montajes-action-btn"
+          className="hw-montajes-action-btn hw-montajes-new-btn"
         >
           <Plus className="h-4 w-4" />
           Crear nuevo
@@ -95,7 +95,7 @@ export default function MontajesPage() {
         )}
 
         {!isLoading && !montajesError && enriched.length > 0 && (
-          <Accordion type="single" collapsible className="flex flex-col gap-3">
+          <Accordion type="single" collapsible className="hw-montajes-accordion">
             {enriched.map((m) => (
               <MontajeCard key={m.id} montaje={m} onEdit={handleEdit} />
             ))}

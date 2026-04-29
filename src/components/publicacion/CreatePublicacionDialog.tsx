@@ -9,7 +9,7 @@ import {
   DialogFooter,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { UploadDropzone } from '@/components/ui/upload-dropzone';
 import { cloudinaryApi } from '@/api/endpoints/cloudinary.api';
@@ -166,9 +166,9 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent showCloseButton className="w-[min(36rem,calc(100vw-2rem))]">
+      <DialogContent showCloseButton className="w-[min(42rem,calc(100vw-2rem))]">
         <DialogHeader className="hw-pub-dialog-header">
-          <DialogTitle className="flex items-center gap-2">
+          <DialogTitle className="hw-pub-dialog-title flex items-center">
             <Plus className="h-5 w-5 text-hw-accent" />
             Nueva publicación
           </DialogTitle>
@@ -176,20 +176,19 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
 
         {}
         <div className="hw-pub-dialog-form">
-          <Textarea
+          <Input
             value={contenidoTexto}
             onChange={(e) => setContenidoTexto(e.target.value)}
             placeholder="¿Qué quieres compartir?"
             minLength={1}
             maxLength={2000}
-            rows={4}
-            className="hw-pub-dialog-textarea focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 rounded-lg"
+            className="hw-pub-dialog-input hw-pub-dialog-input-wide focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 rounded-lg"
           />
 
           {/* Media type selector + dropzone — only shown when no media uploaded yet */}
           {!multimediaUrl && (
             <div className="space-y-2">
-              <div className="flex gap-2">
+              <div className="hw-pub-dialog-media-toggle flex w-full gap-2">
                 <Button
                   type="button"
                   variant="ghost"
@@ -197,7 +196,7 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
                   onClick={() => setMediaMode('image')}
                   disabled={isMediaPending}
                   className={cn(
-                    'flex-1 gap-1.5 border transition-colors',
+                    'hw-pub-dialog-media-btn flex-1 gap-2 border transition-colors',
                     mediaMode === 'image'
                       ? 'border-hw-accent text-hw-accent bg-hw-accent/10'
                       : 'border-hw-input-border text-hw-subtitle hover:text-hw-title',
@@ -213,7 +212,7 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
                   onClick={() => setMediaMode('video')}
                   disabled={isMediaPending}
                   className={cn(
-                    'flex-1 gap-1.5 border transition-colors',
+                    'hw-pub-dialog-media-btn flex-1 gap-2 border transition-colors',
                     mediaMode === 'video'
                       ? 'border-hw-accent text-hw-accent bg-hw-accent/10'
                       : 'border-hw-input-border text-hw-subtitle hover:text-hw-title',

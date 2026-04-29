@@ -30,7 +30,7 @@ export default function LandingPage() {
         </p>
 
         {}
-        <div className="h-4" />
+        <div className="hw-landing-cta-spacer" />
 
         {}
         <MagnetizeButton

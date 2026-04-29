@@ -114,11 +114,11 @@ export default function MontajeCard({ montaje, onEdit }: MontajeCardProps) {
         style={{ border: 'none' }}
       >
         <AccordionTrigger
-          className="hover:no-underline px-5 py-4"
+          className="hw-montaje-folded-trigger hover:no-underline px-5 py-4"
           style={{ alignItems: 'center' }}
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, minWidth: 0 }}>
-            <span className="hw-montaje-header-name text-hw-title font-heading font-semibold text-sm truncate">
+          <div className="hw-montaje-folded-copy">
+            <span className="hw-montaje-header-name text-hw-title font-heading font-semibold text-sm">
               {cpuName} + {gpuName}
             </span>
             {total > 0 && (
@@ -129,7 +129,7 @@ export default function MontajeCard({ montaje, onEdit }: MontajeCardProps) {
           </div>
         </AccordionTrigger>
 
-        <AccordionContent className="px-5 pb-4 h-auto!">
+        <AccordionContent className="hw-montaje-content h-auto!">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
             <DetailRow
               icon={Cpu}

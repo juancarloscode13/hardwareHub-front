@@ -103,7 +103,7 @@ export default function ForgotPasswordDialog({
             <Button
               type="submit"
               disabled={forgotPassword.isPending}
-              className="h-[42px] w-full mt-3 bg-hw-accent text-hw-accent-fg font-semibold rounded-[8px] cursor-pointer border-transparent gap-[0.75rem] px-[0.75rem] inline-flex items-center transition-colors duration-300 hover:opacity-80"
+              className="hw-forgot-password-submit h-[42px] w-full bg-hw-accent text-hw-accent-fg font-semibold rounded-[8px] cursor-pointer border-transparent gap-[0.75rem] px-[0.75rem] inline-flex items-center transition-colors duration-300 hover:opacity-80"
             >
               {forgotPassword.isPending ? (
                 <>

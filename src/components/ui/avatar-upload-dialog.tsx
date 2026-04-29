@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { Upload, Trash2, ImageIcon } from 'lucide-react';
+import type { UploadHookControl } from '@better-upload/client';
 
 import { Button } from '@/components/ui/button.tsx';
 import {
@@ -75,11 +76,7 @@ export function AvatarUploadDialog({
   const control = {
     upload: fakeUpload,
     isPending,
-    progress: null,
-    isSuccess: false,
-    isError: false,
-    error: null,
-  };
+  } as unknown as UploadHookControl<true>;
 
   const handleRemove = () => {
     onFileRemoved();
@@ -87,7 +84,7 @@ export function AvatarUploadDialog({
   };
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="hw-avatar-upload-dialog flex flex-col items-center">
       {}
       {preview ? (
         <div
@@ -145,7 +142,7 @@ export function AvatarUploadDialog({
           <div className="mt-6">
             <UploadDropzone
               
-              control={control as any}
+              control={control}
               accept="image/jpeg,image/png,image/gif,image/webp"
               description={{
                 fileTypes: 'JPG, PNG, GIF, WebP',

@@ -124,6 +124,7 @@ export default function MessageList({
               message={msg}
               isOwn={msg.senderId === currentUserId}
               showDateLabel={showDateLabel}
+              isFirstMessage={idx === 0}
               senderIconoPerfil={msg.senderId === currentUserId ? currentUserIcon : otherUserIcon}
             />
             {idx < messages.length - 1 && (
