@@ -80,7 +80,7 @@ export default function UsuarioDetallePage() {
   // ── Error state ─────────────────────────────────────────────────────────
   if (errorUser) {
     return (
-      <section className="flex flex-col gap-10 hw-page-section">
+      <section className="hw-user-detail-page flex flex-col hw-page-section">
         <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
           <AlertCircle className="h-10 w-10 text-hw-error" />
           <p className="text-hw-subtitle">No se pudo cargar el perfil del usuario.</p>
@@ -90,13 +90,13 @@ export default function UsuarioDetallePage() {
   }
 
   return (
-    <section className="flex flex-col gap-10 hw-page-section">
+    <section className="hw-user-detail-page flex flex-col hw-page-section">
       {/* ── Page heading ──────────────────────────────────────────────── */}
-      <div className="flex items-center gap-3 pr-2">
-        <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-hw-icon-border bg-hw-icon-bg">
+      <div className="hw-user-detail-heading">
+        <div className="hw-user-detail-heading-icon inline-flex items-center justify-center w-10 h-10 rounded-xl border border-hw-icon-border bg-hw-icon-bg">
           <User className="w-5 h-5 text-hw-accent" />
         </div>
-        <div>
+        <div className="hw-user-detail-heading-copy">
           <h1 className="font-heading text-xl font-bold tracking-tight text-hw-title sm:text-2xl">
             Perfil de usuario
           </h1>
@@ -194,12 +194,20 @@ export default function UsuarioDetallePage() {
         </div>
       </div>
 
-      {/* ── Separator ────────────────────────────────────────────────── */}
-      <div className="bg-hw-divider h-px" />
-
       {/* ── Publications list ────────────────────────────────────────── */}
+      <div className="hw-profile-publicaciones-section">
+
+        <div className="hw-profile-publicaciones-intro">
+          <h2 className="font-heading text-hw-title hw-card-section-title">
+            Publicaciones
+          </h2>
+          <p className="text-hw-subtitle text-[0.84rem]">
+            Actividad reciente del usuario en el foro.
+          </p>
+        </div>
+
       {loadingPubs && (
-        <div className="flex flex-col gap-5">
+        <div className="hw-feed-container">
           {Array.from({ length: 3 }).map((_, i) => (
             <Skeleton key={i} className="rounded-2xl h-[200px] w-full" />
           ))}
@@ -207,19 +215,22 @@ export default function UsuarioDetallePage() {
       )}
 
       {!loadingPubs && pubsList.length === 0 && !errorUser && (
-        <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
-          <FileText className="h-10 w-10 text-hw-subtitle" />
-          <p className="text-hw-subtitle">Este usuario no tiene publicaciones aún.</p>
+        <div className="hw-feed-container">
+          <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
+            <FileText className="h-10 w-10 text-hw-subtitle" />
+            <p className="text-hw-subtitle">Este usuario no tiene publicaciones aún.</p>
+          </div>
         </div>
       )}
 
       {!loadingPubs && pubsList.length > 0 && usuario && (
-        <div className="flex flex-col gap-5">
+        <div className="hw-feed-container">
           {pubsList.map((pub) => (
             <PublicacionCard key={pub.id} publicacion={pub} autor={usuario} />
           ))}
         </div>
       )}
+      </div>
     </section>
   );
 }

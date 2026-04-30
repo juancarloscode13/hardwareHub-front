@@ -139,6 +139,6 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 .github/
-.idea/
+.idea
 .vscode/
 node_modules
