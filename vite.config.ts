@@ -13,8 +13,28 @@ export default defineConfig({
     },
   },
   server: {
-    host: true,        // clave → expone en 0.0.0.0
-    port: 5173,       // puerto específico
-    strictPort: true,  // evita que cambie a otro puerto si está ocupado
-  }
+    host: '127.0.0.1',
+    port: 5173,
+    strictPort: true,
+    proxy: {
+      '/auth': {
+        target: 'http://127.0.0.1:8080',
+        changeOrigin: true,
+      },
+      '/api': {
+        target: 'http://127.0.0.1:8080',
+        changeOrigin: true,
+      },
+      '/ws': {
+        target: 'http://127.0.0.1:8080',
+        changeOrigin: true,
+        ws: true,
+      },
+    },
+  },
+  preview: {
+    host: '127.0.0.1',
+    port: 5173,
+    strictPort: true,
+  },
 })

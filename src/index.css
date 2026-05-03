@@ -873,6 +873,28 @@ body {
   cursor: not-allowed;
 }
 
+.hw-user-search-card {
+  gap: 0.85rem;
+  padding: 0.72rem 1rem;
+}
+
+.hw-user-search-card-avatar {
+  margin-left: 0.1rem;
+}
+
+.hw-user-search-card-name {
+  min-width: 0;
+  padding-right: 0.45rem;
+  overflow-wrap: anywhere;
+}
+
+.hw-user-search-card-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+}
+
 /* ── Unstyled button (resets for avatar click-targets etc.) ────────────── */
 
 .hw-btn-reset {

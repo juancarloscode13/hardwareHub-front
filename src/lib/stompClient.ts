@@ -1,7 +1,14 @@
 import { Client, type IMessage } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080';
+const rawApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
+const API_BASE_URL = rawApiBaseUrl
+  ? rawApiBaseUrl.replace(/\/+$/, '')
+  : '';
+const rawWsBaseUrl = import.meta.env.VITE_WS_BASE_URL?.trim();
+const WS_BASE_URL = rawWsBaseUrl
+  ? rawWsBaseUrl.replace(/\/+$/, '')
+  : API_BASE_URL;
 
 type ConnectListener = () => void;
 
@@ -13,7 +20,8 @@ class StompClientManager {
 
   private constructor() {
     this.client = new Client({
-      webSocketFactory: () => new SockJS(`${API_BASE_URL}/ws`),
+      // Igual que REST: por defecto usa mismo origen para evitar bloqueos loopback en clientes remotos.
+      webSocketFactory: () => new SockJS(`${WS_BASE_URL || ''}/ws`),
       reconnectDelay: 5_000,
       debug: import.meta.env.DEV ? (msg) => console.debug('[STOMP]', msg) : () => {},
     });

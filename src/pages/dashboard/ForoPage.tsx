@@ -38,10 +38,10 @@ function sanitizeDslValue(value: string): string {
 function UsuarioSearchCard({ usuario }: { usuario: UsuarioResponseDto }) {
   const navigate = useNavigate();
   return (
-    <div className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl flex items-center gap-3 px-4 py-3">
+    <div className="hw-user-search-card bg-hw-card ring-1 ring-hw-card-border rounded-2xl flex items-center">
       <button
         onClick={() => navigate(`/dashboard/usuario/${usuario.id}`)}
-        className="shrink-0 cursor-pointer hw-btn-reset"
+        className="hw-user-search-card-avatar shrink-0 cursor-pointer hw-btn-reset"
         aria-label={`Ver perfil de ${usuario.nombre}`}
       >
         <Avatar size="default">
@@ -51,13 +51,14 @@ function UsuarioSearchCard({ usuario }: { usuario: UsuarioResponseDto }) {
           <AvatarFallback>{getInitials(usuario.nombre)}</AvatarFallback>
         </Avatar>
       </button>
-      <span className="text-hw-title font-heading flex-1 font-semibold text-[0.88rem]">
+      <span className="hw-user-search-card-name text-hw-title font-heading flex-1 font-semibold text-[0.88rem]">
         {usuario.nombre}
       </span>
       <Button
         variant="outline"
         size="sm"
         onClick={() => navigate(`/dashboard/usuario/${usuario.id}`)}
+        className="hw-user-search-card-btn"
       >
         Ver perfil
       </Button>
