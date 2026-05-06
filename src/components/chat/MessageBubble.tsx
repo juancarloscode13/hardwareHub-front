@@ -1,3 +1,5 @@
+// Componente MessageBubble: encapsula logica y presentacion de chat.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState, type FC, type ReactElement } from 'react';
 import type { MessageResponseDto } from '@/dto/chat';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -165,3 +167,6 @@ const MessageBubble: FC<MessageBubbleProps> = ({
 };
 
 export default MessageBubble;
+
+
+

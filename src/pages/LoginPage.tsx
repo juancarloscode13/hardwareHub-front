@@ -1,3 +1,5 @@
+// Pagina LoginPage: encapsula logica y presentacion de navegacion principal.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
@@ -6,6 +8,7 @@ import { Mail, Lock, LogIn, X, Loader2 } from 'lucide-react';
 import { useLogin } from '@/features/auth/hooks/useAuth.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { Input } from '@/components/ui/input.tsx';
+import { PasswordInput } from '@/components/ui/input-password-with-toggle';
 import { Label } from '@/components/ui/label.tsx';
 import { ThemeToggle } from '@/components/ui/theme-toggle.tsx';
 import ForgotPasswordDialog from '@/components/auth/ForgotPasswordDialog';
@@ -97,9 +100,8 @@ export default function LoginPage() {
                 <Lock className="w-[16px] h-[16px] text-hw-accent transition-colors duration-300" />
                 Contraseña
               </Label>
-              <Input
+              <PasswordInput
                 id="password"
-                type="password"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -185,3 +187,6 @@ export default function LoginPage() {
     </div>
   );
 }
+
+
+

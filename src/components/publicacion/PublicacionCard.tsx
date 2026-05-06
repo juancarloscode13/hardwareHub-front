@@ -1,3 +1,5 @@
+// Componente PublicacionCard: encapsula logica y presentacion de foro/publicaciones.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MessageSquare } from 'lucide-react';
@@ -161,3 +163,6 @@ export default function PublicacionCard({ publicacion, autor }: PublicacionCardP
     </article>
   );
 }
+
+
+

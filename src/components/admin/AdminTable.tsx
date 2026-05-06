@@ -1,3 +1,5 @@
+// Componente AdminTable: encapsula logica y presentacion de administracion.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import {
   Table,
   TableBody,
@@ -132,4 +134,7 @@ export function AdminTable({
     </div>
   );
 }
+
+
+
 

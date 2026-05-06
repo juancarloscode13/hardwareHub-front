@@ -1,3 +1,4 @@
+// Hook de React Query para obtener noticias tecnológicas agregadas
 import { useQuery } from '@tanstack/react-query';
 import { noticiasApi } from '@/api/endpoints/noticias.api';
 
@@ -13,4 +14,5 @@ export function useNoticias() {
     staleTime: 5 * 60 * 1_000, 
   });
 }
+
 

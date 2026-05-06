@@ -1,3 +1,5 @@
+// Componente CommentInput: encapsula logica y presentacion de foro/publicaciones.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState } from 'react';
 import { Send, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -92,3 +94,6 @@ export default function CommentInput({
     </div>
   );
 }
+
+
+

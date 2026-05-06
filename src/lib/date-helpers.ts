@@ -1,11 +1,14 @@
+// Función de formateo de fechas relativas en español
+// Ej: "hace 3 minutos", "ayer", "hace 2 semanas"
+
 const MINUTE = 60_000;
-const HOUR = 3_600_000;
-const DAY = 86_400_000;
-const WEEK = 604_800_000;
-const MONTH = 2_592_000_000;
-const YEAR = 31_536_000_000;
+const HOUR   = 3_600_000;
+const DAY    = 86_400_000;
+const WEEK   = 604_800_000;
+const MONTH  = 2_592_000_000;
+const YEAR   = 31_536_000_000;
 
-
+/** Convierte un ISO 8601 en texto relativo legible ("hace X minutos") */
 export function timeAgo(isoDate: string): string {
   const diff = Date.now() - new Date(isoDate).getTime();
 
@@ -34,4 +37,3 @@ export function timeAgo(isoDate: string): string {
   const y = Math.floor(diff / YEAR);
   return `hace ${y} ${y === 1 ? 'año' : 'años'}`;
 }
-

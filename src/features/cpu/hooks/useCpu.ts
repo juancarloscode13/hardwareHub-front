@@ -1,3 +1,4 @@
+// Claves y hooks de React Query para consultar CPUs
 import { useQuery } from '@tanstack/react-query';
 import { cpuApi } from '@/api/endpoints/cpu.api';
 import type { PaginationParams } from '@/api/types';
@@ -22,4 +23,5 @@ export function useCpu(id: number) {
     enabled: id > 0,
   });
 }
+
 

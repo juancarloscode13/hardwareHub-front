@@ -1,3 +1,5 @@
+// Componente textarea: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
@@ -16,3 +18,6 @@ function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
 }
 
 export { Textarea }
+
+
+

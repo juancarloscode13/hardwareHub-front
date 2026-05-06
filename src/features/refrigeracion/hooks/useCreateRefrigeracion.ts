@@ -1,3 +1,4 @@
+// Mutaciones de React Query para crear, actualizar y eliminar sistemas de refrigeración
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { refrigeracionApi } from '@/api/endpoints/refrigeracion.api';
 import type { RefrigeracionRequestDto } from '@/dto';
@@ -30,4 +31,5 @@ export function useDeleteRefrigeracion() {
     onSuccess: () => qc.invalidateQueries({ queryKey: REFRIGERACION_KEYS.all }),
   });
 }
+
 

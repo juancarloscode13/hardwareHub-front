@@ -1,3 +1,4 @@
+// Endpoints CRUD para la entidad Fabricante (marcas de hardware)
 import { api } from '../axios';
 import type { PageResponse, PaginationParams } from '../types';
 import type { FabricanteRequestDto, FabricanteResponseDto } from '@/dto';
@@ -5,6 +6,7 @@ import type { FabricanteRequestDto, FabricanteResponseDto } from '@/dto';
 const BASE = '/api/fabricantes';
 
 export const fabricanteApi = {
+  // Devuelve todos los fabricantes con paginación
   getAll: (params?: PaginationParams) =>
     api.get<PageResponse<FabricanteResponseDto>>(BASE, { params }).then(({ data }) => data),
 
@@ -20,5 +22,3 @@ export const fabricanteApi = {
   deleteById: (id: number) =>
     api.delete<void>(`${BASE}/${id}`).then(({ data }) => data),
 };
-
-

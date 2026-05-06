@@ -1,3 +1,5 @@
+// Componente ConversationList: encapsula logica y presentacion de chat.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState } from 'react';
 import { Search, MessageCirclePlus, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { useConversations } from '@/features/chat/hooks/useConversations';
@@ -169,3 +171,6 @@ export default function ConversationList({
     </div>
   );
 }
+
+
+

@@ -1,3 +1,5 @@
+// Componente placeholders-and-vanish-input: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
@@ -281,3 +283,6 @@ export function PlaceholdersAndVanishInput({
     </form>
   );
 }
+
+
+

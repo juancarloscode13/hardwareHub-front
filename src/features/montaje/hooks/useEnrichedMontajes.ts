@@ -1,57 +1,63 @@
+// Hook que enriquece una lista de montajes cargando los datos de cada componente
+// Usa useQueries para lanzar todas las peticiones en paralelo y evitar waterfalls
 import { useMemo } from 'react';
 import { useQueries } from '@tanstack/react-query';
-import { cpuApi } from '@/api/endpoints/cpu.api';
-import { gpuApi } from '@/api/endpoints/gpu.api';
-import { ramApi } from '@/api/endpoints/ram.api';
-import { placaBaseApi } from '@/api/endpoints/placa-base.api';
-import { psuApi } from '@/api/endpoints/psu.api';
-import { refrigeracionApi } from '@/api/endpoints/refrigeracion.api';
-import { cajaApi } from '@/api/endpoints/caja.api';
-import { almacenamientoApi } from '@/api/endpoints/almacenamiento.api';
+import { cpuApi }             from '@/api/endpoints/cpu.api';
+import { gpuApi }             from '@/api/endpoints/gpu.api';
+import { ramApi }             from '@/api/endpoints/ram.api';
+import { placaBaseApi }       from '@/api/endpoints/placa-base.api';
+import { psuApi }             from '@/api/endpoints/psu.api';
+import { refrigeracionApi }   from '@/api/endpoints/refrigeracion.api';
+import { cajaApi }            from '@/api/endpoints/caja.api';
+import { almacenamientoApi }  from '@/api/endpoints/almacenamiento.api';
 import type { MontajeResponseDto, MontajeEnrichedDto } from '@/dto';
 
-
+/**
+ * Dado un array de montajes (solo con IDs), devuelve otro array donde cada
+ * montaje incluye los objetos completos de todos sus componentes.
+ * isLoading es true mientras alguna petición de componente esté pendiente.
+ */
 export function useEnrichedMontajes(montajes: MontajeResponseDto[]) {
-  
+  // Extraer IDs únicos por tipo de componente para no hacer peticiones duplicadas
   const uniqueIds = useMemo(() => {
-    const cpuIds = new Set<number>();
-    const gpuIds = new Set<number>();
-    const ramIds = new Set<number>();
-    const placaBaseIds = new Set<number>();
-    const psuIds = new Set<number>();
+    const cpuIds           = new Set<number>();
+    const gpuIds           = new Set<number>();
+    const ramIds           = new Set<number>();
+    const placaBaseIds     = new Set<number>();
+    const psuIds           = new Set<number>();
     const refrigeracionIds = new Set<number>();
-    const cajaIds = new Set<number>();
+    const cajaIds          = new Set<number>();
     const almacenamientoIds = new Set<number>();
 
     for (const m of montajes) {
-      if (m.cpuId) cpuIds.add(m.cpuId);
-      if (m.gpuId) gpuIds.add(m.gpuId);
-      if (m.ramId) ramIds.add(m.ramId);
-      if (m.placaBaseId) placaBaseIds.add(m.placaBaseId);
-      if (m.psuId) psuIds.add(m.psuId);
-      if (m.refrigeracionId) refrigeracionIds.add(m.refrigeracionId);
-      if (m.cajaId) cajaIds.add(m.cajaId);
+      if (m.cpuId)            cpuIds.add(m.cpuId);
+      if (m.gpuId)            gpuIds.add(m.gpuId);
+      if (m.ramId)            ramIds.add(m.ramId);
+      if (m.placaBaseId)      placaBaseIds.add(m.placaBaseId);
+      if (m.psuId)            psuIds.add(m.psuId);
+      if (m.refrigeracionId)  refrigeracionIds.add(m.refrigeracionId);
+      if (m.cajaId)           cajaIds.add(m.cajaId);
       if (m.almacenamientoId) almacenamientoIds.add(m.almacenamientoId);
     }
 
     return {
-      cpuIds: [...cpuIds],
-      gpuIds: [...gpuIds],
-      ramIds: [...ramIds],
-      placaBaseIds: [...placaBaseIds],
-      psuIds: [...psuIds],
-      refrigeracionIds: [...refrigeracionIds],
-      cajaIds: [...cajaIds],
+      cpuIds:            [...cpuIds],
+      gpuIds:            [...gpuIds],
+      ramIds:            [...ramIds],
+      placaBaseIds:      [...placaBaseIds],
+      psuIds:            [...psuIds],
+      refrigeracionIds:  [...refrigeracionIds],
+      cajaIds:           [...cajaIds],
       almacenamientoIds: [...almacenamientoIds],
     };
   }, [montajes]);
 
-  
+  // Lanzar una query por cada ID único de cada tipo de componente
   const cpuQueries = useQueries({
     queries: uniqueIds.cpuIds.map((id) => ({
       queryKey: ['cpus', 'detail', id] as const,
       queryFn: () => cpuApi.getById(id),
-      staleTime: 5 * 60 * 1000,
+      staleTime: 5 * 60 * 1000, // 5 min en caché (los componentes no cambian frecuentemente)
     })),
   });
 
@@ -111,7 +117,7 @@ export function useEnrichedMontajes(montajes: MontajeResponseDto[]) {
     })),
   });
 
-  
+  // Combinamos todas las queries para saber si alguna está cargando
   const allQueries = [
     ...cpuQueries,
     ...gpuQueries,
@@ -125,7 +131,7 @@ export function useEnrichedMontajes(montajes: MontajeResponseDto[]) {
 
   const isLoading = allQueries.some((q) => q.isLoading);
 
-  
+  // Construir mapas id→datos para hacer el lookup eficiente
   const enriched: MontajeEnrichedDto[] = useMemo(() => {
     const cpuMap = new Map(
       cpuQueries.filter((q) => q.data).map((q) => [q.data!.id, q.data!]),
@@ -152,15 +158,16 @@ export function useEnrichedMontajes(montajes: MontajeResponseDto[]) {
       almacenamientoQueries.filter((q) => q.data).map((q) => [q.data!.id, q.data!]),
     );
 
+    // Mezclar los datos de los componentes en cada montaje
     return montajes.map((m) => ({
       ...m,
-      cpu: cpuMap.get(m.cpuId),
-      gpu: gpuMap.get(m.gpuId),
-      ram: ramMap.get(m.ramId),
-      placaBase: placaBaseMap.get(m.placaBaseId),
-      psu: psuMap.get(m.psuId),
-      refrigeracion: refrigeracionMap.get(m.refrigeracionId),
-      caja: cajaMap.get(m.cajaId),
+      cpu:            cpuMap.get(m.cpuId),
+      gpu:            gpuMap.get(m.gpuId),
+      ram:            ramMap.get(m.ramId),
+      placaBase:      placaBaseMap.get(m.placaBaseId),
+      psu:            psuMap.get(m.psuId),
+      refrigeracion:  refrigeracionMap.get(m.refrigeracionId),
+      caja:           cajaMap.get(m.cajaId),
       almacenamiento: almacenamientoMap.get(m.almacenamientoId),
     }));
   }, [
@@ -177,4 +184,3 @@ export function useEnrichedMontajes(montajes: MontajeResponseDto[]) {
 
   return { enriched, isLoading };
 }
-

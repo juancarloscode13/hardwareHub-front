@@ -1,3 +1,5 @@
+// Componente magnetize-button: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import * as React from "react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { motion, useAnimation } from "motion/react"
@@ -104,3 +106,6 @@ export default function MagnetizeButton({
     </Button>
   )
 }
+
+
+

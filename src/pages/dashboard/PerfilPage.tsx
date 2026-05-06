@@ -1,3 +1,5 @@
+// Pagina PerfilPage: encapsula logica y presentacion de dashboard.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -271,12 +273,11 @@ export default function PerfilPage() {
 
   return (
     <section
-      className="flex flex-col gap-8"
-      style={{ paddingLeft: 8, paddingRight: 8, paddingTop: 4, paddingBottom: 8 }}
+      className="flex flex-col gap-8 hw-page-section"
     >
       {/* ── Page heading ──────────────────────────────────────────────── */}
-      <div className="flex items-center justify-between gap-3 pr-2 flex-wrap">
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between gap-3 pr-2 flex-wrap hw-profile-page-heading">
+        <div className="hw-profile-heading-brand">
           <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-hw-icon-border bg-hw-icon-bg">
             <Settings className="w-5 h-5 text-hw-accent" />
           </div>
@@ -293,30 +294,27 @@ export default function PerfilPage() {
         <Button
           variant="outline"
           onClick={() => navigate(`/dashboard/usuario/${userId}`)}
-          className="cursor-pointer"
-          style={{ fontSize: '0.8rem', padding: '8px 16px', borderRadius: 10 }}
+          className="cursor-pointer hw-profile-view-btn"
         >
-          <Eye className="h-4 w-4" style={{ marginRight: 6 }} />
+          <Eye className="h-4 w-4 mr-1.5" />
           Ver perfil público
         </Button>
       </div>
 
       {/* ── Card: Avatar + Stats ──────────────────────────────────────── */}
       <div
-        className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl"
-        style={{ padding: 28, display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' }}
+        className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl hw-profile-card"
       >
         {/* Avatar con overlay de edición */}
-        <div className="flex flex-col items-center gap-3">
+        <div className="hw-profile-avatar-block">
           <div className="relative group">
             <Avatar
-              className="shrink-0"
-              style={{ width: 96, height: 96, fontSize: '2rem' }}
+              className="shrink-0 hw-profile-avatar"
             >
               {effectiveAvatarSrc ? (
                 <AvatarImage src={effectiveAvatarSrc} alt={effectiveNombre} />
               ) : null}
-              <AvatarFallback style={{ fontSize: '1.6rem' }}>
+              <AvatarFallback className="hw-profile-avatar-fallback">
                 {getInitials(effectiveNombre)}
               </AvatarFallback>
             </Avatar>
@@ -331,15 +329,14 @@ export default function PerfilPage() {
             </button>
           </div>
 
-          <div className="flex gap-2">
+          <div className="hw-profile-avatar-actions">
             <Button
               variant="outline"
               size="sm"
               onClick={() => setAvatarDialogOpen(true)}
-              className="cursor-pointer text-xs"
-              style={{ borderRadius: 8, padding: '4px 12px' }}
+              className="cursor-pointer text-xs hw-profile-avatar-btn"
             >
-              <Camera className="h-3.5 w-3.5" style={{ marginRight: 4 }} />
+              <Camera className="h-3.5 w-3.5 mr-1" />
               Cambiar
             </Button>
             {effectiveAvatarSrc && (
@@ -347,10 +344,9 @@ export default function PerfilPage() {
                 variant="outline"
                 size="sm"
                 onClick={handleRemoveAvatar}
-                className="cursor-pointer text-xs text-hw-error hover:text-hw-error"
-                style={{ borderRadius: 8, padding: '4px 12px' }}
+                className="cursor-pointer text-xs text-hw-error hover:text-hw-error hw-profile-avatar-btn"
               >
-                <Trash2 className="h-3.5 w-3.5" style={{ marginRight: 4 }} />
+                <Trash2 className="h-3.5 w-3.5 mr-1" />
                 Quitar
               </Button>
             )}
@@ -358,21 +354,20 @@ export default function PerfilPage() {
         </div>
 
         {/* Info + stats */}
-        <div style={{ flex: 1, minWidth: 240, display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div className="hw-profile-info-wide">
           <div>
             <h2
-              className="font-heading text-hw-title"
-              style={{ fontSize: '1.35rem', fontWeight: 700, margin: 0, lineHeight: 1.3 }}
+              className="font-heading text-hw-title hw-profile-name"
             >
               {effectiveNombre}
             </h2>
-            <p className="text-hw-subtitle" style={{ fontSize: '0.82rem', margin: '4px 0 0' }}>
+            <p className="text-hw-subtitle hw-profile-email">
               {usuario?.email}
             </p>
           </div>
 
           {/* Stats */}
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <div className="hw-profile-stats">
             <StatChip icon={Users} label="Seguidores" value={followersCount} />
             <StatChip icon={Users} label="Siguiendo" value={followingCount} />
             <StatChip icon={FileText} label="Publicaciones" value={pubsCount} />
@@ -382,16 +377,12 @@ export default function PerfilPage() {
 
       {/* ── Card: Datos de la cuenta (solo lectura) ───────────────────── */}
       <div
-        className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl"
-        style={{ padding: 28, display: 'flex', flexDirection: 'column', gap: 16 }}
+        className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl hw-card-section hw-card-section-stack"
       >
-        <h3
-          className="font-heading text-hw-title"
-          style={{ fontSize: '1rem', fontWeight: 600, margin: 0 }}
-        >
+        <h3 className="font-heading text-hw-title hw-card-section-title">
           Información de la cuenta
         </h3>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 10 }}>
+        <div className="hw-card-section-grid">
           <InfoRow icon={Mail} label="Email" value={usuario?.email ?? ''} />
           <InfoRow icon={Shield} label="Rol" value={rolLabel(usuario?.rol)} />
           <InfoRow icon={User} label="ID de usuario" value={`#${userId}`} />
@@ -400,19 +391,15 @@ export default function PerfilPage() {
 
       {/* ── Card: Editar nombre ───────────────────────────────────────── */}
       <div
-        className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl"
-        style={{ padding: 28, display: 'flex', flexDirection: 'column', gap: 20 }}
+        className="bg-hw-card ring-1 ring-hw-card-border rounded-2xl hw-card-section hw-card-section-stack-lg"
       >
-        <h3
-          className="font-heading text-hw-title"
-          style={{ fontSize: '1rem', fontWeight: 600, margin: 0 }}
-        >
+        <h3 className="font-heading text-hw-title hw-card-section-title">
           Editar perfil
         </h3>
 
-        <div style={{ maxWidth: 480, display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <Label htmlFor="nombre" className="text-hw-subtitle" style={{ fontSize: '0.8rem' }}>
+        <div className="hw-profile-form">
+          <div className="hw-profile-form-field">
+            <Label htmlFor="nombre" className="text-hw-subtitle hw-profile-input-label">
               Nombre
             </Label>
             <Input
@@ -420,24 +407,23 @@ export default function PerfilPage() {
               value={effectiveNombre}
               onChange={(e) => setNombre(e.target.value)}
               placeholder="Tu nombre…"
-              className="h-10"
+              className="h-10 hw-profile-name-input"
             />
           </div>
         </div>
 
         {/* Botones de acción */}
         {hasChanges && (
-          <div style={{ display: 'flex', gap: 10, paddingTop: 4 }}>
+          <div className="hw-card-actions">
             <Button
               onClick={handleSave}
               disabled={updateProfile.isPending || isUploadingAvatar || !effectiveNombre.trim()}
-              className="cursor-pointer bg-hw-accent text-hw-accent-fg hover:bg-hw-accent/90"
-              style={{ fontSize: '0.82rem', padding: '8px 24px', borderRadius: 10 }}
+              className="cursor-pointer bg-hw-accent text-hw-accent-fg hover:bg-hw-accent/90 hw-profile-save-btn"
             >
               {(updateProfile.isPending || isUploadingAvatar) ? (
-                <Loader2 className="h-4 w-4 animate-spin" style={{ marginRight: 6 }} />
+                <Loader2 className="h-4 w-4 animate-spin mr-1.5" />
               ) : (
-                <Save className="h-4 w-4" style={{ marginRight: 6 }} />
+                <Save className="h-4 w-4 mr-1.5" />
               )}
               Guardar cambios
             </Button>
@@ -445,8 +431,7 @@ export default function PerfilPage() {
               variant="outline"
               onClick={handleDiscard}
               disabled={updateProfile.isPending || isUploadingAvatar}
-              className="cursor-pointer"
-              style={{ fontSize: '0.82rem', padding: '8px 20px', borderRadius: 10 }}
+              className="cursor-pointer hw-profile-discard-btn"
             >
               Descartar
             </Button>
@@ -459,7 +444,7 @@ export default function PerfilPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <span className="hw-dialog-title-icon hw-profile-dialog-title-icon">
                 <ImageIcon className="h-5 w-5 text-hw-accent" />
                 Cambiar avatar
               </span>
@@ -469,7 +454,7 @@ export default function PerfilPage() {
             </DialogDescription>
           </DialogHeader>
 
-          <div style={{ marginTop: '1rem' }}>
+          <div className="hw-profile-dialog-upload-wrap">
             <UploadDropzone
               control={fakeControl as never}
               accept="image/jpeg,image/png,image/gif,image/webp"
@@ -490,3 +475,6 @@ export default function PerfilPage() {
     </section>
   );
 }
+
+
+

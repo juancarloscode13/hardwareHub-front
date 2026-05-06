@@ -1,3 +1,4 @@
+// Endpoints para comentarios: CRUD básico + consultas por publicación y por comentario padre
 import { api } from '../axios';
 import type { PageResponse, PaginationParams } from '../types';
 import type { ComentarioRequestDto, ComentarioResponseDto } from '@/dto';
@@ -21,12 +22,14 @@ export const comentarioApi = {
     api.delete<void>(`${BASE}/${id}`).then(({ data }) => data),
 
   // ── By Publicacion (dynamic filter) ───────────────────────────────────
+  // Devuelve comentarios raíz de una publicación, ordenados por fecha ascendente
   getByPublicacionId: (publicacionId: number, params?: PaginationParams) =>
     api.get<PageResponse<ComentarioResponseDto>>(BASE, {
       params: { ...params, filter: `publicacionId==${publicacionId}`, sort: 'fecha:asc' },
     }).then(({ data }) => data),
 
   // ── By Comentario padre (respuestas) ───────────────────────────────────
+  // Devuelve las respuestas (hijos) de un comentario concreto
   getByComentarioId: (comentarioId: number, params?: PaginationParams) =>
     api.get<PageResponse<ComentarioResponseDto>>(BASE, {
       params: { ...params, filter: `comentarioId==${comentarioId}`, sort: 'fecha:asc' },

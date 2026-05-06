@@ -1,3 +1,5 @@
+// Componente MessageInput: encapsula logica y presentacion de chat.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState } from 'react';
 import { SendHorizontal } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -51,3 +53,6 @@ export default function MessageInput({ onSend, disabled = false }: MessageInputP
     </div>
   );
 }
+
+
+

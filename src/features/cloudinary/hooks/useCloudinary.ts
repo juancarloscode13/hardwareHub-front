@@ -1,3 +1,4 @@
+// Mutaciones de React Query para subir, eliminar y obtener URLs de media en Cloudinary
 import { useMemo } from 'react';
 import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
 import { cloudinaryApi } from '@/api/endpoints/cloudinary.api';
@@ -74,4 +75,5 @@ export function useCloudinaryMediaUrls(publicIds: Array<string | null | undefine
     isFetching: queries.some((query) => query.isFetching),
   };
 }
+
 

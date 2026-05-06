@@ -1,3 +1,5 @@
+// Componente CommentsDialog: encapsula logica y presentacion de foro/publicaciones.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useMemo } from 'react';
 import { MessageSquare } from 'lucide-react';
 import {
@@ -111,6 +113,9 @@ export default function CommentsDialog({ publicacionId, open, onOpenChange }: Co
     </Dialog>
   );
 }
+
+
+
 
 
 

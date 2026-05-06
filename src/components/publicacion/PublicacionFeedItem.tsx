@@ -1,3 +1,5 @@
+// Componente PublicacionFeedItem: encapsula logica y presentacion de foro/publicaciones.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import type { PublicacionResponseDto } from '@/dto';
 import { useUsuario } from '@/features/usuario/hooks/useUsuario';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -18,4 +20,7 @@ export default function PublicacionFeedItem({ publicacion }: PublicacionFeedItem
 
   return <PublicacionCard publicacion={publicacion} autor={autor} />;
 }
+
+
+
 

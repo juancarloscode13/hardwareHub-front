@@ -1,3 +1,5 @@
+// Componente accordion: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import * as React from "react"
 import { Accordion as AccordionPrimitive } from "radix-ui"
 
@@ -77,3 +79,6 @@ function AccordionContent({
 }
 
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
+
+
+

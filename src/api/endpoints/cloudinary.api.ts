@@ -1,3 +1,4 @@
+// Endpoints para subir, eliminar y obtener URLs de medios en Cloudinary
 import { api } from '../axios';
 import type {
   CloudinaryDeleteResponseDto,
@@ -9,6 +10,7 @@ import type {
 
 const BASE = '/api/cloudinary';
 
+// Construye el FormData necesario para enviar un archivo como multipart
 function buildFormData({ file }: CloudinaryUploadRequestDto) {
   const formData = new FormData();
   formData.append('file', file);
@@ -16,6 +18,7 @@ function buildFormData({ file }: CloudinaryUploadRequestDto) {
 }
 
 export const cloudinaryApi = {
+  // Sube una imagen y devuelve su public_id en Cloudinary
   uploadImage: ({ file }: CloudinaryUploadRequestDto) =>
     api
       .patch<CloudinaryUploadResponseDto>(`${BASE}/images`, buildFormData({ file }), {
@@ -23,6 +26,7 @@ export const cloudinaryApi = {
       })
       .then(({ data }) => data),
 
+  // Sube un vídeo y devuelve su public_id en Cloudinary
   uploadVideo: ({ file }: CloudinaryUploadRequestDto) =>
     api
       .patch<CloudinaryUploadResponseDto>(`${BASE}/videos`, buildFormData({ file }), {
@@ -30,6 +34,7 @@ export const cloudinaryApi = {
       })
       .then(({ data }) => data),
 
+  // Elimina un recurso de Cloudinary por su public_id
   deleteMedia: ({ publicId }: CloudinaryPublicIdRequestDto) =>
     api
       .patch<CloudinaryDeleteResponseDto>(`${BASE}/delete`, null, {
@@ -37,6 +42,7 @@ export const cloudinaryApi = {
       })
       .then(({ data }) => data),
 
+  // Obtiene la URL pública de un recurso a partir de su public_id
   getMediaUrl: ({ publicId }: CloudinaryPublicIdRequestDto) =>
     api
       .get<CloudinaryUrlResponseDto>(`${BASE}/url`, {
@@ -44,4 +50,3 @@ export const cloudinaryApi = {
       })
       .then(({ data }) => data),
 };
-

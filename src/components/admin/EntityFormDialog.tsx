@@ -1,3 +1,5 @@
+// Componente EntityFormDialog: encapsula logica y presentacion de administracion.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 
@@ -299,5 +301,8 @@ export function EntityFormDialog({
     </Dialog>
   );
 }
+
+
+
 
 

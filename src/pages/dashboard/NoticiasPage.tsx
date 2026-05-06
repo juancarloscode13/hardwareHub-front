@@ -1,3 +1,5 @@
+// Pagina NoticiasPage: encapsula logica y presentacion de dashboard.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { Newspaper, AlertCircle } from 'lucide-react';
 import { useNoticias } from '@/features/noticias/hooks/useNoticias';
 import NewsGrid, { NewsGridSkeleton } from '@/components/ui/NewsGrid';
@@ -52,3 +54,6 @@ export default function NoticiasPage() {
     </section>
   );
 }
+
+
+

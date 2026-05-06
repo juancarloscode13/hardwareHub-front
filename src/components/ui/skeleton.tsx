@@ -1,3 +1,5 @@
+// Componente skeleton: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { cn } from "@/lib/utils"
 
 function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
@@ -11,3 +13,6 @@ function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 export { Skeleton }
+
+
+

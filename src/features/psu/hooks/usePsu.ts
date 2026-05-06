@@ -1,3 +1,4 @@
+// Claves y hooks de React Query para consultar PSUs (fuentes de alimentación)
 import { useQuery } from '@tanstack/react-query';
 import { psuApi } from '@/api/endpoints/psu.api';
 import type { PaginationParams } from '@/api/types';
@@ -22,4 +23,5 @@ export function usePsu(id: number) {
     enabled: id > 0,
   });
 }
+
 

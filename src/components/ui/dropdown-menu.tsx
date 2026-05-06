@@ -1,3 +1,5 @@
+// Componente dropdown-menu: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import * as React from "react"
 import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui"
 
@@ -265,3 +267,6 @@ export {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
 }
+
+
+

@@ -1,3 +1,5 @@
+// Pagina AyudaPage: encapsula logica y presentacion de dashboard.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState } from 'react';
 import {
   HelpCircle,
@@ -199,3 +201,6 @@ export default function AyudaPage() {
     </section>
   );
 }
+
+
+

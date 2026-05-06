@@ -1,3 +1,5 @@
+// Componente ShareMontajeDialog: encapsula logica y presentacion de montaje.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState } from 'react';
 import { Share2 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -113,4 +115,7 @@ export default function ShareMontajeDialog({
     </Dialog>
   );
 }
+
+
+
 

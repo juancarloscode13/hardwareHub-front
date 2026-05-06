@@ -1,3 +1,5 @@
+// Componente combobox: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 "use client"
 
 import * as React from "react"
@@ -297,3 +299,6 @@ export {
   ComboboxValue,
   useComboboxAnchor,
 }
+
+
+

@@ -1,3 +1,4 @@
+// Claves y hooks de React Query para consultar fabricantes
 import { useQuery } from '@tanstack/react-query';
 import { fabricanteApi } from '@/api/endpoints/fabricante.api';
 import type { PaginationParams } from '@/api/types';
@@ -22,4 +23,5 @@ export function useFabricante(id: number) {
     enabled: id > 0,
   });
 }
+
 

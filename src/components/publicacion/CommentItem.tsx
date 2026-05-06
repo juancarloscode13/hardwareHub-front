@@ -1,3 +1,5 @@
+// Componente CommentItem: encapsula logica y presentacion de foro/publicaciones.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CornerDownRight } from 'lucide-react';
@@ -179,4 +181,7 @@ export default function CommentItem({ comentario, replies = [], publicacionId }:
     </div>
   );
 }
+
+
+
 

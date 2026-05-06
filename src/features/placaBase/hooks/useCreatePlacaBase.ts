@@ -1,3 +1,4 @@
+// Mutaciones de React Query para crear, actualizar y eliminar placas base
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { placaBaseApi } from '@/api/endpoints/placa-base.api';
 import type { PlacaBaseRequestDto } from '@/dto';
@@ -30,4 +31,5 @@ export function useDeletePlacaBase() {
     onSuccess: () => qc.invalidateQueries({ queryKey: PLACA_BASE_KEYS.all }),
   });
 }
+
 

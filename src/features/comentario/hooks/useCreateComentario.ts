@@ -1,3 +1,4 @@
+// Mutaciones de React Query para crear, actualizar y eliminar comentarios
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { comentarioApi } from '@/api/endpoints/comentario.api';
 import type { ComentarioRequestDto } from '@/dto';
@@ -31,6 +32,7 @@ export function useDeleteComentario() {
     onSuccess: () => qc.invalidateQueries({ queryKey: COMENTARIO_KEYS.all }),
   });
 }
+
 
 
 

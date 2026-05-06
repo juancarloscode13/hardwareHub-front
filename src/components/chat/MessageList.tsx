@@ -1,3 +1,5 @@
+// Componente MessageList: encapsula logica y presentacion de chat.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useEffect, useRef } from 'react';
 import type { MessageResponseDto } from '@/dto/chat';
 import MessageBubble from './MessageBubble';
@@ -138,3 +140,6 @@ export default function MessageList({
     </div>
   );
 }
+
+
+

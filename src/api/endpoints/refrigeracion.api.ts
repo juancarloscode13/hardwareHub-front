@@ -1,3 +1,4 @@
+// Endpoints CRUD para la entidad Refrigeración (disipadores y sistemas de refrigeración líquida)
 import { api } from '../axios';
 import type { PageResponse, PaginationParams } from '../types';
 import type { RefrigeracionRequestDto, RefrigeracionResponseDto } from '@/dto';
@@ -5,6 +6,7 @@ import type { RefrigeracionRequestDto, RefrigeracionResponseDto } from '@/dto';
 const BASE = '/api/refrigeraciones';
 
 export const refrigeracionApi = {
+  // Devuelve todos los sistemas de refrigeración con paginación
   getAll: (params?: PaginationParams) =>
     api.get<PageResponse<RefrigeracionResponseDto>>(BASE, { params }).then(({ data }) => data),
 
@@ -20,5 +22,3 @@ export const refrigeracionApi = {
   deleteById: (id: number) =>
     api.delete<void>(`${BASE}/${id}`).then(({ data }) => data),
 };
-
-

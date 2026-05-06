@@ -1,3 +1,5 @@
+// Componente MontajeCard: encapsula logica y presentacion de montaje.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useMemo, useState } from 'react';
 import { Pencil, Trash2, Share2, Cpu, MonitorSmartphone, MemoryStick, HardDrive, Fan, PcCase, Plug, Database } from 'lucide-react';
 import { toast } from 'sonner';
@@ -243,4 +245,7 @@ export default function MontajeCard({ montaje, onEdit }: MontajeCardProps) {
     </>
   );
 }
+
+
+
 

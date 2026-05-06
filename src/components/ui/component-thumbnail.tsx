@@ -1,3 +1,5 @@
+// Componente component-thumbnail: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { ImageIcon } from 'lucide-react';
 
 interface ComponentThumbnailProps {
@@ -40,4 +42,7 @@ export function ComponentThumbnail({
     </div>
   );
 }
+
+
+
 

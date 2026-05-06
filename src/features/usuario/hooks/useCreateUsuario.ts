@@ -1,3 +1,4 @@
+// Mutaciones de React Query para crear, actualizar y eliminar usuarios
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { usuarioApi, type UpdateProfilePayload } from '@/api/endpoints/usuario.api';
 import type { UsuarioRequestDto } from '@/dto';
@@ -77,4 +78,5 @@ export function useUpdateProfile() {
     },
   });
 }
+
 

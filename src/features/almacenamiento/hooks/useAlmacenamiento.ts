@@ -1,3 +1,4 @@
+// Claves y hooks de React Query para consultar dispositivos de almacenamiento
 import { useQuery } from '@tanstack/react-query';
 import { almacenamientoApi } from '@/api/endpoints/almacenamiento.api';
 import type { PaginationParams } from '@/api/types';
@@ -23,4 +24,5 @@ export function useAlmacenamiento(id: number) {
     enabled: id > 0,
   });
 }
+
 

@@ -1,3 +1,5 @@
+// Componente MontajePreviewCard: encapsula logica y presentacion de montaje.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useMemo } from 'react';
 import { Cpu, MonitorSmartphone, MemoryStick, HardDrive, Plug, Fan, PcCase, Database } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -158,5 +160,8 @@ export default function MontajePreviewCard({ montajeId }: MontajePreviewCardProp
     </div>
   );
 }
+
+
+
 
 

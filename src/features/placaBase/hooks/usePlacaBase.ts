@@ -1,3 +1,4 @@
+// Claves y hooks de React Query para consultar placas base
 import { useQuery } from '@tanstack/react-query';
 import { placaBaseApi } from '@/api/endpoints/placa-base.api';
 import type { PaginationParams } from '@/api/types';
@@ -22,4 +23,5 @@ export function usePlacaBase(id: number) {
     enabled: id > 0,
   });
 }
+
 

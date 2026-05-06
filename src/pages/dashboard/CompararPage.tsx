@@ -1,4 +1,6 @@
-﻿import { useState, useMemo } from 'react';
+// Pagina CompararPage: encapsula logica y presentacion de dashboard.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
+import { useState, useMemo } from 'react';
 import {
   GitCompare, Cpu, MonitorIcon, ArrowRightLeft,
   MemoryStick, HardDrive, CircuitBoard, Zap, Box, Fan,
@@ -336,7 +338,7 @@ function ComponentSelector<T extends { id: number; modelo: string; fabricanteId:
         type="text"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder="Buscar modelo…"
+        placeholder="Buscar modelo..."
         className="w-full rounded-lg border border-hw-card-border bg-hw-input px-3 text-sm text-hw-input-text placeholder:text-hw-placeholder focus:outline-none focus:ring-1 focus:ring-hw-accent/50 hw-compare-selector-input"
       />
 
@@ -636,4 +638,7 @@ export default function CompararPage() {
     </section>
   );
 }
+
+
+
 

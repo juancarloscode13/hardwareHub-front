@@ -1,3 +1,4 @@
+// Mutaciones de React Query para crear, actualizar y eliminar CPUs
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { cpuApi } from '@/api/endpoints/cpu.api';
 import type { CpuRequestDto } from '@/dto';

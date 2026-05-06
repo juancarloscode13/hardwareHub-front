@@ -1,3 +1,5 @@
+// Componente ReactionDropdown: encapsula logica y presentacion de foro/publicaciones.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { SmilePlus, ThumbsUp, ThumbsDown, Heart, Laugh, Lightbulb } from 'lucide-react';
 import {
   DropdownMenu,
@@ -131,5 +133,8 @@ export default function ReactionDropdown(props: ReactionDropdownProps) {
     </DropdownMenu>
   );
 }
+
+
+
 
 

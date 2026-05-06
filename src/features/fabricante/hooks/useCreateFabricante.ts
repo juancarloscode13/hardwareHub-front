@@ -1,3 +1,4 @@
+// Mutaciones de React Query para crear, actualizar y eliminar fabricantes
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { fabricanteApi } from '@/api/endpoints/fabricante.api';
 import type { FabricanteRequestDto } from '@/dto';
@@ -30,4 +31,5 @@ export function useDeleteFabricante() {
     onSuccess: () => qc.invalidateQueries({ queryKey: FABRICANTE_KEYS.all }),
   });
 }
+
 

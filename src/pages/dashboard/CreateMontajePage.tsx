@@ -1,3 +1,5 @@
+// Pagina CreateMontajePage: encapsula logica y presentacion de dashboard.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, PcCase } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -51,4 +53,7 @@ export default function CreateMontajePage() {
     </div>
   );
 }
+
+
+
 

@@ -1,3 +1,5 @@
+// Componente ForgotPasswordDialog: encapsula logica y presentacion de autenticacion.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { Mail, Loader2, Send, CheckCircle2 } from 'lucide-react';
@@ -123,3 +125,5 @@ export default function ForgotPasswordDialog({
     </Dialog>
   );
 }
+
+

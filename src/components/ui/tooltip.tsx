@@ -1,3 +1,5 @@
+// Componente tooltip: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 "use client"
 
 import * as React from "react"
@@ -54,3 +56,6 @@ function TooltipContent({
 }
 
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger }
+
+
+

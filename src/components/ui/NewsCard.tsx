@@ -1,3 +1,5 @@
+// Componente NewsCard: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { ArrowRight } from 'lucide-react';
 import type { NoticiaResponseDto } from '@/dto';
 import { timeAgo } from '@/lib/date-helpers';
@@ -60,3 +62,6 @@ export default function NewsCard({ news }: NewsCardProps) {
     </a>
   );
 }
+
+
+

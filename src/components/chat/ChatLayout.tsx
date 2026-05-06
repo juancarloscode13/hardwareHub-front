@@ -1,3 +1,5 @@
+// Componente ChatLayout: encapsula logica y presentacion de chat.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import type { ConversationResponseDto } from '@/dto/chat';
@@ -68,3 +70,6 @@ export default function ChatLayout() {
     </div>
   );
 }
+
+
+

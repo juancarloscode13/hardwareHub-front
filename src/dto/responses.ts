@@ -1,3 +1,5 @@
+// DTOs de respuesta — objetos devueltos por la API del backend
+// Cada interfaz refleja el ResponseDto correspondiente en Java
 import type {
   AlmacenamientoConectividad,
   AlmacenamientoFormato,
@@ -20,8 +22,10 @@ import type {
 } from './enums';
 import type { Decimal, JsonMap } from './requests';
 
+// Fecha/hora como string ISO 8601 (formato del backend)
 export type LocalDateTimeString = string;
 
+/** Dispositivo de almacenamiento (SSD, HDD, NVMe) */
 export interface AlmacenamientoResponseDto {
   id: number;
   modelo: string;
@@ -36,6 +40,7 @@ export interface AlmacenamientoResponseDto {
   conectividad: AlmacenamientoConectividad;
 }
 
+/** Caja (chasis de PC) con todas sus medidas y compatibilidades */
 export interface CajaResponseDto {
   id: number;
   modelo: string;
@@ -58,6 +63,7 @@ export interface CajaResponseDto {
   alturaMaxEnfriadorCpu: number;
 }
 
+/** Comentario publicado en el foro */
 export interface ComentarioResponseDto {
   id: number;
   textoContenido: string;
@@ -68,6 +74,7 @@ export interface ComentarioResponseDto {
   publicacionId: number;
 }
 
+/** Procesador con sus especificaciones técnicas */
 export interface CpuResponseDto {
   id: number;
   modelo: string;
@@ -91,17 +98,20 @@ export interface CpuResponseDto {
   puntuacionPassmarkMultithread: number;
 }
 
+/** Objeto de error estándar devuelto por el backend */
 export interface ErrorResponse {
   status: number;
   message: string;
   date: LocalDateTimeString;
 }
 
+/** Fabricante de hardware */
 export interface FabricanteResponseDto {
   id: number;
   nombre: string;
 }
 
+/** Tarjeta gráfica con dimensiones físicas */
 export interface GpuResponseDto {
   id: number;
   modelo: string;
@@ -125,6 +135,7 @@ export interface GpuResponseDto {
   puntuacionPassmark: number;
 }
 
+/** Montaje básico: solo IDs de componentes */
 export interface MontajeResponseDto {
   id: number;
   ramId: number;
@@ -138,7 +149,7 @@ export interface MontajeResponseDto {
   usuarioId: number;
 }
 
-
+/** Montaje enriquecido: IDs + datos completos de cada componente */
 export interface MontajeEnrichedDto extends MontajeResponseDto {
   cpu?: CpuResponseDto;
   gpu?: GpuResponseDto;
@@ -150,6 +161,7 @@ export interface MontajeEnrichedDto extends MontajeResponseDto {
   almacenamiento?: AlmacenamientoResponseDto;
 }
 
+/** Placa base con socket, chipset y slots */
 export interface PlacaBaseResponseDto {
   id: number;
   modelo: string;
@@ -169,6 +181,7 @@ export interface PlacaBaseResponseDto {
   wifiSoportado: PlacaBaseWifiSoportado;
 }
 
+/** Fuente de alimentación */
 export interface PsuResponseDto {
   id: number;
   modelo: string;
@@ -181,6 +194,7 @@ export interface PsuResponseDto {
   factorForma: PsuFactorForma;
 }
 
+/** Publicación del foro con conteo de reacciones */
 export interface PublicacionResponseDto {
   id: number;
   contenidoTexto: string;
@@ -195,6 +209,7 @@ export interface PublicacionResponseDto {
   interestingCount: number;
 }
 
+/** Módulo de RAM */
 export interface RamResponseDto {
   id: number;
   modelo: string;
@@ -209,8 +224,7 @@ export interface RamResponseDto {
   latencia: number;
 }
 
-
-
+/** Evento en tiempo real de nueva publicación (WebSocket) */
 export interface NuevaPublicacionEventDto {
   id: number;
   usuarioId: number;
@@ -219,6 +233,7 @@ export interface NuevaPublicacionEventDto {
   fecha: string;
 }
 
+/** Conteo agregado de reacciones a una publicación */
 export interface ReaccionConteoDto {
   publicacionId: number;
   likesCount: number;
@@ -228,6 +243,7 @@ export interface ReaccionConteoDto {
   interestingCount: number;
 }
 
+/** Sistema de refrigeración (aire o líquida) */
 export interface RefrigeracionResponseDto {
   id: number;
   modelo: string;
@@ -239,6 +255,7 @@ export interface RefrigeracionResponseDto {
   atributos: JsonMap;
 }
 
+/** Usuario del sistema con contador de seguidores */
 export interface UsuarioResponseDto {
   id: number;
   nombre: string;
@@ -250,13 +267,13 @@ export interface UsuarioResponseDto {
   iconoPerfil?: string | null;
 }
 
-
+/** Respuesta de login: nombre de usuario y rol */
 export interface LoginResponseDto {
   username: string;
   role: UsuarioRol;
 }
 
-
+/** Noticia tecnológica agregada desde fuentes externas */
 export interface NoticiaResponseDto {
   title:       string;              
   description: string;              
@@ -266,6 +283,7 @@ export interface NoticiaResponseDto {
   sourceName:  string;              
 }
 
+// Cloudinary devuelve directamente un string (public_id o URL)
 export type CloudinaryUploadResponseDto = string;
 export type CloudinaryDeleteResponseDto = string;
 export type CloudinaryUrlResponseDto = string;

@@ -1,3 +1,5 @@
+// Componente ConversationListItem: encapsula logica y presentacion de chat.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import type { ConversationResponseDto } from '@/dto/chat';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -130,3 +132,6 @@ export default function ConversationListItem({
     </button>
   );
 }
+
+
+

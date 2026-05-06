@@ -1,3 +1,4 @@
+// Endpoints CRUD para la entidad Placa Base (motherboard)
 import { api } from '../axios';
 import type { PageResponse, PaginationParams } from '../types';
 import type { PlacaBaseRequestDto, PlacaBaseResponseDto } from '@/dto';
@@ -5,6 +6,7 @@ import type { PlacaBaseRequestDto, PlacaBaseResponseDto } from '@/dto';
 const BASE = '/api/placas-base';
 
 export const placaBaseApi = {
+  // Devuelve todas las placas base con paginación
   getAll: (params?: PaginationParams) =>
     api.get<PageResponse<PlacaBaseResponseDto>>(BASE, { params }).then(({ data }) => data),
 
@@ -20,5 +22,3 @@ export const placaBaseApi = {
   deleteById: (id: number) =>
     api.delete<void>(`${BASE}/${id}`).then(({ data }) => data),
 };
-
-

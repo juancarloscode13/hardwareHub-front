@@ -1,3 +1,5 @@
+// Componente upload-dropzone: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { cn } from '@/lib/utils.ts';
 import type { UploadHookControl } from '@better-upload/client';
 import { Loader2, Upload } from 'lucide-react';
@@ -129,3 +131,6 @@ export function UploadDropzone({
     </div>
   );
 }
+
+
+

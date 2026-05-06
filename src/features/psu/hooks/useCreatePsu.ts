@@ -1,3 +1,4 @@
+// Mutaciones de React Query para crear, actualizar y eliminar PSUs
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { psuApi } from '@/api/endpoints/psu.api';
 import type { PsuRequestDto } from '@/dto';
@@ -30,4 +31,5 @@ export function useDeletePsu() {
     onSuccess: () => qc.invalidateQueries({ queryKey: PSU_KEYS.all }),
   });
 }
+
 

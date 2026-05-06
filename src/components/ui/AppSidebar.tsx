@@ -1,3 +1,5 @@
+// Componente AppSidebar: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   MessageSquare,
@@ -84,3 +86,6 @@ export default function AppSidebar() {
     </div>
   );
 }
+
+
+

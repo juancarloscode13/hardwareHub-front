@@ -1,3 +1,5 @@
+// Pagina ForoPage: encapsula logica y presentacion de dashboard.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MessageSquare, Plus, Search, Users, AlertCircle, X } from 'lucide-react';
@@ -297,3 +299,6 @@ export default function ForoPage() {
     </div>
   );
 }
+
+
+

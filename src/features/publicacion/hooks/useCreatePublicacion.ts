@@ -1,8 +1,10 @@
+// Mutaciones de React Query para crear, actualizar, eliminar publicaciones y gestionar reacciones
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { publicacionApi } from '@/api/endpoints/publicacion.api';
 import type { PublicacionRequestDto, ReaccionRequestDto } from '@/dto';
 import { PUBLICACION_KEYS } from './usePublicacion';
 
+/** Crea una nueva publicación e invalida la lista */
 export function useCreatePublicacion() {
   const qc = useQueryClient();
   return useMutation({
@@ -11,6 +13,7 @@ export function useCreatePublicacion() {
   });
 }
 
+/** Actualiza una publicación existente */
 export function useUpdatePublicacion() {
   const qc = useQueryClient();
   return useMutation({
@@ -23,6 +26,7 @@ export function useUpdatePublicacion() {
   });
 }
 
+/** Elimina una publicación por ID */
 export function useDeletePublicacion() {
   const qc = useQueryClient();
   return useMutation({
@@ -31,8 +35,7 @@ export function useDeletePublicacion() {
   });
 }
 
-
-
+/** Añade o actualiza la reacción del usuario a una publicación */
 export function useAddReaccion() {
   const qc = useQueryClient();
   return useMutation({
@@ -45,6 +48,7 @@ export function useAddReaccion() {
   });
 }
 
+/** Elimina la reacción del usuario de una publicación */
 export function useRemoveReaccion() {
   const qc = useQueryClient();
   return useMutation({
@@ -56,4 +60,3 @@ export function useRemoveReaccion() {
     },
   });
 }
-

@@ -1,3 +1,5 @@
+// Componente CreatePublicacionDialog: encapsula logica y presentacion de foro/publicaciones.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useCallback, useState } from 'react';
 import { Image, Plus, Video, X } from 'lucide-react';
 import { toast } from 'sonner';
@@ -298,4 +300,7 @@ export default function CreatePublicacionDialog({ open, onOpenChange }: CreatePu
     </Dialog>
   );
 }
+
+
+
 

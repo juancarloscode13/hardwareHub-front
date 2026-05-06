@@ -1,3 +1,5 @@
+// Componente theme-toggle: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button.tsx';
 import { useTheme } from '@/features/use-theme.ts';
@@ -31,3 +33,6 @@ export function ThemeToggle({ fixed = true }: ThemeToggleProps) {
     </Button>
   );
 }
+
+
+

@@ -1,3 +1,5 @@
+// Componente MontajeFormPanel: encapsula logica y presentacion de montaje.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState, useMemo } from 'react';
 import {
   Cpu,
@@ -644,6 +646,9 @@ export default function MontajeFormPanel({ editingMontaje, onSuccess }: MontajeF
     </div>
   );
 }
+
+
+
 
 
 

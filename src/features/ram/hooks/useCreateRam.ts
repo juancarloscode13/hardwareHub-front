@@ -1,3 +1,4 @@
+// Mutaciones de React Query para crear, actualizar y eliminar módulos de RAM
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ramApi } from '@/api/endpoints/ram.api';
 import type { RamRequestDto } from '@/dto';
@@ -30,4 +31,5 @@ export function useDeleteRam() {
     onSuccess: () => qc.invalidateQueries({ queryKey: RAM_KEYS.all }),
   });
 }
+
 

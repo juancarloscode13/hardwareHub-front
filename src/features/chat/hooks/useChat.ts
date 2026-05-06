@@ -1,3 +1,5 @@
+// Hook que maneja el historial y mensajes en tiempo real de una conversación
+// Combina queries infinitas (historial) con mensajes en tiempo real (STOMP)
 import { useCallback, useEffect, useState } from 'react';
 import { useInfiniteQuery, useQueryClient, type InfiniteData } from '@tanstack/react-query';
 import { chatApi } from '@/api/endpoints/chat.api';
@@ -6,13 +8,13 @@ import { stompClient } from '@/lib/stompClient';
 import type { MessageResponseDto, SendMessagePayload, ReadConversationPayload } from '@/dto/chat';
 import { CONVERSATION_KEYS } from './useConversations';
 
-
-
+// Claves de React Query para mensajes por conversación
 export const MESSAGE_KEYS = {
   all: ['messages'] as const,
   byConversation: (id: number) => [...MESSAGE_KEYS.all, id] as const,
 };
 
+// Config para el historial de mensajes
 const PAGE_SIZE = 20;
 const READ_RECEIPTS_DESTINATION =
   import.meta.env.VITE_CHAT_READ_RECEIPTS_DESTINATION ?? '/user/queue/read-receipts';
@@ -22,12 +24,14 @@ type ReadReceiptPayload = {
   messageIds?: number[];
 };
 
+/** Añade o actualiza un mensaje en una lista, evitando duplicados */
 function upsertMessage(list: MessageResponseDto[], incoming: MessageResponseDto): MessageResponseDto[] {
   const idx = list.findIndex((m) => m.id === incoming.id);
   if (idx === -1) return [...list, incoming];
 
   const prev = list[idx];
   const nextItem = { ...prev, ...incoming };
+  // Solo actualizar si hubo cambios reales
   if (
     prev.read === nextItem.read &&
     prev.content === nextItem.content &&
@@ -42,6 +46,7 @@ function upsertMessage(list: MessageResponseDto[], incoming: MessageResponseDto)
   return next;
 }
 
+/** Marca todos los mensajes entrantes como leídos (no del usuario actual) */
 function markIncomingAsRead(list: MessageResponseDto[], readerUserId: number): MessageResponseDto[] {
   let changed = false;
   const next = list.map((m) => {
@@ -54,6 +59,7 @@ function markIncomingAsRead(list: MessageResponseDto[], readerUserId: number): M
   return changed ? next : list;
 }
 
+/** Marca mensajes específicos por ID como leídos */
 function markReadByIds(list: MessageResponseDto[], idSet: Set<number>): MessageResponseDto[] {
   let changed = false;
   const next = list.map((m) => {
@@ -66,16 +72,17 @@ function markReadByIds(list: MessageResponseDto[], idSet: Set<number>): MessageR
   return changed ? next : list;
 }
 
-
-
-
+/**
+ * Hook que maneja una conversación completa: historial (queries) + tiempo real (STOMP).
+ * Devuelve todos los mensajes (historial + realtime), funciones para enviar/marcar como leído.
+ */
 export function useChat(conversationId: number) {
   const qc = useQueryClient();
 
-  
+  // Almacena mensajes que llegan en tiempo real aún no en el historial
   const [realtimeMessages, setRealtimeMessages] = useState<MessageResponseDto[]>([]);
 
-  
+  // Query infinita de historial: más antiguos primero, última página al final
   const historyQuery = useInfiniteQuery({
     queryKey: MESSAGE_KEYS.byConversation(conversationId),
     queryFn: ({ pageParam = 0 }) =>
@@ -85,7 +92,7 @@ export function useChat(conversationId: number) {
     enabled: conversationId > 0,
   });
 
-  
+  // Suscripción WebSocket: nuevos mensajes en tiempo real
   useEffect(() => {
     if (conversationId <= 0) return;
 
@@ -93,14 +100,15 @@ export function useChat(conversationId: number) {
     let unsubReceipts: (() => void) | null = null;
 
     const removeListener = stompClient.addConnectListener(() => {
+      // Suscribir a nuevos mensajes de la conversación
       unsubMessages = stompClient.subscribe('/user/queue/messages', (frame) => {
         const msg: MessageResponseDto = JSON.parse(frame.body);
 
         if (msg.conversationId === conversationId) {
-          
+          // Actualizar estado local de tiempo real
           setRealtimeMessages((prev) => upsertMessage(prev, msg));
 
-          
+          // También actualizar el historial en caché si el mensaje ya está allí
           qc.setQueryData<InfiniteData<PageResponse<MessageResponseDto>>>(
             MESSAGE_KEYS.byConversation(conversationId),
             (old) => {
@@ -123,11 +131,11 @@ export function useChat(conversationId: number) {
           );
         }
 
-        
+        // Invalidar la lista de conversaciones para actualizar preview del último mensaje
         void qc.invalidateQueries({ queryKey: CONVERSATION_KEYS.all });
       });
 
-      
+      // Suscribir a confirmaciones de lectura
       unsubReceipts = stompClient.subscribe(READ_RECEIPTS_DESTINATION, (frame) => {
         const payload: ReadReceiptPayload = JSON.parse(frame.body);
         if (payload.conversationId !== conversationId || !payload.messageIds?.length) return;
@@ -164,7 +172,7 @@ export function useChat(conversationId: number) {
     };
   }, [conversationId, qc]);
 
-  
+  // Enviar un mensaje vía STOMP
   const sendMessage = useCallback(
     (content: string) => {
       if (!conversationId || !content.trim()) return;
@@ -174,14 +182,14 @@ export function useChat(conversationId: number) {
     [conversationId],
   );
 
-  
+  // Marcar como leídos todos los mensajes de la conversación
   const markAsRead = useCallback((currentUserId: number) => {
     if (!conversationId) return;
 
     const payload: ReadConversationPayload = { conversationId };
     stompClient.publish('/app/chat.read', payload as unknown as Record<string, unknown>);
 
-    
+    // Actualizar el badge de no leídos en la lista de conversaciones
     qc.setQueryData(CONVERSATION_KEYS.list(), (old: unknown) => {
       if (!Array.isArray(old)) return old;
       return old.map((conv) => {
@@ -192,7 +200,7 @@ export function useChat(conversationId: number) {
       });
     });
 
-    
+    // Marcar localmente todos los mensajes recibidos como leídos
     qc.setQueryData<InfiniteData<PageResponse<MessageResponseDto>>>(
       MESSAGE_KEYS.byConversation(conversationId),
       (old) => {
@@ -213,11 +221,10 @@ export function useChat(conversationId: number) {
     setRealtimeMessages((prev) => markIncomingAsRead(prev, currentUserId));
   }, [conversationId, qc]);
 
-  
+  // Combinar historial + tiempo real, eliminando duplicados
   const historyMessages: MessageResponseDto[] =
     historyQuery.data?.pages.flatMap((page) => page.content).reverse() ?? [];
 
-  
   const historyIdSet = new Set(historyMessages.map((m) => m.id));
   const filteredRealtime = realtimeMessages.filter(
     (m) => m.conversationId === conversationId && !historyIdSet.has(m.id),

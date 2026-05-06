@@ -1,3 +1,5 @@
+// Pagina LandingPage: encapsula logica y presentacion de navegacion principal.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useNavigate } from 'react-router-dom';
 import { Cpu } from 'lucide-react';
 import MagnetizeButton from '@/components/ui/magnetize-button.tsx';
@@ -45,4 +47,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
+
+
 

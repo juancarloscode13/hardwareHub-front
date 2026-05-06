@@ -1,3 +1,5 @@
+// Pagina RegisterPage: encapsula logica y presentacion de navegacion principal.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
@@ -6,6 +8,7 @@ import { UserPlus, User, Mail, Lock, Loader2, X, Shield, FileText } from 'lucide
 import { useRegister } from '@/features/auth/hooks/useRegister.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { Input } from '@/components/ui/input.tsx';
+import { PasswordInput } from '@/components/ui/input-password-with-toggle';
 import { Label } from '@/components/ui/label.tsx';
 import { AvatarUploadDialog } from '@/components/ui/avatar-upload-dialog.tsx';
 import { ThemeToggle } from '@/components/ui/theme-toggle.tsx';
@@ -22,6 +25,7 @@ interface FormErrors {
   nombre?: string;
   email?: string;
   contrasena?: string;
+  confirmarContrasena?: string;
   terms?: string;
 }
 
@@ -29,6 +33,7 @@ function validate(
   nombre: string,
   email: string,
   contrasena: string,
+  confirmarContrasena: string,
   termsAccepted: boolean,
 ): FormErrors {
   const errors: FormErrors = {};
@@ -43,6 +48,13 @@ function validate(
   } else if (contrasena.length < 6) {
     errors.contrasena = 'Mínimo 6 caracteres.';
   }
+  if (!confirmarContrasena) {
+    errors.confirmarContrasena = 'Debes confirmar la contraseña.';
+  } else if (confirmarContrasena.length < 6) {
+    errors.confirmarContrasena = 'Mínimo 6 caracteres.';
+  } else if (confirmarContrasena !== contrasena) {
+    errors.confirmarContrasena = 'Las contraseñas no coinciden.';
+  }
   if (!termsAccepted) errors.terms = 'Debes aceptar los términos y condiciones.';
   return errors;
 }
@@ -52,6 +64,7 @@ export default function RegisterPage() {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [contrasena, setContrasena] = useState('');
+  const [confirmarContrasena, setConfirmarContrasena] = useState('');
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -69,18 +82,22 @@ export default function RegisterPage() {
   }, [register.isSuccess, navigate]);
 
   
-  const currentErrors = submitted ? validate(nombre, email, contrasena, termsAccepted) : {};
+  const currentErrors = submitted
+    ? validate(nombre, email, contrasena, confirmarContrasena, termsAccepted)
+    : {};
 
   const isFormValid =
     nombre.trim() !== '' &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) &&
     contrasena.length >= 6 &&
+    confirmarContrasena.length >= 6 &&
+    confirmarContrasena === contrasena &&
     termsAccepted;
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    const errors = validate(nombre, email, contrasena, termsAccepted);
+    const errors = validate(nombre, email, contrasena, confirmarContrasena, termsAccepted);
     if (Object.keys(errors).length > 0) return;
 
     register.mutate({
@@ -190,9 +207,8 @@ export default function RegisterPage() {
                 <Lock className="w-[16px] h-[16px] text-hw-accent transition-colors duration-300" />
                 Contraseña
               </Label>
-              <Input
+              <PasswordInput
                 id="contrasena"
-                type="password"
                 placeholder="Mínimo 6 caracteres"
                 value={contrasena}
                 onChange={(e) => setContrasena(e.target.value)}
@@ -203,6 +219,28 @@ export default function RegisterPage() {
               />
               {currentErrors.contrasena && (
                 <span className="text-hw-error text-[0.75rem]">{currentErrors.contrasena}</span>
+              )}
+            </div>
+
+            {/* Confirmación de contraseña */}
+            <div className="flex flex-col gap-[0.5rem]">
+              <Label htmlFor="confirmar-contrasena" className="text-[0.875rem] text-hw-label gap-[0.4rem] transition-colors duration-300">
+                <Lock className="w-[16px] h-[16px] text-hw-accent transition-colors duration-300" />
+                Confirmar contraseña
+              </Label>
+              <PasswordInput
+                id="confirmar-contrasena"
+                placeholder="Repite tu contraseña"
+                value={confirmarContrasena}
+                onChange={(e) => setConfirmarContrasena(e.target.value)}
+                onPaste={(e) => e.preventDefault()}
+                required
+                autoComplete="new-password"
+                aria-invalid={!!currentErrors.confirmarContrasena}
+                className="h-[42px] bg-hw-input border-hw-input-border rounded-[8px] text-hw-input-text text-[0.875rem] px-[0.75rem] placeholder:text-hw-placeholder focus-visible:border-hw-accent focus-visible:ring-hw-accent/25 transition-colors duration-300"
+              />
+              {currentErrors.confirmarContrasena && (
+                <span className="text-hw-error text-[0.75rem]">{currentErrors.confirmarContrasena}</span>
               )}
             </div>
 
@@ -354,10 +392,3 @@ export default function RegisterPage() {
     </div>
   );
 }
-
-
-
-
-
-
-

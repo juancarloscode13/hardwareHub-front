@@ -1,3 +1,5 @@
+// Pagina MontajesPage: encapsula logica y presentacion de dashboard.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useNavigate } from 'react-router-dom';
 import { PcCase, Plus, AlertCircle, PackageOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -105,4 +107,7 @@ export default function MontajesPage() {
     </div>
   );
 }
+
+
+
 

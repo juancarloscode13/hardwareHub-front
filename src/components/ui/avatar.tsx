@@ -1,3 +1,5 @@
+// Componente avatar: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import * as React from "react"
 import { Avatar as AvatarPrimitive } from "radix-ui"
 
@@ -11,8 +13,6 @@ function Avatar({
 }: React.ComponentProps<typeof AvatarPrimitive.Root> & {
   size?: "default" | "sm" | "lg"
 }) {
-  const pixelSize = size === "sm" ? 24 : size === "lg" ? 40 : 32
-
   return (
     <AvatarPrimitive.Root
       data-slot="avatar"
@@ -21,7 +21,7 @@ function Avatar({
         "group/avatar relative flex shrink-0 overflow-hidden rounded-full select-none after:absolute after:inset-0 after:rounded-full after:border after:border-border after:mix-blend-darken dark:after:mix-blend-lighten",
         className
       )}
-      style={{ width: pixelSize, height: pixelSize, minWidth: pixelSize, minHeight: pixelSize, ...style }}
+      style={style}
       {...props}
     />
   )
@@ -112,3 +112,6 @@ export {
   AvatarGroupCount,
   AvatarBadge,
 }
+
+
+

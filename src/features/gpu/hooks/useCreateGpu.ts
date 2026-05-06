@@ -1,3 +1,4 @@
+// Mutaciones de React Query para crear, actualizar y eliminar GPUs
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { gpuApi } from '@/api/endpoints/gpu.api';
 import type { GpuRequestDto } from '@/dto';
@@ -30,4 +31,5 @@ export function useDeleteGpu() {
     onSuccess: () => qc.invalidateQueries({ queryKey: GPU_KEYS.all }),
   });
 }
+
 

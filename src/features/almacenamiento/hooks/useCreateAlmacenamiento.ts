@@ -1,3 +1,4 @@
+// Mutaciones de React Query para crear, actualizar y eliminar dispositivos de almacenamiento
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { almacenamientoApi } from '@/api/endpoints/almacenamiento.api';
 import type { AlmacenamientoRequestDto } from '@/dto';
@@ -30,4 +31,5 @@ export function useDeleteAlmacenamiento() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ALMACENAMIENTO_KEYS.all }),
   });
 }
+
 

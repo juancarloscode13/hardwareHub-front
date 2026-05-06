@@ -1,3 +1,5 @@
+// Pagina DashboardLayout: encapsula logica y presentacion de navegacion principal.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import {
@@ -172,3 +174,6 @@ export default function DashboardLayout() {
     </div>
   );
 }
+
+
+

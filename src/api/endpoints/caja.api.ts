@@ -1,3 +1,4 @@
+// Endpoints CRUD para la entidad Caja (torre/chasis de PC)
 import { api } from '../axios';
 import type { PageResponse, PaginationParams } from '../types';
 import type { CajaRequestDto, CajaResponseDto } from '@/dto';
@@ -5,6 +6,7 @@ import type { CajaRequestDto, CajaResponseDto } from '@/dto';
 const BASE = '/api/cajas';
 
 export const cajaApi = {
+  // Devuelve todas las cajas disponibles con paginación
   getAll: (params?: PaginationParams) =>
     api.get<PageResponse<CajaResponseDto>>(BASE, { params }).then(({ data }) => data),
 
@@ -20,5 +22,3 @@ export const cajaApi = {
   deleteById: (id: number) =>
     api.delete<void>(`${BASE}/${id}`).then(({ data }) => data),
 };
-
-

@@ -1,11 +1,13 @@
-﻿import { useState } from 'react';
+// Pagina ResetPasswordPage: encapsula logica y presentacion de navegacion principal.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
+import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Lock, Loader2, KeyRound, AlertTriangle } from 'lucide-react';
 import { toast } from 'sonner';
 import { useResetPassword } from '@/features/auth/hooks/useResetPassword';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/input-password-with-toggle';
 import { Label } from '@/components/ui/label';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 export default function ResetPasswordPage() {
@@ -90,9 +92,8 @@ export default function ResetPasswordPage() {
                 <Lock className="w-[16px] h-[16px] text-hw-accent transition-colors duration-300" />
                 Nueva contraseña
               </Label>
-              <Input
+              <PasswordInput
                 id="new-password"
-                type="password"
                 placeholder="Mínimo 6 caracteres"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -111,9 +112,8 @@ export default function ResetPasswordPage() {
                 <Lock className="w-[16px] h-[16px] text-hw-accent transition-colors duration-300" />
                 Confirmar contraseña
               </Label>
-              <Input
+              <PasswordInput
                 id="confirm-password"
-                type="password"
                 placeholder="Repite la contraseña"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -167,3 +167,5 @@ export default function ResetPasswordPage() {
     </div>
   );
 }
+
+

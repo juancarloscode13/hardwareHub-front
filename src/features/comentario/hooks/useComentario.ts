@@ -1,3 +1,4 @@
+// Claves y hooks de React Query para consultar comentarios del foro
 import { useQuery } from '@tanstack/react-query';
 import { comentarioApi } from '@/api/endpoints/comentario.api';
 import type { PaginationParams } from '@/api/types';
@@ -40,4 +41,5 @@ export function useComentariosByComentario(comentarioId: number) {
     enabled: comentarioId > 0,
   });
 }
+
 

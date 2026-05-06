@@ -1,3 +1,4 @@
+// Mutaciones de React Query para crear, actualizar y eliminar cajas
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { cajaApi } from '@/api/endpoints/caja.api';
 import type { CajaRequestDto } from '@/dto';
@@ -30,4 +31,5 @@ export function useDeleteCaja() {
     onSuccess: () => qc.invalidateQueries({ queryKey: CAJA_KEYS.all }),
   });
 }
+
 

@@ -1,21 +1,33 @@
+// Tipos enum que representan los valores permitidos de cada campo en la API
+// Corresponden directamente a los enums de Java del backend
+
+// ── Almacenamiento ──────────────────────────────────────────────────────────
+
 export type AlmacenamientoConectividad =
   | 'ALMACENAMIENTO_CONECTIVIDAD_PCIE'
   | 'ALMACENAMIENTO_CONECTIVIDAD_SATA';
 
+// Formato físico del disco (2.5" o 3.5")
 export type AlmacenamientoFormato =
   | 'ALMACENAMIENTO_FORMATO_2_5'
   | 'ALMACENAMIENTO_FORMATO_3_5';
 
+// Tecnología de almacenamiento
 export type AlmacenamientoTipo =
   | 'ALMACENAMIENTO_TIPO_NVME_M2'
   | 'ALMACENAMIENTO_TIPO_HDD'
   | 'ALMACENAMIENTO_TIPO_SSD';
 
+// ── Caja ────────────────────────────────────────────────────────────────────
+
+// Factor de forma de la caja (tamaño de torre)
 export type CajaFormato =
   | 'CAJA_FORMATO_MINI_ITX'
   | 'CAJA_FORMATO_MICRO_ATX'
   | 'CAJA_FORMATO_ATX'
   | 'CAJA_FORMATO_E_ATX';
+
+// ── CPU ─────────────────────────────────────────────────────────────────────
 
 export type CpuArquitectura =
   | 'CPU_ARQUITECTURA_ZEN3'
@@ -26,11 +38,14 @@ export type CpuArquitectura =
   | 'CPU_ARQUITECTURA_RAPTOR_LAKE_REFRESH'
   | 'CPU_ARQUITECTURA_ARROW_LAKE';
 
+// Socket físico de la CPU; debe coincidir con el de la placa base
 export type CpuSocket =
   | 'CPU_SOCKET_AM4'
   | 'CPU_SOCKET_AM5'
   | 'CPU_SOCKET_LGA1700'
   | 'CPU_SOCKET_LGA1851';
+
+// ── GPU ─────────────────────────────────────────────────────────────────────
 
 export type GpuArquitectura =
   | 'GPU_ARQUITECTURA_ADA_LOVELACE'
@@ -40,6 +55,7 @@ export type GpuArquitectura =
   | 'GPU_ARQUITECTURA_BATTLEMAGE'
   | 'GPU_ARQUITECTURA_ALCHEMIST';
 
+// Empresa que ensambla el PCB de la GPU (AIB partner)
 export type GpuEnsambladora =
   | 'GPU_ENSAMBLADORA_ACER'
   | 'GPU_ENSAMBLADORA_ASROCK'
@@ -60,6 +76,7 @@ export type GpuEnsambladora =
   | 'GPU_ENSAMBLADORA_XFX'
   | 'GPU_ENSAMBLADORA_ZOTAC';
 
+// Generación de GPU (para agrupar por línea de producto)
 export type GpuGeneracion =
   | 'GPU_GENERACION_RTX_4000'
   | 'GPU_GENERACION_RTX_5000'
@@ -68,10 +85,13 @@ export type GpuGeneracion =
   | 'GPU_GENERACION_ARC_SERIE_A'
   | 'GPU_GENERACION_ARC_SERIE_B';
 
+// Tipo de memoria de vídeo
 export type GpuTipoVram =
   | 'GPU_TIPO_VRAM_GDDR6'
   | 'GPU_TIPO_VRAM_GDDR6X'
   | 'GPU_TIPO_VRAM_GDDR7';
+
+// ── Placa Base ──────────────────────────────────────────────────────────────
 
 export type PlacaBaseChipset =
   | 'PLACA_BASE_CHIPSET_X570'
@@ -96,6 +116,7 @@ export type PlacaBaseChipset =
   | 'PLACA_BASE_CHIPSET_B860'
   | 'PLACA_BASE_CHIPSET_H810';
 
+// Factor de forma de la placa base; debe ser compatible con la caja
 export type PlacaBaseFormato =
   | 'PLACA_BASE_FORMATO_MINI_ITX'
   | 'PLACA_BASE_FORMATO_MICRO_ATX'
@@ -112,6 +133,9 @@ export type PlacaBaseWifiSoportado =
   | 'PLACA_BASE_WIFI_SOPORTADO_WIFI_6E'
   | 'PLACA_BASE_WIFI_SOPORTADO_WIFI_7';
 
+// ── PSU ─────────────────────────────────────────────────────────────────────
+
+// Certificación de eficiencia energética 80 PLUS
 export type PsuCertificacion =
   | 'PSU_CERTIFICACION_80_PLUS_WHITE'
   | 'PSU_CERTIFICACION_80_PLUS_BRONZE'
@@ -120,17 +144,28 @@ export type PsuCertificacion =
   | 'PSU_CERTIFICACION_80_PLUS_PLATINUM'
   | 'PSU_CERTIFICACION_80_PLUS_TITANIUM';
 
+// Factor de forma de la PSU; debe ser compatible con la caja
 export type PsuFactorForma =
   | 'PSU_FACTOR_FORMA_ATX'
   | 'PSU_FACTOR_FORMA_SFX'
   | 'PSU_FACTOR_FORMA_SFX_L'
   | 'PSU_FACTOR_FORMA_TFX';
 
+// ── RAM ─────────────────────────────────────────────────────────────────────
+
+// Generación de RAM; debe coincidir con el tipo soportado por la placa base
 export type RamTipo = 'RAM_TIPO_DDR4' | 'RAM_TIPO_DDR5';
+
+// ── Refrigeración ───────────────────────────────────────────────────────────
 
 export type RefrigeracionTipo = 'REFRIGERACION_TIPO_LIQUIDA' | 'REFRIGERACION_TIPO_AIRE';
 
+// ── Publicaciones ───────────────────────────────────────────────────────────
+
+// Tipos de reacción disponibles en el foro
 export type TipoReaccion = 'LIKE' | 'DISLIKE' | 'LOVE' | 'FUNNY' | 'INTERESTING';
+
+// ── Usuarios ────────────────────────────────────────────────────────────────
 
 export type UsuarioRol = 'ROL_USUARIO' | 'ROL_ADMIN';
 

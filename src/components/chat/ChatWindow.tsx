@@ -1,3 +1,5 @@
+// Componente ChatWindow: encapsula logica y presentacion de chat.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useEffect, useRef } from 'react';
 import { MessageSquare } from 'lucide-react';
 import { useChat } from '@/features/chat/hooks/useChat';
@@ -128,3 +130,6 @@ export default function ChatWindow({ conversation, currentUserId }: ChatWindowPr
 
   return <ActiveChatWindow conversation={conversation} currentUserId={currentUserId} />;
 }
+
+
+

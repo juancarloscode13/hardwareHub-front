@@ -1,3 +1,4 @@
+// Endpoints para el sistema de chat: conversaciones y mensajes
 import { api } from '../axios';
 import type { PageResponse } from '../types';
 import type {
@@ -9,11 +10,11 @@ import type {
 const BASE = '/api/conversations';
 
 export const chatApi = {
-  
+  // Devuelve todas las conversaciones del usuario autenticado
   getConversations: () =>
     api.get<ConversationResponseDto[]>(BASE).then(({ data }) => data),
 
-  
+  // Devuelve los mensajes de una conversación con paginación (más antiguos primero)
   getMessages: (conversationId: number, page = 0, size = 20) =>
     api
       .get<PageResponse<MessageResponseDto>>(`${BASE}/${conversationId}/messages`, {
@@ -31,4 +32,3 @@ export const chatApi = {
   markAsRead: (conversationId: number) =>
     api.patch<void>(`${BASE}/${conversationId}/read`).then(({ data }) => data),
 };
-

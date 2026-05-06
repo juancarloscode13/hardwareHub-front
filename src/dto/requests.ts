@@ -1,3 +1,5 @@
+// DTOs de petición — cuerpos enviados a la API del backend
+// Cada interfaz refleja el RequestDto correspondiente en Java
 import type {
   AlmacenamientoConectividad,
   AlmacenamientoFormato,
@@ -20,10 +22,11 @@ import type {
   UsuarioRol,
 } from './enums';
 
-export type Decimal = number;
-export type JsonMap = Record<string, unknown>;
-export type ByteArrayBase64 = string;
+export type Decimal = number;         // Precio y valores decimales
+export type JsonMap = Record<string, unknown>; // Campos JSON libres (dimensiones, atributos…)
+export type ByteArrayBase64 = string; // Bytes codificados en Base64
 
+/** Almacenamiento: SSD SATA/NVMe o HDD */
 export interface AlmacenamientoRequestDto {
   modelo: string;
   fabricanteId: number;
@@ -37,6 +40,7 @@ export interface AlmacenamientoRequestDto {
   conectividad: AlmacenamientoConectividad;
 }
 
+/** Caja (chasis): define qué componentes caben */
 export interface CajaRequestDto {
   modelo: string;
   fabricanteId: number;
@@ -58,6 +62,7 @@ export interface CajaRequestDto {
   alturaMaxEnfriadorCpu: number;
 }
 
+/** Comentario en el foro; puede ser respuesta a otro comentario */
 export interface ComentarioRequestDto {
   textoContenido: string;
   likes: number;
@@ -66,6 +71,7 @@ export interface ComentarioRequestDto {
   publicacionId: number;
 }
 
+/** Procesador */
 export interface CpuRequestDto {
   modelo: string;
   fabricanteId: number;
@@ -88,10 +94,12 @@ export interface CpuRequestDto {
   puntuacionPassmarkMultithread: number;
 }
 
+/** Fabricante de hardware */
 export interface FabricanteRequestDto {
   nombre: string;
 }
 
+/** Tarjeta gráfica */
 export interface GpuRequestDto {
   modelo: string;
   fabricanteId: number;
@@ -114,6 +122,7 @@ export interface GpuRequestDto {
   puntuacionPassmark: number;
 }
 
+/** Montaje: referencia a todos los componentes seleccionados por ID */
 export interface MontajeRequestDto {
   ramId: number;
   cpuId: number;
@@ -126,6 +135,7 @@ export interface MontajeRequestDto {
   usuarioId: number;
 }
 
+/** Placa base (motherboard) */
 export interface PlacaBaseRequestDto {
   modelo: string;
   fabricanteId: number;
@@ -144,6 +154,7 @@ export interface PlacaBaseRequestDto {
   wifiSoportado: PlacaBaseWifiSoportado;
 }
 
+/** Fuente de alimentación */
 export interface PsuRequestDto {
   modelo: string;
   fabricanteId: number;
@@ -155,6 +166,7 @@ export interface PsuRequestDto {
   factorForma: PsuFactorForma;
 }
 
+/** Publicación del foro; puede llevar imagen/vídeo o un montaje adjunto */
 export interface PublicacionRequestDto {
   contenidoTexto: string;
   multimedia: string | null;
@@ -162,6 +174,7 @@ export interface PublicacionRequestDto {
   usuarioId: number;
 }
 
+/** Módulo de RAM */
 export interface RamRequestDto {
   modelo: string;
   fabricanteId: number;
@@ -175,11 +188,13 @@ export interface RamRequestDto {
   latencia: number;
 }
 
+/** Reacción de un usuario a una publicación */
 export interface ReaccionRequestDto {
   usuarioId: number;
   tipo: TipoReaccion;
 }
 
+/** Sistema de refrigeración (aire o líquida) */
 export interface RefrigeracionRequestDto {
   modelo: string;
   fabricanteId: number;
@@ -190,6 +205,7 @@ export interface RefrigeracionRequestDto {
   atributos: JsonMap;
 }
 
+/** Usuario en el sistema administrativo */
 export interface UsuarioRequestDto {
   nombre: string;
   email: string;
@@ -197,12 +213,13 @@ export interface UsuarioRequestDto {
   rol: UsuarioRol;
 }
 
-
+/** Credenciales de inicio de sesión */
 export interface LoginRequestDto {
   email: string;
   password: string;
 }
 
+/** Datos de registro de nuevo usuario; avatar se sube a Cloudinary antes */
 export interface RegisterRequestDto {
   nombre: string;
   email: string;
@@ -210,20 +227,23 @@ export interface RegisterRequestDto {
   avatar?: File | null;
 }
 
-
+/** Email para solicitar restablecimiento de contraseña */
 export interface ForgotPasswordRequestDto {
   email: string;
 }
 
+/** Token + nueva contraseña para restablecer acceso */
 export interface ResetPasswordRequestDto {
   token: string;
   nuevaContrasena: string;
 }
 
+/** Archivo a subir a Cloudinary */
 export interface CloudinaryUploadRequestDto {
   file: File;
 }
 
+/** Identificador público de un recurso en Cloudinary */
 export interface CloudinaryPublicIdRequestDto {
   publicId: string;
 }

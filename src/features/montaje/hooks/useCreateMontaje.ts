@@ -1,8 +1,10 @@
+// Mutaciones de React Query para crear, actualizar y eliminar montajes
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { montajeApi } from '@/api/endpoints/montaje.api';
 import type { MontajeRequestDto } from '@/dto';
 import { MONTAJE_KEYS } from './useMontaje';
 
+/** Crea un nuevo montaje e invalida la lista de montajes */
 export function useCreateMontaje() {
   const qc = useQueryClient();
   return useMutation({
@@ -11,6 +13,7 @@ export function useCreateMontaje() {
   });
 }
 
+/** Actualiza un montaje existente e invalida su detalle y la lista */
 export function useUpdateMontaje() {
   const qc = useQueryClient();
   return useMutation({
@@ -23,6 +26,7 @@ export function useUpdateMontaje() {
   });
 }
 
+/** Elimina un montaje e invalida la lista */
 export function useDeleteMontaje() {
   const qc = useQueryClient();
   return useMutation({
@@ -30,4 +34,3 @@ export function useDeleteMontaje() {
     onSuccess: () => qc.invalidateQueries({ queryKey: MONTAJE_KEYS.all }),
   });
 }
-

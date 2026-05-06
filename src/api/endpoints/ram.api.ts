@@ -1,3 +1,4 @@
+// Endpoints CRUD para la entidad RAM
 import { api } from '../axios';
 import type { PageResponse, PaginationParams } from '../types';
 import type { RamRequestDto, RamResponseDto } from '@/dto';
@@ -5,6 +6,7 @@ import type { RamRequestDto, RamResponseDto } from '@/dto';
 const BASE = '/api/rams';
 
 export const ramApi = {
+  // Devuelve todos los módulos RAM con soporte de paginación y filtros
   getAll: (params?: PaginationParams) =>
     api.get<PageResponse<RamResponseDto>>(BASE, { params }).then(({ data }) => data),
 
@@ -20,5 +22,3 @@ export const ramApi = {
   deleteById: (id: number) =>
     api.delete<void>(`${BASE}/${id}`).then(({ data }) => data),
 };
-
-

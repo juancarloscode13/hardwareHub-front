@@ -1,3 +1,4 @@
+// Endpoints CRUD para la entidad Almacenamiento (SSD, HDD, NVMe)
 import { api } from '../axios';
 import type { PageResponse, PaginationParams } from '../types';
 import type { AlmacenamientoRequestDto } from '@/dto';
@@ -6,6 +7,7 @@ import type { AlmacenamientoResponseDto } from '@/dto';
 const BASE = '/api/almacenamientos';
 
 export const almacenamientoApi = {
+  // Devuelve todos los dispositivos de almacenamiento con paginación
   getAll: (params?: PaginationParams) =>
     api.get<PageResponse<AlmacenamientoResponseDto>>(BASE, { params }).then(({ data }) => data),
 
@@ -21,5 +23,3 @@ export const almacenamientoApi = {
   deleteById: (id: number) =>
     api.delete<void>(`${BASE}/${id}`).then(({ data }) => data),
 };
-
-

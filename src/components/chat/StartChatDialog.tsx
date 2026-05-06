@@ -1,3 +1,5 @@
+// Componente StartChatDialog: encapsula logica y presentacion de chat.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState, useEffect } from 'react';
 import { MessageCirclePlus } from 'lucide-react';
 import { useUsuarios } from '@/features/usuario/hooks/useUsuario';
@@ -170,5 +172,8 @@ export default function StartChatDialog({
     </Dialog>
   );
 }
+
+
+
 
 

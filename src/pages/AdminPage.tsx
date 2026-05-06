@@ -1,3 +1,5 @@
+// Pagina AdminPage: encapsula logica y presentacion de navegacion principal.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, Plus, Pencil, Trash2 } from 'lucide-react';
@@ -200,5 +202,8 @@ export default function AdminPage() {
     </div>
   );
 }
+
+
+
 
 

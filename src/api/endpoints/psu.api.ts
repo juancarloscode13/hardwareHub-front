@@ -1,3 +1,4 @@
+// Endpoints CRUD para la entidad PSU (fuente de alimentación)
 import { api } from '../axios';
 import type { PageResponse, PaginationParams } from '../types';
 import type { PsuRequestDto, PsuResponseDto } from '@/dto';
@@ -5,6 +6,7 @@ import type { PsuRequestDto, PsuResponseDto } from '@/dto';
 const BASE = '/api/psus';
 
 export const psuApi = {
+  // Devuelve todas las fuentes de alimentación con paginación
   getAll: (params?: PaginationParams) =>
     api.get<PageResponse<PsuResponseDto>>(BASE, { params }).then(({ data }) => data),
 
@@ -20,5 +22,3 @@ export const psuApi = {
   deleteById: (id: number) =>
     api.delete<void>(`${BASE}/${id}`).then(({ data }) => data),
 };
-
-

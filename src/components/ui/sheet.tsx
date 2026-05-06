@@ -1,3 +1,5 @@
+// Componente sheet: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import * as React from "react"
 import { Dialog as SheetPrimitive } from "radix-ui"
 
@@ -143,3 +145,6 @@ export {
   SheetTitle,
   SheetDescription,
 }
+
+
+

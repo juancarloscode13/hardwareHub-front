@@ -1,12 +1,17 @@
+// Hook genérico de React Query para el panel de administración
+// Recibe una EntityConfig y expone query + mutaciones CRUD
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { EntityConfig } from './entityConfig';
 import type { PageResponse } from '@/api/types';
 
-
+/**
+ * Encapsula las operaciones CRUD para cualquier entidad de admin.
+ * La entidad activa la controla el componente padre pasando config.
+ */
 export function useAdminEntity(config: EntityConfig | null) {
   const qc = useQueryClient();
 
-  
+  // Consulta paginada de todos los registros de la entidad activa
   const query = useQuery<PageResponse<Record<string, unknown>>>({
     queryKey: ['admin', config?.key ?? '__none__'],
     queryFn: () => {
@@ -16,7 +21,7 @@ export function useAdminEntity(config: EntityConfig | null) {
     enabled: config !== null,
   });
 
-  
+  // Mutación para crear un nuevo registro
   const create = useMutation<Record<string, unknown>, Error, Record<string, unknown>>({
     mutationFn: (data) => {
       if (!config?.createFn) return Promise.reject(new Error('Create not supported'));
@@ -27,6 +32,7 @@ export function useAdminEntity(config: EntityConfig | null) {
     },
   });
 
+  // Mutación para actualizar un registro por ID
   const update = useMutation<
     Record<string, unknown>,
     Error,
@@ -41,6 +47,7 @@ export function useAdminEntity(config: EntityConfig | null) {
     },
   });
 
+  // Mutación para eliminar un registro por ID
   const remove = useMutation<void, Error, number>({
     mutationFn: (id) => {
       if (!config) return Promise.reject(new Error('No entity selected'));
@@ -54,11 +61,10 @@ export function useAdminEntity(config: EntityConfig | null) {
   return {
     data:      query.data,
     isLoading: query.isLoading,
-    hasCreate: !!config?.createFn,
-    hasUpdate: !!config?.updateFn,
+    hasCreate: !!config?.createFn, // true si la entidad soporta creación
+    hasUpdate: !!config?.updateFn, // true si la entidad soporta edición
     create,
     update,
     remove,
   };
 }
-

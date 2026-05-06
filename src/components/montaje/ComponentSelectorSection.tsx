@@ -1,3 +1,5 @@
+// Componente ComponentSelectorSection: encapsula logica y presentacion de montaje.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useState, useMemo } from 'react';
 import { Search, Check, X } from 'lucide-react';
 import {
@@ -302,4 +304,7 @@ export default function ComponentSelectorSection<
     </AccordionItem>
   );
 }
+
+
+
 

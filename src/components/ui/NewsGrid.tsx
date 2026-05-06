@@ -1,3 +1,5 @@
+// Componente NewsGrid: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import type { NoticiaResponseDto } from '@/dto';
 import NewsCard from '@/components/ui/NewsCard';
 import { NewsCardSkeleton } from '@/components/ui/NewsCardSkeleton';
@@ -30,3 +32,6 @@ export function NewsGridSkeleton({ count = 6 }: { count?: number }) {
     </div>
   );
 }
+
+
+

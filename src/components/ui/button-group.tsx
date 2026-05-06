@@ -1,3 +1,5 @@
+// Componente button-group: encapsula logica y presentacion de UI reutilizable.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"
 
@@ -81,3 +83,6 @@ export {
   ButtonGroupText,
   buttonGroupVariants,
 }
+
+
+

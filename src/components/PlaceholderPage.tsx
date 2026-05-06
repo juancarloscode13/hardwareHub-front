@@ -1,11 +1,14 @@
+// Componente PlaceholderPage: encapsula logica y presentacion de aplicacion.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import type React from 'react';
 
 interface PlaceholderPageProps {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.ComponentType<{ className?: string }>; // Icono Lucide a mostrar
   title: string;
   description?: string;
 }
 
+/** Muestra un mensaje centrado con icono para páginas aún no implementadas */
 export default function PlaceholderPage({
   icon: Icon,
   title,
@@ -13,6 +16,7 @@ export default function PlaceholderPage({
 }: PlaceholderPageProps) {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-[1rem] min-h-[calc(100vh-68px)]">
+      {/* Icono decorativo dentro de una tarjeta redondeada */}
       <div className="inline-flex items-center justify-center w-[56px] h-[56px] rounded-[14px] border border-hw-icon-border bg-hw-icon-bg transition-colors duration-300">
         <Icon className="w-[28px] h-[28px] text-hw-accent" />
       </div>
@@ -25,4 +29,6 @@ export default function PlaceholderPage({
     </div>
   );
 }
+
+
 

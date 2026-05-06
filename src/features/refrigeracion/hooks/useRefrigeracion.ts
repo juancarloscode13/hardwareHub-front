@@ -1,3 +1,4 @@
+// Claves y hooks de React Query para consultar sistemas de refrigeración
 import { useQuery } from '@tanstack/react-query';
 import { refrigeracionApi } from '@/api/endpoints/refrigeracion.api';
 import type { PaginationParams } from '@/api/types';
@@ -22,4 +23,5 @@ export function useRefrigeracion(id: number) {
     enabled: id > 0,
   });
 }
+
 

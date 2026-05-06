@@ -1,3 +1,5 @@
+// Pagina UsuarioDetallePage: encapsula logica y presentacion de dashboard.
+// Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import { useParams, useNavigate } from 'react-router-dom';
 import { User, AlertCircle, FileText, Users, MessageSquare } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -234,4 +236,7 @@ export default function UsuarioDetallePage() {
     </section>
   );
 }
+
+
+
 

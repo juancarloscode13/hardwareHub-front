@@ -1,3 +1,4 @@
+// Claves y hooks de React Query para consultar cajas (chasis)
 import { useQuery } from '@tanstack/react-query';
 import { cajaApi } from '@/api/endpoints/caja.api';
 import type { PaginationParams } from '@/api/types';
@@ -22,4 +23,5 @@ export function useCaja(id: number) {
     enabled: id > 0,
   });
 }
+
 

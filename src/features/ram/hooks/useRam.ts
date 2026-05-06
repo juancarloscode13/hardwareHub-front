@@ -1,3 +1,4 @@
+// Claves y hooks de React Query para consultar módulos de RAM
 import { useQuery } from '@tanstack/react-query';
 import { ramApi } from '@/api/endpoints/ram.api';
 import type { PaginationParams } from '@/api/types';
@@ -22,4 +23,5 @@ export function useRam(id: number) {
     enabled: id > 0,
   });
 }
+
 

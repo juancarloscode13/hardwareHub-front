@@ -206,6 +206,10 @@ export function getEstimatedBuildTdp(selection: SelectedComponents): number {
   return cpuTdp + gpuTdp;
 }
 
+/**
+ * Evalúa todas las reglas de compatibilidad sobre la selección actual.
+ * Devuelve la lista deduplicada de problemas encontrados.
+ */
 export function getBuildCompatibilityIssues(selection: SelectedComponents): CompatibilityIssue[] {
   const issues: CompatibilityIssue[] = [];
 
@@ -338,6 +342,10 @@ export function getBuildCompatibilityIssues(selection: SelectedComponents): Comp
   return [...dedup.values()];
 }
 
+/**
+ * Devuelve los problemas de compatibilidad que tendría añadir un candidato concreto
+ * al montaje actual. Solo retorna los issues que involucran al tipo indicado.
+ */
 export function getCandidateCompatibilityIssues<K extends ComponentKind>(
   kind: K,
   candidate: NonNullable<SelectedComponents[K]>,
