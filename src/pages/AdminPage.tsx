@@ -75,25 +75,23 @@ export default function AdminPage() {
       <div className="fixed w-[600px] h-[600px] rounded-full bg-hw-glow blur-[120px] top-0 right-0 pointer-events-none transition-colors duration-300" />
 
       {}
-      <header className="relative z-10 flex items-center px-[2rem] py-[1.25rem] border-b border-hw-divider transition-colors duration-300">
+      <header className="hw-admin-header relative z-10 flex items-center justify-between px-[2rem] py-[1.25rem] border-b border-hw-divider transition-colors duration-300">
         <span className="font-heading text-[1.125rem] font-bold tracking-[-0.02em] text-hw-title transition-colors duration-300">
           HardwareHub
         </span>
+        <div className="hw-admin-header-actions flex items-center gap-[0.625rem]">
+          <ThemeToggle fixed={false} />
+          <Button
+            variant="outline"
+            onClick={handleLogout}
+            disabled={logout.isPending}
+            className="hw-admin-header-logout h-[40px] px-[0.875rem] bg-hw-card border-hw-card-border text-hw-muted rounded-[10px] gap-[0.5rem] [box-shadow:var(--hw-card-shadow)] hover:border-hw-error/40 hover:bg-hw-error-bg hover:text-hw-error transition-colors duration-300 disabled:opacity-50 text-sm"
+          >
+            <LogOut className="w-[15px] h-[15px]" />
+            {logout.isPending ? 'Cerrando…' : 'Cerrar sesión'}
+          </Button>
+        </div>
       </header>
-
-      {}
-      <div className="fixed top-[1rem] right-[1rem] z-50 flex items-center gap-[0.625rem]">
-        <Button
-          variant="outline"
-          onClick={handleLogout}
-          disabled={logout.isPending}
-          className="h-[40px] px-[0.875rem] bg-hw-card border-hw-card-border text-hw-muted rounded-[10px] gap-[0.5rem] [box-shadow:var(--hw-card-shadow)] hover:border-hw-error/40 hover:bg-hw-error-bg hover:text-hw-error transition-colors duration-300 disabled:opacity-50 text-sm"
-        >
-          <LogOut className="w-[15px] h-[15px]" />
-          {logout.isPending ? 'Cerrando…' : 'Cerrar sesión'}
-        </Button>
-        <ThemeToggle fixed={false} />
-      </div>
 
       {}
       <main className="relative z-10 max-w-[1200px] mx-auto px-[2rem] py-[2.5rem] flex flex-col gap-[1.75rem]">

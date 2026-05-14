@@ -2,6 +2,7 @@
 // Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { RouteLoadingScreen } from '@/components/RouteLoadingScreen';
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 import type { UsuarioRol } from '@/dto';
 
@@ -18,7 +19,14 @@ interface ProtectedRouteProps {
 export function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) {
   const { user, isAuthenticated, isLoading } = useCurrentUser();
 
-  if (isLoading) return null; // Esperar a conocer el estado de sesión
+  if (isLoading) {
+    return (
+      <RouteLoadingScreen
+        title="Verificando acceso"
+        description="Estamos validando tu sesión antes de mostrar el contenido privado."
+      />
+    );
+  }
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;
 

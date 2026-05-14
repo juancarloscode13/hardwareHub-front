@@ -1,6 +1,5 @@
 // Configuración de rutas de la aplicación con React Router v6
 // Incluye rutas públicas, dashboard privado y zona de admin
-import React from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import LoginPage        from '@/pages/LoginPage';
 import RegisterPage     from '@/pages/RegisterPage';
@@ -9,7 +8,7 @@ import LandingPage      from '@/pages/LandingPage';
 import DashboardLayout  from '@/pages/DashboardLayout';
 import AdminPage        from '@/pages/AdminPage';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
-import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
+import { PublicOnlyRoute, UserDashboardRoute } from '@/application/router-guards';
 
 import ForoPage          from '@/pages/dashboard/ForoPage';
 import PerfilPage        from '@/pages/dashboard/PerfilPage';
@@ -21,23 +20,6 @@ import UsuarioDetallePage from '@/pages/dashboard/UsuarioDetallePage';
 import MensajesPage      from '@/pages/dashboard/MensajesPage';
 import MontajesPage      from '@/pages/dashboard/MontajesPage';
 import CreateMontajePage from '@/pages/dashboard/CreateMontajePage';
-
-/** Redirige a /dashboard o /admin si el usuario ya está autenticado */
-function PublicOnlyRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isAdmin, isLoading } = useCurrentUser();
-  if (isLoading) return null;
-  if (isAuthenticated) return <Navigate to={isAdmin ? '/admin' : '/dashboard'} replace />;
-  return <>{children}</>;
-}
-
-/** Redirige a /login si no autenticado, o a /admin si es administrador */
-function UserDashboardRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isAdmin, isLoading } = useCurrentUser();
-  if (isLoading) return null;
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
-  if (isAdmin) return <Navigate to="/admin" replace />;
-  return <>{children}</>;
-}
 
 export default createBrowserRouter([
   // ── Rutas públicas ────────────────────────────────────────────────────────

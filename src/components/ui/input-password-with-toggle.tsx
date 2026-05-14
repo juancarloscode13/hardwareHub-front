@@ -16,7 +16,7 @@ function PasswordInput({ className, ...props }: Omit<React.ComponentProps<typeof
       />
       <button
         type="button"
-        aria-label={showPassword ? "Ocultar contrasena" : "Mostrar contrasena"}
+        aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
         onClick={() => setShowPassword((prev) => !prev)}
         className="hw-password-toggle text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
       >

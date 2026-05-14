@@ -28,19 +28,19 @@ interface SpecRowProps {
 function SpecRow({ icon: Icon, label, value, price, imageUrl }: SpecRowProps) {
   if (!value) return null;
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-      <Icon className="h-3.5 w-3.5 text-hw-accent shrink-0" />
-      <span className="text-hw-subtitle" style={{ fontSize: '0.72rem', width: 92, flexShrink: 0 }}>
+    <div className="hw-montaje-preview-row">
+      <Icon className="hw-montaje-preview-icon h-3.5 w-3.5 text-hw-accent shrink-0" />
+      <span className="hw-montaje-preview-label text-hw-subtitle">
         {label}
       </span>
-      <div className="flex items-center gap-2 flex-1 min-w-0">
+      <div className="hw-montaje-preview-main flex items-center min-w-0">
         <ComponentThumbnail src={imageUrl} alt={value} size="sm" />
-        <span className="text-hw-title" style={{ fontSize: '0.75rem', flex: 1, wordBreak: 'break-word' }}>
+        <span className="hw-montaje-preview-value text-hw-title">
           {value}
         </span>
       </div>
       {price != null && (
-        <span className="text-hw-subtitle shrink-0" style={{ fontSize: '0.7rem' }}>
+        <span className="hw-montaje-preview-price text-hw-subtitle shrink-0">
           {price.toFixed(2)} €
         </span>
       )}
@@ -85,10 +85,7 @@ export default function MontajePreviewCard({ montajeId }: MontajePreviewCardProp
 
   if (mLoading) {
     return (
-      <div
-        className="bg-muted/40 ring-1 ring-hw-card-border rounded-xl"
-        style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}
-      >
+      <div className="hw-montaje-preview-card bg-muted/40 ring-1 ring-hw-card-border rounded-xl">
         <Skeleton className="h-3.5 w-48 rounded" />
         {Array.from({ length: 4 }).map((_, i) => (
           <Skeleton key={i} className="h-3 w-full rounded" />
@@ -110,27 +107,16 @@ export default function MontajePreviewCard({ montajeId }: MontajePreviewCardProp
     (almacenamiento?.precio ?? 0);
 
   return (
-    <div
-      className="bg-muted/40 ring-1 ring-hw-card-border rounded-xl"
-      style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 6 }}
-    >
+    <div className="hw-montaje-preview-card bg-muted/40 ring-1 ring-hw-card-border rounded-xl">
       {}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginBottom: 4,
-        }}
-      >
+      <div className="hw-montaje-preview-header">
         <span
-          className="text-hw-accent font-heading font-semibold"
-          style={{ fontSize: '0.78rem', letterSpacing: '0.01em' }}
+          className="hw-montaje-preview-title text-hw-accent font-heading font-semibold"
         >
           🖥 Montaje adjunto
         </span>
         {precioTotal > 0 && (
-          <span className="text-hw-subtitle" style={{ fontSize: '0.7rem' }}>
+          <span className="hw-montaje-preview-total text-hw-subtitle">
             Total: {precioTotal.toFixed(2)} €
           </span>
         )}
@@ -138,16 +124,13 @@ export default function MontajePreviewCard({ montajeId }: MontajePreviewCardProp
 
       {}
       {(cpu || gpu) && (
-        <p
-          className="text-hw-title font-semibold"
-          style={{ fontSize: '0.8rem', margin: 0 }}
-        >
+        <p className="hw-montaje-preview-summary text-hw-title font-semibold">
           {cpu?.modelo ?? '—'} + {gpu?.modelo ?? '—'}
         </p>
       )}
 
       {}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 3, marginTop: 4 }}>
+      <div className="hw-montaje-preview-list">
         <SpecRow icon={Cpu} label="CPU" value={cpu?.modelo} price={cpu?.precio} imageUrl={cpu?.imagen ? imageUrls[cpu.imagen.trim()] : undefined} />
         <SpecRow icon={MonitorSmartphone} label="GPU" value={gpu?.modelo} price={gpu?.precio} imageUrl={gpu?.imagen ? imageUrls[gpu.imagen.trim()] : undefined} />
         <SpecRow icon={MemoryStick} label="RAM" value={ram?.modelo} price={ram?.precio} imageUrl={ram?.imagen ? imageUrls[ram.imagen.trim()] : undefined} />

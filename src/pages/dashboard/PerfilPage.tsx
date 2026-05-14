@@ -58,7 +58,7 @@ function rolLabel(rol: string | undefined): string {
   switch (rol) {
     case 'ROL_ADMIN':
       return 'Administrador';
-    case 'ROL_USER':
+    case 'ROL_USUARIO':
       return 'Usuario';
     default:
       return rol ?? 'Desconocido';

@@ -34,7 +34,7 @@ function avatarSrc(iconoPerfil: string | null | undefined): string | undefined {
 }
 
 function sanitizeDslValue(value: string): string {
-  return value.trim().replace(/[;~]/g, ' ');
+  return value.trim().replace(/[;~]/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 // ── Props ─────────────────────────────────────────────────────────────────

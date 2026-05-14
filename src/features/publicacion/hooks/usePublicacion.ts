@@ -5,7 +5,7 @@ import type { PaginationParams } from '@/api/types';
 
 // Escapa caracteres especiales del DSL de filtrado para evitar inyecciones
 function sanitizeDslValue(value: string): string {
-  return value.trim().replace(/[;~]/g, ' ');
+  return value.trim().replace(/[;~]/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 // Claves estructuradas para invalidar queries de publicaciones

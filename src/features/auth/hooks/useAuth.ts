@@ -6,13 +6,17 @@ export const AUTH_KEYS = {
   me: ['auth', 'me'] as const,
 };
 
+type UseMeOptions = {
+  enabled?: boolean;
+};
 
 
-export function useMe() {
+export function useMe(options?: UseMeOptions) {
   return useQuery({
     queryKey: AUTH_KEYS.me,
     queryFn: authApi.me,
     retry: false,
+    enabled: options?.enabled ?? true,
   });
 }
 
@@ -22,13 +26,7 @@ export function useLogin() {
   const queryClient = useQueryClient();
   return useMutation<LoginResponseDto, Error, LoginRequestDto>({
     mutationFn: (data: LoginRequestDto) => authApi.login(data),
-    onSuccess: (_response: LoginResponseDto) => {
-      
-      
-      
-      
-      
-      
+    onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: AUTH_KEYS.me });
     },
   });

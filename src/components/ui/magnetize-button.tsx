@@ -1,7 +1,7 @@
 // Componente magnetize-button: encapsula logica y presentacion de UI reutilizable.
 // Nota: este archivo se documenta con comentarios cortos centrados en decisiones no obvias.
 import * as React from "react"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { motion, useAnimation } from "motion/react"
 
 import { cn } from "@/lib/utils.ts"
@@ -21,6 +21,11 @@ interface Particle {
   size: number
 }
 
+const pseudoRandom = (seed: number): number => {
+  const x = Math.sin(seed * 12.9898) * 43758.5453
+  return x - Math.floor(x)
+}
+
 export default function MagnetizeButton({
   className,
   particleCount = 12,
@@ -30,19 +35,20 @@ export default function MagnetizeButton({
   ...props
 }: MagnetizeButtonProps) {
   const [isAttracting, setIsAttracting] = useState(false)
-  const [particles, setParticles] = useState<Particle[]>([])
   const particlesControl = useAnimation()
-  const particlesRef = useRef<Particle[]>([])
 
-  useEffect(() => {
-    const newParticles = Array.from({ length: particleCount }, (_, i) => ({
-      id: i,
-      x: (Math.random() - 0.5) * particleSpread * 2,
-      y: (Math.random() - 0.5) * particleSpread * 2,
-      size: Math.random() * 3 + 1.5,
-    }))
-    particlesRef.current = newParticles
-    setParticles(newParticles)
+  const particles = useMemo<Particle[]>(() => {
+    return Array.from({ length: particleCount }, (_, i) => {
+      const angle = pseudoRandom(i + particleCount) * Math.PI * 2
+      const distance = Math.sqrt(pseudoRandom(i + particleSpread)) * particleSpread
+
+      return {
+        id: i,
+        x: Math.cos(angle) * distance,
+        y: Math.sin(angle) * distance,
+        size: 1.5 + pseudoRandom(i + particleCount * 3) * 2.4,
+      }
+    })
   }, [particleCount, particleSpread])
 
   const handleInteractionStart = useCallback(async () => {
@@ -60,17 +66,16 @@ export default function MagnetizeButton({
 
   const handleInteractionEnd = useCallback(async () => {
     setIsAttracting(false)
-    const ref = particlesRef.current
     await particlesControl.start((i) => ({
-      x: ref[i]?.x ?? 0,
-      y: ref[i]?.y ?? 0,
+      x: particles[i]?.x ?? 0,
+      y: particles[i]?.y ?? 0,
       transition: {
         type: "spring",
         stiffness: 80,
         damping: 14,
       },
     }))
-  }, [particlesControl])
+  }, [particles, particlesControl])
 
   return (
     <Button

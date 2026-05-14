@@ -67,7 +67,7 @@ export default function ShareMontajeDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent showCloseButton className="w-[min(36rem,calc(100vw-2rem))]">
+      <DialogContent showCloseButton className="w-[min(36rem,calc(100vw-2rem))] hw-share-montaje-dialog">
         <DialogHeader className="hw-share-montaje-dialog-header">
           <DialogTitle>
             <span className="hw-dialog-title-icon">
@@ -80,34 +80,42 @@ export default function ShareMontajeDialog({
           </DialogDescription>
         </DialogHeader>
 
-        {/* Montaje preview */}
-        <div
-          className="hw-share-montaje-dialog-preview bg-muted/50 rounded-lg py-4 px-5 flex flex-col gap-1.5"
-        >
-          <span className="text-xs text-muted-foreground font-medium">Montaje seleccionado</span>
-          <span className="text-sm text-hw-title font-semibold">
-            {cpuName} + {gpuName}
-          </span>
-        </div>
+        <div className="hw-share-montaje-dialog-body">
+          {/* Montaje preview */}
+          <div className="hw-share-montaje-dialog-preview bg-muted/50 rounded-lg flex flex-col gap-1.5">
+            <span className="text-xs text-muted-foreground font-medium">Montaje seleccionado</span>
+            <span className="text-sm text-hw-title font-semibold">
+              {cpuName} + {gpuName}
+            </span>
+          </div>
 
-        {/* Textarea */}
-        <div className="hw-share-montaje-dialog-form">
-          <Textarea
-            className="hw-share-montaje-dialog-textarea"
-            value={contenidoTexto}
-            onChange={(e) => setContenidoTexto(e.target.value)}
-            placeholder="Describe tu montaje, ¿por qué elegiste estos componentes?"
-            minLength={1}
-            maxLength={2000}
-            rows={5}
-          />
+          {/* Textarea */}
+          <div className="hw-share-montaje-dialog-form">
+            <Textarea
+              className="hw-share-montaje-dialog-textarea"
+              value={contenidoTexto}
+              onChange={(e) => setContenidoTexto(e.target.value)}
+              placeholder="Describe tu montaje, ¿por qué elegiste estos componentes?"
+              minLength={1}
+              maxLength={2000}
+              rows={5}
+            />
+          </div>
         </div>
 
         <DialogFooter className="hw-share-montaje-dialog-footer gap-4">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            className="hw-share-montaje-dialog-btn"
+          >
             Cancelar
           </Button>
-          <Button onClick={handleSubmit} disabled={!canSubmit}>
+          <Button
+            onClick={handleSubmit}
+            disabled={!canSubmit}
+            className="hw-share-montaje-dialog-btn"
+          >
             {createMutation.isPending ? 'Publicando…' : 'Publicar'}
           </Button>
         </DialogFooter>

@@ -126,7 +126,7 @@ export function AvatarUploadDialog({
           <Button
             type="button"
             variant="outline"
-            className="h-[34px] text-[0.8rem] bg-transparent text-hw-muted border-hw-muted-border rounded-[8px] cursor-pointer gap-[0.4rem] transition-colors duration-300 hover:border-hw-accent/40 hover:bg-hw-accent/5 hover:text-hw-title"
+            className="hw-avatar-upload-trigger h-[34px] text-[0.8rem] bg-transparent text-hw-muted border-hw-muted-border rounded-[8px] cursor-pointer gap-[0.4rem] transition-colors duration-300 hover:border-hw-accent/40 hover:bg-hw-accent/5 hover:text-hw-title"
           >
             <Upload className="w-[14px] h-[14px]" />
             {file ? 'Cambiar imagen' : 'Subir icono'}

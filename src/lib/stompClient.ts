@@ -71,9 +71,17 @@ class StompClientManager {
     return () => sub.unsubscribe();
   }
 
-  /** Publica un mensaje a un destino */
-  publish(destination: string, body: Record<string, unknown>): void {
+  /** Publica un mensaje a un destino si la conexión está lista. */
+  publish(destination: string, body: Record<string, unknown>): boolean {
+    if (!this.client.connected) {
+      if (import.meta.env.DEV) {
+        console.warn('[STOMP] Publish skipped without active connection', destination);
+      }
+      return false;
+    }
+
     this.client.publish({ destination, body: JSON.stringify(body) });
+    return true;
   }
 
   /** Registra callback para errores de STOMP */

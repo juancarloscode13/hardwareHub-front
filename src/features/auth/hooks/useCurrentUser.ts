@@ -2,6 +2,14 @@
 import { useMe } from './useAuth';
 import type { UsuarioResponseDto } from '@/dto';
 
+function isAuthRoute(pathname: string): boolean {
+  return (
+    pathname === '/login' ||
+    pathname === '/registro' ||
+    pathname === '/reset-password'
+  );
+}
+
 /**
  * Devuelve el usuario actual, si está autenticado y si es administrador.
  * isLoading es true mientras se carga la sesión inicial.
@@ -12,7 +20,8 @@ export function useCurrentUser(): {
   isAdmin: boolean;
   isLoading: boolean;
 } {
-  const { data: user, isLoading, isFetching } = useMe();
+  const shouldFetchSession = !isAuthRoute(window.location.pathname);
+  const { data: user, isLoading, isFetching } = useMe({ enabled: shouldFetchSession });
 
   return {
     user,

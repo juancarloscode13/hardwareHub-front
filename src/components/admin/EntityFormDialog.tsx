@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -140,11 +141,14 @@ export function EntityFormDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="max-h-[85vh] flex flex-col"
+        className="hw-admin-entity-dialog max-h-[85vh] flex flex-col"
         showCloseButton={false}
       >
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
+          <DialogDescription className="sr-only">
+            Completa los campos del formulario para {mode === 'create' ? 'crear' : 'actualizar'} este elemento.
+          </DialogDescription>
         </DialogHeader>
 
         {/* Campos — scrollable */}
@@ -266,14 +270,14 @@ export function EntityFormDialog({
         </div>
 
         {/* Footer */}
-        <DialogFooter className="mt-[0.5rem]">
+        <DialogFooter className="hw-admin-entity-dialog-footer mt-[0.5rem]">
           {/* Cancelar */}
           <Button
             type="button"
             variant="outline"
             onClick={() => onOpenChange(false)}
             disabled={isPending}
-            className="h-[42px] bg-transparent text-hw-muted border-hw-muted-border rounded-[8px] gap-[0.5rem] transition-colors duration-300 hover:border-hw-accent/40 hover:bg-hw-accent/5 hover:text-hw-title"
+            className="hw-admin-entity-dialog-action h-[42px] bg-transparent text-hw-muted border-hw-muted-border rounded-[8px] gap-[0.5rem] transition-colors duration-300 hover:border-hw-accent/40 hover:bg-hw-accent/5 hover:text-hw-title"
           >
             Cancelar
           </Button>
@@ -283,7 +287,7 @@ export function EntityFormDialog({
             type="button"
             onClick={handleSubmit}
             disabled={isPending}
-            className="h-[42px] bg-hw-accent text-hw-accent-fg font-semibold rounded-[8px] gap-[0.5rem] transition-colors duration-300 hover:opacity-80 disabled:opacity-50"
+            className="hw-admin-entity-dialog-action h-[42px] bg-hw-accent text-hw-accent-fg font-semibold rounded-[8px] gap-[0.5rem] transition-colors duration-300 hover:opacity-80 disabled:opacity-50"
           >
             {isPending ? (
               <>

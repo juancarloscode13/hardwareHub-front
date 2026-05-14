@@ -187,7 +187,14 @@ export function useChat(conversationId: number) {
     if (!conversationId) return;
 
     const payload: ReadConversationPayload = { conversationId };
-    stompClient.publish('/app/chat.read', payload as unknown as Record<string, unknown>);
+    const published = stompClient.publish(
+      '/app/chat.read',
+      payload as unknown as Record<string, unknown>,
+    );
+
+    if (!published) {
+      void chatApi.markAsRead(conversationId).catch(() => undefined);
+    }
 
     // Actualizar el badge de no leídos en la lista de conversaciones
     qc.setQueryData(CONVERSATION_KEYS.list(), (old: unknown) => {

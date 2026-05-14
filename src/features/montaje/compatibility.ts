@@ -225,7 +225,7 @@ export function getBuildCompatibilityIssues(selection: SelectedComponents): Comp
     if (selection.gpu.longitudGpu > selection.caja.longitudMaxGpu) {
       issues.push({
         code: 'GPU_LENGTH_EXCEEDED',
-        message: 'La longitud de la GPU supera el maximo permitido por la caja.',
+        message: 'La longitud de la GPU supera el máximo permitido por la caja.',
         related: ['gpu', 'caja'],
       });
     }
@@ -260,7 +260,7 @@ export function getBuildCompatibilityIssues(selection: SelectedComponents): Comp
     if (selection.cpu && !selection.refrigeracion.socketCompatible.includes(selection.cpu.cpuSocket)) {
       issues.push({
         code: 'COOLER_SOCKET_MISMATCH',
-        message: 'La refrigeracion seleccionada no soporta el socket de la CPU.',
+        message: 'La refrigeración seleccionada no soporta el socket de la CPU.',
         related: ['refrigeracion', 'cpu'],
       });
     }
@@ -271,7 +271,7 @@ export function getBuildCompatibilityIssues(selection: SelectedComponents): Comp
         if (coolerHeight != null && coolerHeight > selection.caja.alturaMaxEnfriadorCpu) {
           issues.push({
             code: 'AIR_COOLER_HEIGHT_EXCEEDED',
-            message: 'La altura del disipador de aire supera la altura maxima de la caja.',
+            message: 'La altura del disipador de aire supera la altura máxima de la caja.',
             related: ['refrigeracion', 'caja'],
           });
         }
@@ -287,7 +287,7 @@ export function getBuildCompatibilityIssues(selection: SelectedComponents): Comp
         ) {
           issues.push({
             code: 'LIQUID_RADIATOR_NOT_SUPPORTED',
-            message: 'La caja no tiene soporte para el tamano de radiador de la refrigeracion liquida.',
+            message: 'La caja no tiene soporte para el tamaño de radiador de la refrigeración líquida.',
             related: ['refrigeracion', 'caja'],
           });
         }
@@ -300,7 +300,7 @@ export function getBuildCompatibilityIssues(selection: SelectedComponents): Comp
     if (requiredBayType === '2.5' && selection.caja.bahias25 <= 0) {
       issues.push({
         code: 'SSD_BAY_MISSING',
-        message: 'La caja no dispone de bahias 2.5 para este almacenamiento.',
+        message: 'La caja no dispone de bahías 2.5 para este almacenamiento.',
         related: ['almacenamiento', 'caja'],
       });
     }
@@ -308,7 +308,7 @@ export function getBuildCompatibilityIssues(selection: SelectedComponents): Comp
     if (requiredBayType === '3.5' && selection.caja.bahias35 <= 0) {
       issues.push({
         code: 'HDD_BAY_MISSING',
-        message: 'La caja no dispone de bahias 3.5 para este almacenamiento.',
+        message: 'La caja no dispone de bahías 3.5 para este almacenamiento.',
         related: ['almacenamiento', 'caja'],
       });
     }
